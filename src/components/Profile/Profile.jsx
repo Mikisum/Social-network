@@ -1,16 +1,18 @@
 import React from 'react'
-import MyPosts from '../MyPosts'
+import MyPosts from './MyPosts/MyPosts'
 import classes  from './Profile.module.css'
+import ProfileView from './ProfileView/ProfileView'
+import ProfileInfo from './ProfileInfo/ProfileInfo'
 
-const Profile = () => {
+
+const Profile = (props) => {
+const {posts} = props
     return (
-    <div>
-      <img src='https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg'></img>
-      <div>
-        ava + description
+      <div className={classes.profile}>
+        <ProfileView />
+        <ProfileInfo />
+        <MyPosts posts={posts}/>
       </div>
-      <MyPosts />
-    </div>
     )
 }
 

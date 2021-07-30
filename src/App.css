@@ -4,12 +4,13 @@
   margin: auto;
   grid-template-areas: 
   'h h'
-  'n c';
-  grid-template-rows: 60px 1fr;
+  'n n'
+  'c c';
+  grid-template-rows: 100px 60px 10fr ;
   grid-template-columns:  2fr 10fr;
 }  
 
-.content {
+.app-wrapper-content {
   grid-area: c;
   background-color: rgb(128, 0, 70);
 }

@@ -1,14 +1,9 @@
-.postsBlock {
-  padding: 10px;
-  grid-area: posts;
+.profileInfo {
+  grid-area: pInfo;
+  color: black;
   background: #fdfdfd;
   border: 1px solid #ede9e9;
   border-radius: 5px;
   margin: 15px;
   box-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
-
-.posts {
-  margin-top: 10px;
-}
-

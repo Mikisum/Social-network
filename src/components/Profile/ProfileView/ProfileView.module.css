@@ -1,0 +1,8 @@
+.profileView{
+  grid-area: pView;
+  color: yellow;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+  background-image: url('https://i.pinimg.com/originals/5c/0b/68/5c0b689ab5db2651eff3a565ee176bc9.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
