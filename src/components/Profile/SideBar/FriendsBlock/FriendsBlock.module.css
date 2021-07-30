@@ -1,0 +1,19 @@
+.friendsBlock {
+  grid-area: friends;
+  background: #fdfdfd;
+  border: 1px solid #ede9e9;
+  border-radius: 5px;
+  margin: 15px;
+  padding: 20px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+
+.friends {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+}

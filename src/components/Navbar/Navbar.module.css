@@ -1,10 +1,12 @@
 .nav {
   grid-area: n;
   padding: 15px 150px;
-  background: #f4f2f2;
   color: #797979;
   display: flex;
   justify-content: space-around;
+  background: #fdfdfd;
+  border: 1px solid #ede9e9;
+  border-radius: 5px;
 }
 
 .name {

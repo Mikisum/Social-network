@@ -2,8 +2,9 @@
   display: grid;
   grid-template-areas: 
   'pView pView'
-  'pInfo posts';
-  grid-template-rows: 300px 10fr ;
+  'friends pInfo'
+  'friends posts';
+  grid-template-rows: 300px 4fr 10fr ;
   grid-template-columns:  4fr 10fr;
   background: #f4f2f2;
 }
