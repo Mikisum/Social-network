@@ -10,8 +10,7 @@ import Settings from './components/Navbar/Settings/Settings';
 import Profile from './components/Profile/Profile';
 
 const App = (props) => {
-  console.log(props)
-  const {state: {messagesPage: { dialogs, messages }, profilePage: { posts },  sideBar: { friends }} } = props
+  const {dispatch, state: {messagesPage, profilePage,  sideBar} } = props
   
   return (
     <BrowserRouter>
@@ -19,8 +18,16 @@ const App = (props) => {
         <Header />
         <Navbar />  
         <div className='app-wrapper-content'>
-          <Route path='/dialogs' component={() => <Dialogs dialogs={dialogs} messages={messages}/>}  />
-          <Route path='/profile' component={() => <Profile posts={posts} friends={friends}/>} />
+          <Route path='/dialogs' component={() => <Dialogs
+            messagesPage={messagesPage} 
+            dispatch={dispatch}/>}  
+          />
+          <Route path='/profile' 
+            component={() => <Profile 
+              profilePage={profilePage}
+              friends={sideBar}
+              dispatch={dispatch}/>}
+              />
           <Route path='/news' component={News} />
           <Route path='/music' component={Music} />
           <Route path='/settings' component={Settings} />

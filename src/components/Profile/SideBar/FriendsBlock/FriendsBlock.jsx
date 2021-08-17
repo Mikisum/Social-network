@@ -4,8 +4,8 @@ import classes  from './FriendsBlock.module.css'
 
 const FriendsBlock = (props) => {
 
-    const { friends } = props
-    
+    const { friends: {friends} } = props
+   
     return (
       <div className={classes.friendsBlock}>
         <h3 className={classes.title}>Friends</h3>
