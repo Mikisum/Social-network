@@ -7,16 +7,16 @@ import FriendsBlock from './SideBar/FriendsBlock/FriendsBlock'
 
 
 const Profile = (props) => {
-const {dispatch, profilePage: {posts, newPostText}, friends} = props
+
     return (
       <div className={classes.profile}>
         <ProfileView />
         <ProfileInfo />
-        <FriendsBlock friends={friends}/>
+        <FriendsBlock friends={props.sideBar.friends}/>
         <MyPosts 
-          posts={posts} 
-          dispatch={dispatch}
-          newPostText={newPostText}
+          posts={props.profilePage.posts} 
+          dispatch={props.dispatch}
+          newPostText={props.profilePage.newPostText}
           />
       </div>
     )

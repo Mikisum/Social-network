@@ -1,30 +1,26 @@
 import { render } from '@testing-library/react'
 import React from 'react'
-import { sendMessageCreator, updateNewMessageBodyCreator } from '../../../redux/state'
+import { sendMessageCreator, updateNewMessageBodyCreator } from '../../../redux/messagesReducer'
 import DialogItem from './DialogItem/DialogItem'
 import classes from './Dialogs.module.css'
 import Message from './Message/Message'
 
 const Dialogs = (props) => {
   
-  const {messagesPage: {dialogs, messages, newMessageBody}, dispatch} = props
+  let state = props.store.getState().messagesPage;
   
-  let dialogsElements = dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
-  let messagesElements = messages.map(message => <Message key={message.message} message={message.message} />)
-  // let newPostElement = React.createRef()
+  let dialogsElements = state.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
+  let messagesElements = state.messages.map(message => <Message key={message.message} message={message.message} />)
+ 
   let onNewMessageChange = (e) => {
     let body = e.target.value
-    dispatch(updateNewMessageBodyCreator(body))
+    props.store.dispatch(updateNewMessageBodyCreator(body))
   }
 
   let onSendMessageChange = () => {
-    dispatch(sendMessageCreator())
+    props.store.dispatch(sendMessageCreator())
   }
 
-  // let addPost = () => {
-  //   let text = newPostElement.current.value
-  //   alert(text)
-  // }
     return (
     <div className={classes.dialogs}>
       <div className={classes.dialogsItems}>
@@ -35,7 +31,7 @@ const Dialogs = (props) => {
         <div>
           <textarea 
             placeholder='Enter your message'
-            value={newMessageBody}
+            value={state.newMessageBody}
             onChange={onNewMessageChange} /> 
         </div>
         <div>
@@ -46,6 +42,4 @@ const Dialogs = (props) => {
   )
 }
   
-  
-
 export default Dialogs
