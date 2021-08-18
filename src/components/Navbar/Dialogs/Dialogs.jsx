@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react'
 import React from 'react'
 import { sendMessageCreator, updateNewMessageBodyCreator } from '../../../redux/messagesReducer'
 import DialogItem from './DialogItem/DialogItem'
@@ -6,17 +5,16 @@ import classes from './Dialogs.module.css'
 import Message from './Message/Message'
 
 const Dialogs = (props) => {
-
-  let dialogsElements = props.messagesPage.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
-  let messagesElements = props.messagesPage.messages.map(message => <Message key={message.message} message={message.message} />)
+  let dialogsElements = props.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
+  let messagesElements = props.messages.map(message => <Message key={message.message} message={message.message} />)
  
   let onNewMessageChange = (e) => {
     let body = e.target.value
-    props.dispatch(updateNewMessageBodyCreator(body))
+    props.onNewMessageChange(body)
   }
 
   let onSendMessageChange = () => {
-    props.dispatch(sendMessageCreator())
+    props.onSendMessageChange()
   }
 
     return (
@@ -29,7 +27,7 @@ const Dialogs = (props) => {
         <div>
           <textarea 
             placeholder='Enter your message'
-            value={props.messagesPage.newMessageBody}
+            value={props.newMessageBody}
             onChange={onNewMessageChange} /> 
         </div>
         <div>

@@ -8,6 +8,7 @@ import News from './components/Navbar/News/News';
 import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
 import Profile from './components/Profile/Profile';
+import DialogsContainer from './components/Navbar/Dialogs/DialogsContainer';
 
 const App = (props) => {
   return (
@@ -16,14 +17,8 @@ const App = (props) => {
         <Header />
         <Navbar />  
         <div className='app-wrapper-content'>
-          <Route path='/dialogs' component={() => <Dialogs
-            messagesPage={props.state.messagesPage}
-            dispatch={props.dispatch}
-            />}  
-          />
-          <Route path='/profile' 
-            component={() => <Profile 
-              store={props.store}/>} />
+          <Route path='/dialogs' component={() => <DialogsContainer store={props.store}/>} />
+          <Route path='/profile' component={() => <Profile store={props.store}/>} />
           <Route path='/news' component={News} />
           <Route path='/music' component={Music} />
           <Route path='/settings' component={Settings} />
