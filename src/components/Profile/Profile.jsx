@@ -1,9 +1,9 @@
 import React from 'react'
-import MyPosts from './MyPosts/MyPosts'
 import classes  from './Profile.module.css'
 import ProfileView from './ProfileView/ProfileView'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import FriendsBlock from './SideBar/FriendsBlock/FriendsBlock'
+import MyPostsContainer from './MyPosts/MyPostsContainer'
 
 
 const Profile = (props) => {
@@ -12,12 +12,8 @@ const Profile = (props) => {
       <div className={classes.profile}>
         <ProfileView />
         <ProfileInfo />
-        <FriendsBlock friends={props.sideBar.friends}/>
-        <MyPosts 
-          posts={props.profilePage.posts} 
-          dispatch={props.dispatch}
-          newPostText={props.profilePage.newPostText}
-          />
+        <FriendsBlock store={props.store}/>
+        <MyPostsContainer store={props.store}/>
       </div>
     )
 }
