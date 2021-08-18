@@ -10,21 +10,22 @@ import Settings from './components/Navbar/Settings/Settings';
 import Profile from './components/Profile/Profile';
 import DialogsContainer from './components/Navbar/Dialogs/DialogsContainer';
 
-const App = (props) => {
+const App = () => {
+  
   return (
-    <BrowserRouter>
+   
       <div className='app-wrapper'>
         <Header />
         <Navbar />  
         <div className='app-wrapper-content'>
-          <Route path='/dialogs' component={() => <DialogsContainer store={props.store}/>} />
-          <Route path='/profile' component={() => <Profile store={props.store}/>} />
+          <Route path='/dialogs' component={() => <DialogsContainer />} />
+          <Route path='/profile' component={() => <Profile />} />
           <Route path='/news' component={News} />
           <Route path='/music' component={Music} />
           <Route path='/settings' component={Settings} />
         </div>
       </div>
-    </BrowserRouter>
+  
     );
 }
 

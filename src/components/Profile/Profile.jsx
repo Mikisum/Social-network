@@ -6,14 +6,13 @@ import FriendsBlock from './SideBar/FriendsBlock/FriendsBlock'
 import MyPostsContainer from './MyPosts/MyPostsContainer'
 
 
-const Profile = (props) => {
-
+const Profile = () => {
     return (
       <div className={classes.profile}>
         <ProfileView />
         <ProfileInfo />
-        <FriendsBlock store={props.store}/>
-        <MyPostsContainer store={props.store}/>
+        {/* <FriendsBlock store={props.store}/> */}
+        <MyPostsContainer/>
       </div>
     )
 }
