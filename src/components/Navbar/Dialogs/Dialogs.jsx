@@ -6,19 +6,17 @@ import classes from './Dialogs.module.css'
 import Message from './Message/Message'
 
 const Dialogs = (props) => {
-  
-  let state = props.store.getState().messagesPage;
-  
-  let dialogsElements = state.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
-  let messagesElements = state.messages.map(message => <Message key={message.message} message={message.message} />)
+
+  let dialogsElements = props.messagesPage.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
+  let messagesElements = props.messagesPage.messages.map(message => <Message key={message.message} message={message.message} />)
  
   let onNewMessageChange = (e) => {
     let body = e.target.value
-    props.store.dispatch(updateNewMessageBodyCreator(body))
+    props.dispatch(updateNewMessageBodyCreator(body))
   }
 
   let onSendMessageChange = () => {
-    props.store.dispatch(sendMessageCreator())
+    props.dispatch(sendMessageCreator())
   }
 
     return (
@@ -31,7 +29,7 @@ const Dialogs = (props) => {
         <div>
           <textarea 
             placeholder='Enter your message'
-            value={state.newMessageBody}
+            value={props.messagesPage.newMessageBody}
             onChange={onNewMessageChange} /> 
         </div>
         <div>

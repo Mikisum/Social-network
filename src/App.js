@@ -10,7 +10,6 @@ import Settings from './components/Navbar/Settings/Settings';
 import Profile from './components/Profile/Profile';
 
 const App = (props) => {
-  
   return (
     <BrowserRouter>
       <div className='app-wrapper'>
@@ -18,7 +17,8 @@ const App = (props) => {
         <Navbar />  
         <div className='app-wrapper-content'>
           <Route path='/dialogs' component={() => <Dialogs
-            store={props.store}
+            messagesPage={props.state.messagesPage}
+            dispatch={props.dispatch}
             />}  
           />
           <Route path='/profile' 
