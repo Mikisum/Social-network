@@ -1,19 +1,22 @@
+* {
+  box-sizing: border-box;
+}
+
 .app-wrapper {
   display: grid;
   width: 1200px;
   margin: auto;
   grid-template-areas: 
   'h h'
-  'n n'
-  'c c';
-  grid-template-rows: 100px 60px 10fr ;
+  'n c';
+  grid-template-rows: 3fr 10fr ;
   grid-template-columns:  2fr 10fr;
 }  
 
 .app-wrapper-content {
   grid-area: c;
   color: #797979;
-  background: #fdfdfd;
+  background: #f4f2f2;
 }
 
 a {
@@ -23,4 +26,17 @@ a {
 
 a.active {
   color: gold;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+figure {
+  margin: 0;
+}
+h1,h2,h3,h4,h5, p {
+  margin: 0;
 }

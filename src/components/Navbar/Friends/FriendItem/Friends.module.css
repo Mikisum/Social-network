@@ -1,0 +1,54 @@
+.avatar {
+  min-width: 40px;
+  max-width: 40px;
+  width: 40px;
+}
+
+.friend {
+  display: grid;
+  grid-template-areas: 
+  'a a'
+  'inf btns';
+  grid-template-columns: 6fr 4fr;
+  background: #fff none repeat scroll 0 0;
+  border: 1px solid #eaf1f6;
+  margin-bottom: 20px;
+  padding: 20px;
+  width: 100%;
+  transition: all 0.15s linear 0s;
+}
+
+.avatar img {
+  grid-area: ava;
+  max-width: 100%;
+}
+
+.info {
+  grid-area: inf;
+}
+
+.btnGroups {
+  grid-area: btns;
+  margin: auto
+}
+
+.friendName{
+  text-align: start;
+}
+
+.btnAdd {
+  border-radius: 5px;
+  color: #fff;
+  border: 1px solid transparent;
+  line-height: 1.5;
+  background: #088dcd;
+  margin-right: 5px;
+}
+
+.btnDelete {
+  border-radius: 5px;
+  color: #fff;
+  border: 1px solid transparent;
+  line-height: 1.5;
+  background: lightslategray none repeat scroll 0 0;
+}

@@ -1,10 +1,10 @@
 .profile {
   display: grid;
   grid-template-areas: 
-  'pView pView'
-  'friends pInfo'
-  'friends posts';
-  grid-template-rows: 300px 4fr 10fr ;
-  grid-template-columns:  4fr 10fr;
+  /* 'pView pView' */
+  'pInfo'
+  'posts';
+  grid-template-rows: 4fr 10fr ;
+  grid-template-columns:  10fr 4fr;
   background: #f4f2f2;
 }

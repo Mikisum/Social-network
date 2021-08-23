@@ -9,7 +9,7 @@ import MyPostsContainer from './MyPosts/MyPostsContainer'
 const Profile = () => {
     return (
       <div className={classes.profile}>
-        <ProfileView />
+        {/* <ProfileView /> */}
         <ProfileInfo />
         {/* <FriendsBlock store={props.store}/> */}
         <MyPostsContainer/>
