@@ -9,8 +9,7 @@ import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
 import Profile from './components/Profile/Profile';
 import DialogsContainer from './components/Navbar/Dialogs/DialogsContainer';
-import Friends from './components/Navbar/Friends/Friends';
-import FriendsContainer from './components/Navbar/Friends/FriendsContainer';
+import UsersContainer from './components/Navbar/Friends/Users.Container';
 
 const App = () => {
   
@@ -22,7 +21,7 @@ const App = () => {
         <div className='app-wrapper-content'>
           <Route path='/dialogs' component={() => <DialogsContainer />} />
           <Route path='/profile' component={() => <Profile />} />
-          <Route path='/friends' component={() => <FriendsContainer />} />
+          <Route path='/users' component={() => <UsersContainer />} />
           <Route path='/news' component={News} />
           <Route path='/music' component={Music} />
           <Route path='/settings' component={Settings} />
