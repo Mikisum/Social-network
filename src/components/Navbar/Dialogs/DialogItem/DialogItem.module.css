@@ -1,0 +1,10 @@
+.dialogItem {
+  border-bottom: 1px solid #e1e8ed;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.dialogItem .activeLink {
+  background: #f4f2f2;
+  color: brown;
+}
