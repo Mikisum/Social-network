@@ -1,9 +1,15 @@
 import React from 'react'
+import Preloader from '../../common/preloader/preloader'
 import classes  from './ProfileInfo.module.css'
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
+  if(!props.profile) {
+    return <Preloader/>
+  }
     return (
-      <div className={classes.profileInfo}>description 1</div>
+      <div className={classes.profileInfo}>
+        <div>{props.profile.aboutMe}</div>
+      </div>
     )
 }
 
