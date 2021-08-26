@@ -10,13 +10,14 @@ import Settings from './components/Navbar/Settings/Settings';
 import Profile from './components/Profile/Profile';
 import DialogsContainer from './components/Navbar/Dialogs/DialogsContainer';
 import UsersContainer from './components/Navbar/Friends/UsersContainer';
+import HeaderContainer from './components/Header/HeaderContainer';
 
 const App = () => {
   
   return (
    
       <div className='app-wrapper'>
-        <Header />
+        <HeaderContainer />
         <Navbar />  
         <div className='app-wrapper-content'>
           <Route path='/dialogs' component={() => <DialogsContainer />} />
