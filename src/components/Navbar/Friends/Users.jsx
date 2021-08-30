@@ -12,9 +12,11 @@ const Users = (props) => {
 
   let usersList = () => {
     return (
+      
       props.users.map(user => <UserItem 
       key={user.id} userId={user.id} name={user.name}
       status={user.status} followed={user.followed}
+      follow={props.follow} unfollow={props.unfollow}
       />)
     )
   }
