@@ -4,14 +4,16 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
+const TOOGLE_IS_DISABLED = 'TOOGLE_IS_DISABLED'
 
 
 let initialState = {
   users : [],
   pageSize: 5,
   totalUsersCount: 0,
-  currentPage: null,
-  isFetching: false
+  currentPage: 1,
+  isFetching: true,
+  isDisabled: []
 }
 
 export const followAC = (userId) => ({type: FOLLOW, userId})
@@ -20,6 +22,7 @@ export const setUsersAC = (users) => ({type: SET_USERS, users})
 export const setCurrentPageAC = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
 export const toggleIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
 export const setTotalUsersCountAC = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
+export const toggleIsDisabledAC = (isFetching, userId) => ({type: TOOGLE_IS_DISABLED, isFetching, userId})
 
 
 const usersReducer = (state = initialState, action) => {
@@ -70,6 +73,15 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: action.isFetching
+      }
+    }
+
+    case TOOGLE_IS_DISABLED: {
+      return {
+        ...state,
+        isDisabled: action.isFetching 
+          ? [...state.isDisabled, action.userId] 
+          :state.isDisabled.filter(id => id != action.userId)
       }
     }
 

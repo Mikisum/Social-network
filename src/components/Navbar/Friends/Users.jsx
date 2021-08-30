@@ -17,6 +17,8 @@ const Users = (props) => {
       key={user.id} userId={user.id} name={user.name}
       status={user.status} followed={user.followed}
       follow={props.follow} unfollow={props.unfollow}
+      toggleIsDisabled={props.toggleIsDisabled}
+      isDisabled={props.isDisabled}
       />)
     )
   }

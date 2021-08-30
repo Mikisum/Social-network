@@ -5,8 +5,7 @@ import { followingAPI } from '../../../API/api';
 import classes from './UserItem.module.css'
 
 const UserItem = (props) => {
-
-  const {userId, name, followed, follow, unfollow} = props
+  const {userId, name, followed, follow, unfollow, isDisabled, toggleIsDisabled} = props
 
   let post = (userId) => {
     followingAPI.follow(userId)
@@ -14,6 +13,7 @@ const UserItem = (props) => {
       if (res.status === 200) {
         follow(userId)
       }
+      toggleIsDisabled(false, userId)
     }) 
 }
 
@@ -23,6 +23,7 @@ const UserItem = (props) => {
       if (res.status === 200) {
         unfollow(userId)
       }
+      toggleIsDisabled(false, userId)
     }) 
 }
   return (
@@ -36,10 +37,27 @@ const UserItem = (props) => {
         <h4 className={classes.userName}>{name}</h4>
         <p>{props.status}</p>
       </div>
-      <div className={classes.btnGroups}>
+      <div className={classes.btnFollow}>
         {
-          followed ? <button onClick={() => delet(userId)} className={classes.btnUnfollow}>Unfollow</button>
-          : <button onClick={() => post(userId)} className={classes.btnFollow}>Follow</button>
+          followed ? 
+            <button 
+              disabled={isDisabled.some(id => id === userId)}
+              onClick={() => {
+                toggleIsDisabled(true, userId)
+                delet(userId)
+              }} 
+              className={classes.btnUnfollow}>
+                Unfollow
+            </button>
+          : <button 
+              disabled={isDisabled.some(id => id === userId)}
+              onClick={() => {
+                toggleIsDisabled(true, userId)
+                post(userId)
+              }} 
+              className={classes.btnFollow}>
+                Follow
+            </button>
         }
       </div>
     </li>
