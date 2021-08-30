@@ -1,35 +1,29 @@
 import axios from 'axios';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { followingAPI } from '../../../API/api';
 import classes from './UserItem.module.css'
 
 const UserItem = (props) => {
 
   const {userId, name, followed, follow, unfollow} = props
-  let post = (userId) => axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {}, {
-    withCredentials: true,
-    headers: {
-      "API-KEY": "1a1a6e0b-b8e0-41dc-b893-0db3858c9608"
-    }
-  })
-  .then(res => {
-    if (res.data.resultCode === 0) {
-      follow(userId)
-    }
-  }) 
+
+  let post = (userId) => {
+    followingAPI.follow(userId)
+    .then(res => {
+      if (res.status === 200) {
+        follow(userId)
+      }
+    }) 
+}
 
   let delet = (userId) => {
-    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {
-    withCredentials: true,
-    headers: {
-      "API-KEY": "1a1a6e0b-b8e0-41dc-b893-0db3858c9608"
-    }
-  })
-  .then(res => {
-    if (res.data.resultCode === 0) {
-      unfollow(userId)
-    }
-  }) 
+    followingAPI.unfollow(userId)
+    .then(res => {
+      if (res.status === 200) {
+        unfollow(userId)
+      }
+    }) 
 }
   return (
     <li className={classes.user}>
