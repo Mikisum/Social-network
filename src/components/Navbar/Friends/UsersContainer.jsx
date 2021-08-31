@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { followAC, setCurrentPageAC, setUsersAC, toggleIsFetchingAC, unfollowAC, setTotalUsersCountAC, toggleIsDisabledAC } from '../../../redux/usersReducer'
+import { followAC, setCurrentPageAC, setUsersAC, toggleIsFetchingAC, unfollowAC, setTotalUsersCountAC, toggleIsDisabledAC, getUsersThunkCreator } from '../../../redux/usersReducer'
 import Users from './Users'
 import Preloader from '../../common/preloader/preloader'
 import { usersAPI } from '../../API/api'
@@ -9,13 +9,8 @@ import { usersAPI } from '../../API/api'
 class UsersContainer extends React.Component {
 
   componentDidMount() {
-    this.props.toggleIsFetching(true)
-    usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-    .then(data => {
-      this.props.toggleIsFetching(false)
-      this.props.setUsers(data.items)
-      this.props.setTotalUsersCount(data.totalCount)
-    })
+    this.props.getUsersThunkCreator()
+    
   }
 
   onPageChanged = (pageNumber) => {
@@ -79,7 +74,10 @@ const mapDispatchToProps = (dispatch) => {
     toggleIsDisabled: (isFetching, userId) => {
       dispatch(toggleIsDisabledAC(isFetching, userId))
     },
+    getUsersThunkCreator: (currentPage, pageSize) => {
+      dispatch(getUsersThunkCreator(currentPage, pageSize))
+    }
   }
 }
   
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export default connect(mapStateToProps, (mapDispatchToProps))(UsersContainer)

@@ -1,3 +1,5 @@
+import { usersAPI } from "../components/API/api"
+
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET_USERS'
@@ -24,6 +26,21 @@ export const toggleIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, is
 export const setTotalUsersCountAC = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
 export const toggleIsDisabledAC = (isFetching, userId) => ({type: TOOGLE_IS_DISABLED, isFetching, userId})
 
+
+export const getUsersThunkCreator = (currentPage, pageSize) => {
+
+  return (dispatch) => {
+    dispatch(toggleIsFetchingAC(true))
+
+    usersAPI.getUsers(currentPage, pageSize)
+      .then(data => {
+        dispatch(toggleIsFetchingAC(false))
+        dispatch(setUsersAC(data.items))
+        dispatch(setTotalUsersCountAC(data.totalCount))
+      })
+  }
+  
+}
 
 const usersReducer = (state = initialState, action) => {
   switch(action.type) {
