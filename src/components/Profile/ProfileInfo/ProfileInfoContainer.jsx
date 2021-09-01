@@ -12,7 +12,7 @@ class ProfileInfoContainer extends React.Component{
     if(!userId) {
       userId = 2
     }
-    this.props.getUsersProfile(userId)
+    this.props.getUsersProfile(2)
   }
 
     render (){

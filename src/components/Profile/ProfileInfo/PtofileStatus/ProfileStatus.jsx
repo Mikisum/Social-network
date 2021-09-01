@@ -1,12 +1,42 @@
 import React from 'react'
 
-const ProfileStatus = (props) => {
+class ProfileStatus extends React.Component {
+  state = {
+    editMode: false
+  }
 
+  activateEditMode = () => {
+    this.setState({
+      editMode: true
+    })
+  }
+
+  deactivateEditMode = () => {
+    this.setState({
+      editMode: false
+    })
+  }
+
+  render(){
     return (
       <div>
-        <div>{props.status}</div>
+        {!this.state.editMode &&
+          <div>
+            <span onClick={this.activateEditMode}>{this.props.status}</span>
+          </div>
+        }
+        {this.state.editMode &&
+          <div>
+            <input 
+              value={this.props.status}
+              onBlur={this.deactivateEditMode}
+              autoFocus></input>
+
+          </div>
+        } 
       </div>
     )
+  }
 }
 
 export default ProfileStatus

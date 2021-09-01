@@ -4,7 +4,7 @@ import classes from './UserItem.module.css'
 
 const UserItem = (props) => {
   const {userId, name, followed, follow, unfollow, isDisabled} = props
-
+  console.log(props)
   return (
     <li className={classes.user}>
       <figure className={classes.avatar}>
@@ -16,18 +16,18 @@ const UserItem = (props) => {
         <h4 className={classes.userName}>{name}</h4>
         <p>{props.status}</p>
       </div>
-      <div className={classes.btnFollow}>
+      <div>
         {
           followed ? 
             <button 
               disabled={isDisabled.some(id => id === userId)}
-              onClick={() => follow(userId)} 
+              onClick={() => unfollow(userId)}
               className={classes.btnUnfollow}>
                 Unfollow
             </button>
           : <button 
               disabled={isDisabled.some(id => id === userId)}
-              onClick={() => unfollow(userId)} 
+              onClick={() => follow(userId)} 
               className={classes.btnFollow}>
                 Follow
             </button>
