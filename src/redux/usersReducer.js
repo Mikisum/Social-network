@@ -18,28 +18,54 @@ let initialState = {
   isDisabled: []
 }
 
-export const followAC = (userId) => ({type: FOLLOW, userId})
-export const unfollowAC = (userId) => ({type: UNFOLLOW, userId}) 
-export const setUsersAC = (users) => ({type: SET_USERS, users})
-export const setCurrentPageAC = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
-export const toggleIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
-export const setTotalUsersCountAC = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
-export const toggleIsDisabledAC = (isFetching, userId) => ({type: TOOGLE_IS_DISABLED, isFetching, userId})
+export const followSuccess = (userId) => ({type: FOLLOW, userId})
+export const unfollowSuccess = (userId) => ({type: UNFOLLOW, userId}) 
+export const setUsers = (users) => ({type: SET_USERS, users})
+export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
+export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
+export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
+export const toggleIsDisabled = (isFetching, userId) => ({type: TOOGLE_IS_DISABLED, isFetching, userId})
 
 
-export const getUsersThunkCreator = (currentPage, pageSize) => {
+export const getUsers = (currentPage, pageSize) => {
 
   return (dispatch) => {
-    dispatch(toggleIsFetchingAC(true))
+    dispatch(toggleIsFetching(true))
 
     usersAPI.getUsers(currentPage, pageSize)
       .then(data => {
-        dispatch(toggleIsFetchingAC(false))
-        dispatch(setUsersAC(data.items))
-        dispatch(setTotalUsersCountAC(data.totalCount))
+        dispatch(toggleIsFetching(false))
+        dispatch(setUsers(data.items))
+        dispatch(setTotalUsersCount(data.totalCount))
       })
   }
   
+}
+
+export const follow = (userId) => {
+  return (dispatch) => {
+    dispatch(toggleIsDisabled(true, userId))
+    usersAPI.follow(userId)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(followSuccess(userId))
+        }
+        dispatch(toggleIsDisabled(false, userId))
+      }) 
+  }
+}
+
+export const unfollow = (userId) => {
+  return (dispatch) => {
+    dispatch(toggleIsDisabled(true, userId))
+    usersAPI.unfollow(userId)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(unfollowSuccess(userId))
+        }
+        dispatch(toggleIsDisabled(false, userId))
+      }) 
+  }
 }
 
 const usersReducer = (state = initialState, action) => {

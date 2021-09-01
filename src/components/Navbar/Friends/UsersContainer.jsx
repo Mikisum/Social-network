@@ -1,26 +1,17 @@
 import React from 'react'
-import axios from 'axios'
 import { connect } from 'react-redux'
-import { followAC, setCurrentPageAC, setUsersAC, toggleIsFetchingAC, unfollowAC, setTotalUsersCountAC, toggleIsDisabledAC, getUsersThunkCreator } from '../../../redux/usersReducer'
+import { follow, setCurrentPage, unfollow, toggleIsDisabled, getUsers } from '../../../redux/usersReducer'
 import Users from './Users'
 import Preloader from '../../common/preloader/preloader'
-import { usersAPI } from '../../API/api'
 
 class UsersContainer extends React.Component {
 
   componentDidMount() {
-    this.props.getUsersThunkCreator()
-    
+    this.props.getUsers(this.props.currentPage, this.props.pageSize)
   }
 
   onPageChanged = (pageNumber) => {
-    this.props.toggleIsFetching(true)
-    this.props.setCurrentPage(pageNumber)
-    usersAPI.getUsers(pageNumber, this.props.pageSize)
-    .then(data => {
-      this.props.toggleIsFetching(false)
-      this.props.setUsers(data.items)
-    })
+    this.props.getUsers(pageNumber, this.props.pageSize)
   } 
 
   render() {
@@ -50,34 +41,6 @@ const mapStateToProps = (state) => {
     isDisabled: state.usersPage.isDisabled
   }
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    follow: (userId) => {
-      dispatch(followAC(userId))
-    },
-    unfollow: (userId) => {
-      dispatch(unfollowAC(userId))
-    },
-    setUsers: (users) => {
-      dispatch(setUsersAC(users))
-    },
-    setCurrentPage: (currentPage) => {
-      dispatch(setCurrentPageAC(currentPage))
-    },
-    setTotalUsersCount: (totalCount) => {
-      dispatch(setTotalUsersCountAC(totalCount))
-    },
-    toggleIsFetching: (isFetching) => {
-      dispatch(toggleIsFetchingAC(isFetching))
-    },
-    toggleIsDisabled: (isFetching, userId) => {
-      dispatch(toggleIsDisabledAC(isFetching, userId))
-    },
-    getUsersThunkCreator: (currentPage, pageSize) => {
-      dispatch(getUsersThunkCreator(currentPage, pageSize))
-    }
-  }
-}
   
-export default connect(mapStateToProps, (mapDispatchToProps))(UsersContainer)
+export default connect(mapStateToProps, 
+  {follow, unfollow, setCurrentPage, toggleIsDisabled, getUsers})(UsersContainer)

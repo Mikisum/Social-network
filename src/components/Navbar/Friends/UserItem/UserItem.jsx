@@ -1,31 +1,29 @@
-import axios from 'axios';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { followingAPI } from '../../../API/api';
 import classes from './UserItem.module.css'
 
 const UserItem = (props) => {
-  const {userId, name, followed, follow, unfollow, isDisabled, toggleIsDisabled} = props
+  const {userId, name, followed, follow, unfollow, isDisabled} = props
 
-  let post = (userId) => {
-    followingAPI.follow(userId)
-    .then(res => {
-      if (res.status === 200) {
-        follow(userId)
-      }
-      toggleIsDisabled(false, userId)
-    }) 
-}
+//   let post = (userId) => {
+//     usersAPI.follow(userId)
+//     .then(res => {
+//       if (res.data.resultCode === 0) {
+//         follow(userId)
+//       }
+//       toggleIsDisabled(false, userId)
+//     }) 
+// }
 
-  let delet = (userId) => {
-    followingAPI.unfollow(userId)
-    .then(res => {
-      if (res.status === 200) {
-        unfollow(userId)
-      }
-      toggleIsDisabled(false, userId)
-    }) 
-}
+//   let delet = (userId) => {
+//     usersAPI.unfollow(userId)
+//     .then(res => {
+//       if (res.data.resultCode === 0) {
+//         unfollow(userId)
+//       }
+//       toggleIsDisabled(false, userId)
+//     }) 
+// }
   return (
     <li className={classes.user}>
       <figure className={classes.avatar}>
@@ -42,19 +40,13 @@ const UserItem = (props) => {
           followed ? 
             <button 
               disabled={isDisabled.some(id => id === userId)}
-              onClick={() => {
-                toggleIsDisabled(true, userId)
-                delet(userId)
-              }} 
+              onClick={() => follow(userId)} 
               className={classes.btnUnfollow}>
                 Unfollow
             </button>
           : <button 
               disabled={isDisabled.some(id => id === userId)}
-              onClick={() => {
-                toggleIsDisabled(true, userId)
-                post(userId)
-              }} 
+              onClick={() => unfollow(userId)} 
               className={classes.btnFollow}>
                 Follow
             </button>

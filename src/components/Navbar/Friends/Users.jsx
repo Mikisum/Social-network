@@ -3,7 +3,6 @@ import UserItem from './UserItem/UserItem'
 import classes from './Users.module.css'
 
 const Users = (props) => {
-  console.log(props)
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
 
   let pages = []
