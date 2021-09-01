@@ -1,14 +1,13 @@
-import React from 'react'
 import { addPostActionCreator, updateNewPostTextActionCreator } from '../../../redux/profileReducer'
 import MyPosts from './MyPosts'
 import {connect} from 'react-redux'
+import { withAuthRedirect } from '../../hoc/WithAuthRedirect'
 
 let mapStateToProps = (state) => {
 
   return{
     posts: state.profilePage.posts,
     newPostText: state.profilePage.newPostText,
-    isAuth: state.auth.isAuth
   }
 }
 
@@ -22,6 +21,9 @@ let mapDispatchToProps = (dispatch) => {
     }
   }
 }
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+
+let AuthRedirectComponent = withAuthRedirect(MyPosts)
+
+const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
 
 export default MyPostsContainer

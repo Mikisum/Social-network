@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { follow, setCurrentPage, unfollow, toggleIsDisabled, getUsers } from '../../../redux/usersReducer'
 import Users from './Users'
 import Preloader from '../../common/preloader/preloader'
+import { withAuthRedirect } from '../../hoc/WithAuthRedirect'
 
 class UsersContainer extends React.Component {
 
@@ -41,6 +42,8 @@ const mapStateToProps = (state) => {
     isDisabled: state.usersPage.isDisabled
   }
 }
+
+let withRedirect = withAuthRedirect(UsersContainer)
   
 export default connect(mapStateToProps, 
-  {follow, unfollow, setCurrentPage, toggleIsDisabled, getUsers})(UsersContainer)
+  {follow, unfollow, setCurrentPage, toggleIsDisabled, getUsers})(withRedirect)
