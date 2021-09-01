@@ -11,6 +11,7 @@ import Profile from './components/Profile/Profile';
 import DialogsContainer from './components/Navbar/Dialogs/DialogsContainer';
 import UsersContainer from './components/Navbar/Friends/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
+import Login from './components/Login/Login';
 
 const App = () => {
   
@@ -20,6 +21,7 @@ const App = () => {
         <HeaderContainer />
         <Navbar />  
         <div className='app-wrapper-content'>
+          <Route path='/login' component={() => <Login />} />
           <Route path='/dialogs' component={() => <DialogsContainer />} />
           <Route path='/profile/:userId?' component={() => <Profile />} />
           <Route path='/users' component={() => <UsersContainer />} />

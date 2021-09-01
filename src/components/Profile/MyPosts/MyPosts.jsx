@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import classes  from './MyPosts.module.css'
 import Post from './Post/Post'
 
@@ -14,6 +15,7 @@ const MyPosts = (props) => {
     let text = e.target.value
     props.updateNewPostText(text)
   }
+  if (!props.isAuth) return <Redirect to='/login' />
 
   return (
     <div className={classes.postsBlock} >
