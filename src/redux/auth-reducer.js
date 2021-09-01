@@ -1,3 +1,5 @@
+import { authAPI } from "../components/API/api"
+
 const SET_USER_DATA = 'UPDATE-SET_USER_DATA-POST-TEXT'
 
 let initialState = {
@@ -20,6 +22,16 @@ const authReducer = (state = initialState , action) => {
     default:
       return state
   }
+}
+
+export const getAuthUserData = () => (dispatch) => {
+  authAPI.me()
+    .then(res => {
+      if (res.data.resultCode === 0) {
+        let {id, login, email} = res.data.data
+        dispatch(setAuthUserData(id, email, login))
+      }
+    })
 }
 
 export const setAuthUserData = (userId, email, login) => ({

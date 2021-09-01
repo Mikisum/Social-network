@@ -1,3 +1,5 @@
+import { usersAPI } from "../components/API/api"
+
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
@@ -20,9 +22,7 @@ profile: null
 }
 
 const profileReducer = (state = initialState , action) => {
-
   let stateCopy
-  
   switch(action.type) {
     case ADD_POST:{
       return stateCopy = {
@@ -63,6 +63,14 @@ export const updateNewPostTextActionCreator = (text) => ({
     type: UPDATE_NEW_POST_TEXT, 
     newPostText: text
 })
+
+export const getUsersProfile = (userId) => (dispatch) => {
+  usersAPI.getUsersProfile(userId)
+  .then(data => {
+    dispatch(setUserProfile(data.data.aboutMe))
+  })
+}
+
 
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile: profile})
 

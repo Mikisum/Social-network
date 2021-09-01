@@ -5,25 +5,6 @@ import classes from './UserItem.module.css'
 const UserItem = (props) => {
   const {userId, name, followed, follow, unfollow, isDisabled} = props
 
-//   let post = (userId) => {
-//     usersAPI.follow(userId)
-//     .then(res => {
-//       if (res.data.resultCode === 0) {
-//         follow(userId)
-//       }
-//       toggleIsDisabled(false, userId)
-//     }) 
-// }
-
-//   let delet = (userId) => {
-//     usersAPI.unfollow(userId)
-//     .then(res => {
-//       if (res.data.resultCode === 0) {
-//         unfollow(userId)
-//       }
-//       toggleIsDisabled(false, userId)
-//     }) 
-// }
   return (
     <li className={classes.user}>
       <figure className={classes.avatar}>
