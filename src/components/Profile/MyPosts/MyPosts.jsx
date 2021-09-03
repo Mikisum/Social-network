@@ -1,35 +1,38 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Field, reduxForm } from 'redux-form'
 import classes  from './MyPosts.module.css'
 import Post from './Post/Post'
+
+const AddNewPostForm = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <div>
+        <Field 
+          placeholder={'add your post'}
+          name={'newPostText'}
+          component={'textarea'}/>
+      </div>
+      <div>
+        <button>Add post</button>
+      </div>
+    </form>
+  )
+}
+
+const AddNewPostReduxForm = reduxForm({form: 'ProfileAddNewPostForm'})(AddNewPostForm)
 
 const MyPosts = (props) => {
 
   let postsElements = props.posts.map(post =><Post key={post.message} message={post.message} count={post.likesCount}/>)
 
-  let onAddPost = () => {
-    props.addPost()
+  let onAddPost = (values) => {
+    props.addPost(values.newPostText)
   }
-
-  let onPostChange = (e) => {
-    let text = e.target.value
-    props.updateNewPostText(text)
-  }
-  if (!props.isAuth) return <Redirect to='/login' />
 
   return (
     <div className={classes.postsBlock} >
         <h3>My posts</h3>
-        <div>
-          <div>
-            <textarea 
-              value={props.newPostText}
-              onChange={onPostChange}/>
-          </div>
-          <div>
-            <button onClick={ onAddPost } >Add post</button>
-          </div>
-        </div>
+        <AddNewPostReduxForm onSubmit={onAddPost}/>
       <div className={classes.posts}>
         {postsElements}
       </div>

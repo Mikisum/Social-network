@@ -26,7 +26,6 @@ const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 const Login = (props) => {
 
   const onSubmit = (formData) => {
-    authAPI.login(formData.login)
     console.log(formData)
   }
 
