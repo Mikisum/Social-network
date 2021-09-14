@@ -39,4 +39,22 @@ export const setAuthUserData = (userId, email, login) => ({
   data: {userId, email, login}
 })
 
+export const login = (email, password, rememberMe) => (dispatch) => {
+  authAPI.login(email, password, rememberMe)
+    .then(res => {
+      if (res.data.resultCode === 0) {
+        dispatch(getAuthUserData())
+      }
+    })
+}
+
+export const logout = (email, password, rememberMe) => (dispatch) => {
+  authAPI.logout(email, password, rememberMe)
+    .then(res => {
+      if (res.data.resultCode === 0) {
+        dispatch(getAuthUserData())
+      }
+    })
+}
+
 export default authReducer

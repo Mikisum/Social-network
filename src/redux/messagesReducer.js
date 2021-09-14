@@ -57,12 +57,6 @@ const messagesReducer = (state = initialState, action) => {
         messages: [...state.messages, {id: 6, message: action.newMessage}]
       }
     
-    case UPDATE_NEW_MESSAGE_BODY:
-      return {
-        ...state,
-        newMessageBody: action.newMessageBody
-      }
-    
     default: 
       return state
   }  
