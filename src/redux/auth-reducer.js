@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form"
 import { authAPI } from "../components/API/api"
 
 const SET_USER_DATA = 'UPDATE-SET_USER_DATA-POST-TEXT'
@@ -15,8 +16,7 @@ const authReducer = (state = initialState , action) => {
     case SET_USER_DATA:{
       return {
         ...state,
-        ...action.data,
-        isAuth: true
+        ...action.payload
       }
     }
     default:
@@ -29,14 +29,14 @@ export const getAuthUserData = () => (dispatch) => {
     .then(res => {
       if (res.data.resultCode === 0) {
         let {id, login, email} = res.data.data
-        dispatch(setAuthUserData(id, email, login))
+        dispatch(setAuthUserData(id, email, login, true))
       }
     })
 }
 
-export const setAuthUserData = (userId, email, login) => ({
+export const setAuthUserData = (userId, email, login, isAuth) => ({
   type: SET_USER_DATA,
-  data: {userId, email, login}
+  payload: {userId, email, login, isAuth}
 })
 
 export const login = (email, password, rememberMe) => (dispatch) => {
@@ -44,15 +44,18 @@ export const login = (email, password, rememberMe) => (dispatch) => {
     .then(res => {
       if (res.data.resultCode === 0) {
         dispatch(getAuthUserData())
+      } else {
+        let messsage = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'
+        dispatch(stopSubmit('login', {_error: messsage}))
       }
     })
 }
 
-export const logout = (email, password, rememberMe) => (dispatch) => {
-  authAPI.logout(email, password, rememberMe)
+export const logout = () => (dispatch) => {
+  authAPI.logout()
     .then(res => {
       if (res.data.resultCode === 0) {
-        dispatch(getAuthUserData())
+        dispatch(setAuthUserData(null, null, null, false))
       }
     })
 }
