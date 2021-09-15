@@ -4,11 +4,10 @@ import classes from './UserItem.module.css'
 
 const UserItem = (props) => {
   const {userId, name, followed, follow, unfollow, isDisabled} = props
-  console.log(props)
   return (
     <li className={classes.user}>
       <figure className={classes.avatar}>
-        <NavLink to={'./profile/' + userId}>
+        <NavLink to={'/profile/' + userId}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQAqIt-HfEdRyz4pqIAX3Nzc3aRSBUkjh87_hCfLoO02qqOx_IP8bAsgg7xBCYEFvHvko&usqp=CAU" alt=""/>
         </NavLink>
       </figure>

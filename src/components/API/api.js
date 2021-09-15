@@ -21,7 +21,7 @@ export const usersAPI = {
   },
   getUsersProfile(userId){
     console.log('Obsolete method.Please profileAPI object')
-    return profileAPI.getUsersStatus(userId)
+    return profileAPI.getUsersProfile(userId)
   }
 }
 

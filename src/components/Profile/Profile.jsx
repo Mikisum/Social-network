@@ -4,14 +4,12 @@ import ProfileView from './ProfileView/ProfileView'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import FriendsBlock from './SideBar/FriendsBlock/FriendsBlock'
 import MyPostsContainer from './MyPosts/MyPostsContainer'
-import ProfileInfoContainer from './ProfileInfo/ProfileInfoContainer'
 
-
-const Profile = () => {
+const Profile = (props) => {
     return (
       <div className={classes.profile}>
         {/* <ProfileView /> */}
-        <ProfileInfoContainer />
+        <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
         {/* <FriendsBlock store={props.store}/> */}
         <MyPostsContainer/>
       </div>
