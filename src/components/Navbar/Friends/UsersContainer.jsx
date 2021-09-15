@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { follow, setCurrentPage, unfollow, toggleIsDisabled, getUsers } from '../../../redux/usersReducer'
+import { follow, setCurrentPage, unfollow, toggleIsDisabled, requestUsers} from '../../../redux/usersReducer'
 import Users from './Users'
 import Preloader from '../../common/preloader/preloader'
 import { compose } from 'redux'
+import { getCurrentPage, getIsDisabled, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../../redux/users-selectors'
 
 class UsersContainer extends React.Component {
 
@@ -32,17 +33,28 @@ class UsersContainer extends React.Component {
       </>
   }
 }
+// const mapStateToProps = (state) => {
+//   return {
+//     users: state.usersPage.users,
+//     pageSize: state.usersPage.pageSize,
+//     totalUsersCount: state.usersPage.totalUsersCount,
+//     currentPage: state.usersPage.currentPage,
+//     isFetching: state.usersPage.isFetching,
+//     isDisabled: state.usersPage.isDisabled
+//   }
+// }
+
 const mapStateToProps = (state) => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    isDisabled: state.usersPage.isDisabled
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    isDisabled: getIsDisabled(state)
   }
 }
 
 export default compose(
-  connect(mapStateToProps, {follow, unfollow, setCurrentPage, toggleIsDisabled, getUsers})
+  connect(mapStateToProps, {follow, unfollow, setCurrentPage, toggleIsDisabled, getUsers: requestUsers})
 )(UsersContainer)
