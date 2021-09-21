@@ -1,9 +1,10 @@
 import React from 'react'
+import Paginator from '../../common/Paginator/Paginator'
 import UserItem from './UserItem/UserItem'
 import classes from './Users.module.css'
 
-const Users = (props) => {
-  let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+const Users = ( {currentPage, totalUsersCount, pageSize, onPageChanged, users,  ...props}) => {
+  let pagesCount = Math.ceil(totalUsersCount / pageSize)
 
   let pages = []
   for(let i = 1; i <= pagesCount; i++) {
@@ -12,11 +13,10 @@ const Users = (props) => {
 
   let usersList = () => {
     return (
-      props.users.map(user => <UserItem 
+      users.map(user => <UserItem 
       key={user.id} userId={user.id} name={user.name}
       status={user.status} followed={user.followed}
       follow={props.follow} unfollow={props.unfollow}
-      toggleIsDisabled={props.toggleIsDisabled}
       isDisabled={props.isDisabled}
       />)
     )
@@ -27,10 +27,10 @@ const Users = (props) => {
       <h3 className={classes.heading}>Users
         <span>{props.totalUsersCount}</span>
       </h3>
-      <div>
-        {pages.map((p,idx) => <span key={idx} className={props.currentPage === p ? classes.selectedPage : undefined}
-        onClick={(e)=> props.onPageChanged(p)}>{p<7 ? p : null}</span>)}
-      </div>
+      <Paginator currentPage = {currentPage}
+                  onPageChanged = {onPageChanged}
+                  totalUsersCount = {totalUsersCount}
+                  pageSize = {pageSize}/>
       <ul className={classes.usersList}>
         {usersList()}</ul>
       <button className={classes.btnShow}>Show more</button>

@@ -4,14 +4,15 @@ import classes  from './ProfileInfo.module.css'
 import ProfileStatus from './PtofileStatus/ProfileStatus'
 import ProfileStatusWithHooks from './PtofileStatus/ProfileStatusWithHooks'
 
-const ProfileInfo = (props) => {
-  if (!props.profile) {
+const ProfileInfo = ({ profile, status, updateUsersStatus }) => {
+  if (!profile) {
     return <Preloader/>
   }
     return (
       <div className={classes.profileInfo}>
-        <div>{props.profile.fullName}</div>
-        <ProfileStatusWithHooks status={props.status} updateUsersStatus={props.updateUsersStatus}/>
+        <img src={profile.photos.large}/>
+        <div>{profile.fullName}</div>
+        <ProfileStatusWithHooks status={status} updateUsersStatus={updateUsersStatus}/>
       </div>
     )
 }

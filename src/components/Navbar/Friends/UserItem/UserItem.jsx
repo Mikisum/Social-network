@@ -2,8 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './UserItem.module.css'
 
-const UserItem = (props) => {
-  const {userId, name, followed, follow, unfollow, isDisabled} = props
+const UserItem = ({userId, name, followed, follow, unfollow, isDisabled, status}) => {
+
   return (
     <li className={classes.user}>
       <figure className={classes.avatar}>
@@ -13,7 +13,7 @@ const UserItem = (props) => {
       </figure>
       <div className={classes.info}>
         <h4 className={classes.userName}>{name}</h4>
-        <p>{props.status}</p>
+        <p>{status}</p>
       </div>
       <div>
         {
