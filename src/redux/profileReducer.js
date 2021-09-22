@@ -40,7 +40,7 @@ const profileReducer = (state = initialState , action) => {
     case DELETE_POST: {
       return {
         ...state,
-        posts: state.posts.filter(p => p.id != action.id)
+        posts: state.posts.filter(p => p.id !== action.id)
       }
     }
    
@@ -84,7 +84,7 @@ export const getUsersStatus = (userId = 2) => async (dispatch) => {
 export const updateUsersStatus = (status) => async (dispatch) => {
   const res = await profileAPI.updateUsersStatus(status)
 
-  if(res.data.resultCode == 0) {
+  if(res.data.resultCode === 0) {
     dispatch(setUsersStatus(status))
   }
 }

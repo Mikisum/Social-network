@@ -29,7 +29,7 @@ const Users = ( {currentPage, totalUsersCount, pageSize, onPageChanged, users,  
       </h3>
       <Paginator currentPage = {currentPage}
                   onPageChanged = {onPageChanged}
-                  totalUsersCount = {totalUsersCount}
+                  totalItemsCount = {totalUsersCount}
                   pageSize = {pageSize}/>
       <ul className={classes.usersList}>
         {usersList()}</ul>
