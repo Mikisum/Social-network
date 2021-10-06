@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './UserItem.module.css'
-
-const UserItem = ({userId, name, followed, follow, unfollow, isDisabled, status}) => {
+import avatar from './../../../../assets/avatar.png'
+const UserItem = ({userId, name, photos, followed, follow, unfollow, isDisabled, status}) => {
 
   return (
     <li className={classes.user}>
       <figure className={classes.avatar}>
         <NavLink to={'/profile/' + userId}>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQAqIt-HfEdRyz4pqIAX3Nzc3aRSBUkjh87_hCfLoO02qqOx_IP8bAsgg7xBCYEFvHvko&usqp=CAU" alt=""/>
+            <img src={photos.large || avatar} alt=""/>
         </NavLink>
       </figure>
       <div className={classes.info}>

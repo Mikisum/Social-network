@@ -14,6 +14,7 @@ const Users = ( {currentPage, totalUsersCount, pageSize, onPageChanged, users,  
   let usersList = () => {
     return (
       users.map(user => <UserItem 
+      photos={user.photos}
       key={user.id} userId={user.id} name={user.name}
       status={user.status} followed={user.followed}
       follow={props.follow} unfollow={props.unfollow}
