@@ -1,24 +1,27 @@
 import { stopSubmit } from "redux-form"
-import { authAPI } from "../components/API/api"
+import { authAPI, securityAPI } from "../components/API/api"
 
 const SET_USER_DATA = 'UPDATE-SET_USER_DATA-POST-TEXT'
+const GET_CAPTCHA_URL_SUCCESS = 'samurai-network/auth/GET_CAPTCHA_URL_SUCCESS'
 
 let initialState = {
   userId: null,
   email: null,
   login: null,
-  isAuth: false
+  isAuth: false,
+  captchaUrl: null // if null, then captcha is not required
 }
 
 const authReducer = (state = initialState , action) => {
   
   switch(action.type) {
-    case SET_USER_DATA:{
+    case SET_USER_DATA:
+    case GET_CAPTCHA_URL_SUCCESS:
       return {
         ...state,
         ...action.payload
       }
-    }
+
     default:
       return state
   }
@@ -38,15 +41,29 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
   payload: {userId, email, login, isAuth}
 })
 
-export const login = (email, password, rememberMe) => async (dispatch) => {
-  let res = await authAPI.login(email, password, rememberMe)
+export const getCaptchaUrlSuccess = (captchaUrl) => ({
+  type: GET_CAPTCHA_URL_SUCCESS,
+  payload: {captchaUrl}
+})
+
+export const login = (email, password, rememberMe, captcha) => async (dispatch) => {
+  let res = await authAPI.login(email, password, rememberMe, captcha)
     
   if (res.data.resultCode === 0) {
     dispatch(getAuthUserData())
   } else {
+    if(res.data.resultCode === 10) {
+      dispatch(getCaptchaUrl())
+    }
     let messsage = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'
     dispatch(stopSubmit('login', {_error: messsage}))
   }
+}
+
+export const getCaptchaUrl = () => async (dispatch) => {
+  let res = await securityAPI.getCaptchaUrl()
+  const captchaUrl = res.data.url
+  dispatch(getCaptchaUrlSuccess(captchaUrl))
 }
 
 export const logout = () => async (dispatch) => {
