@@ -1,14 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, withRouter, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import './App.css';
-import Dialogs from './components/Navbar/Dialogs/Dialogs';
-import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/Navbar/News/News';
 import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
-import Profile from './components/Profile/Profile';
-// import DialogsContainer from './components/Navbar/Dialogs/DialogsContainer';
 import UsersContainer from './components/Navbar/Friends/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
@@ -16,19 +13,25 @@ import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer'
 import Preloader from './components/common/preloader/preloader';
-// import ProfileContainer from './components/Profile/ProfileContainer';
 import store from './redux/redux-store'
 
 const DialogsContainer = React.lazy(() => import('./components/Navbar/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 
-
 class App extends React.Component {
+  catchAllUnhandledErrors = (reason, PromiseRejectionEvent) => {
+    alert(PromiseRejectionEvent)
+    console.error(PromiseRejectionEvent)
+  }
 
   componentDidMount () {
     this.props.initializeApp()
+    window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
   }
-
+  
+  componentWillUnmount() {
+    window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors)
+  }
   render() {
 
     if (!this.props.initialized) {
@@ -42,13 +45,15 @@ class App extends React.Component {
         <div className='app-wrapper-content'>
         <React.Suspense fallback={<Preloader />}>
           <Switch>
-            <Route path='/login' component={() => <Login />} />
-            <Route path='/dialogs' component={() => <DialogsContainer/>} />
-            <Route path='/profile/:userId?' component={() =><ProfileContainer/>} />
-            <Route path='/users' component={() => <UsersContainer />} />
-            <Route path='/news' component={News} />
-            <Route path='/music' component={Music} />
-            <Route path='/settings' component={Settings} />
+            <Redirect exact from='/' to='/profile'/>
+            <Route path='/login' render={() => <Login />} />
+            <Route path='/dialogs' render={() => <DialogsContainer/>} />
+            <Route path='/profile/:userId?' render={() =><ProfileContainer/>} />
+            <Route path='/users' render={() => <UsersContainer />} />
+            <Route path='/news' render={News} />
+            <Route path='/music' render={Music} />
+            <Route path='/settings' render={Settings} />
+            <Route path='*' render={() => <div>404 NOT FOUND</div>} />
           </Switch>
         </React.Suspense>
         </div>
@@ -61,11 +66,11 @@ const mapStateToProps = (state) => ({
   initialized: state.app.initialized
 })
 
-let AppContainer = compose(
+const AppContainer = compose(
   withRouter,
   connect(mapStateToProps, {initializeApp}))(App)
 
-let SocialApp = (props) => {
+const SocialApp = (props) => {
   return (
     <BrowserRouter>
       <Provider store={store}>

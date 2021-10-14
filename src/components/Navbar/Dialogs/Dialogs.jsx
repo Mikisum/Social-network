@@ -8,10 +8,11 @@ import AddMessageForm from './AddMessageForm/AddMessageForm'
 const Dialogs = (props) => {
 
   let dialogsElements = props.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
-  let messagesElements = props.messages.map(message => <Message key={message.message} message={message.message} />)
+  let messagesElements = props.messages.map(message => <Message key={message.id} message={message.message} />)
   
   const onAddPost = (values) => {
-    props.onSendMessage(values.newMessage)
+    props.onSendMessage(values.newMessageBody)
+    values.newMessageBody = ''
   }
 
   if (!props.isAuth) return <Redirect to='/login' />

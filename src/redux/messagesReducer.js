@@ -54,7 +54,7 @@ const messagesReducer = (state = initialState, action) => {
     case SEND_MESSAGE:
       return {
         ...state,
-        messages: [...state.messages, {id: 6, message: action.newMessage}]
+        messages: [...state.messages, {id: state.messages.length + 1, message: action.newMessage}]
       }
     
     default: 
