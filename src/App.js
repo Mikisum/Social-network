@@ -6,7 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import News from './components/Navbar/News/News';
 import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
-import UsersContainer from './components/Navbar/Friends/UsersContainer';
+import UsersContainer from './components/Navbar/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import { connect, Provider } from 'react-redux';
@@ -14,6 +14,8 @@ import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer'
 import Preloader from './components/common/preloader/preloader';
 import store from './redux/redux-store'
+import Friends from './components/Friends/Friends';
+import FriendsContainer from './components/Friends/FriendsContainer';
 
 const DialogsContainer = React.lazy(() => import('./components/Navbar/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
@@ -57,6 +59,7 @@ class App extends React.Component {
           </Switch>
         </React.Suspense>
         </div>
+        <FriendsContainer />
       </div>
     )
   }

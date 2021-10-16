@@ -8,9 +8,12 @@
   margin: auto;
   grid-template-areas: 
   'h h'
-  'n c';
-  grid-template-rows: 200px 10fr ;
-  grid-template-columns:  2fr 10fr;
+  'n c'
+  'f c';
+  grid-template-rows: 200px 400px 400px;
+  grid-template-columns:  3fr 10fr;
+  background: #f4f2f2;
+  color: #797979;
 }  
 
 .app-wrapper-content {
