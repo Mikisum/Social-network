@@ -1,5 +1,15 @@
 const SEND_MESSAGE = 'SEND-MESSAGE'
 
+type DialogType = {
+  id: number,
+  name: string
+}
+
+type MessagesType = {
+  id: number,
+  message: string
+}
+
 let initialState = {
   messages : [
     {
@@ -18,7 +28,7 @@ let initialState = {
       id: 4,
       message: 'Hello!'
     }
-  ],
+  ] as Array<MessagesType>,
   dialogs : [
     {
       id: 1,
@@ -44,10 +54,12 @@ let initialState = {
       id: 6,
       name: 'Pasha'
     }
-  ]
+  ] as Array<DialogType>
 }
 
-const messagesReducer = (state = initialState, action) => {
+export type InitialStateType = typeof initialState
+
+const messagesReducer = (state = initialState, action: any): InitialStateType => {
 
   switch(action.type) {
     
@@ -62,7 +74,12 @@ const messagesReducer = (state = initialState, action) => {
   }  
 }
 
-export const sendMessageCreator = (newMessage) => ({
+type sendMessageCreatorActionType = {
+  type: typeof SEND_MESSAGE,
+  newMessage: string
+}
+
+export const sendMessageCreator = (newMessage: string): sendMessageCreatorActionType => ({
   type: SEND_MESSAGE,
   newMessage
 })

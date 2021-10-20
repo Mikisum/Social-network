@@ -1,4 +1,5 @@
 import { usersAPI } from "../components/API/api"
+import { UserType } from "../components/types/types"
 import { updateObjectInArray } from "../components/utils/object-helpers"
 
 const FOLLOW = 'FOLLOW'
@@ -9,28 +10,64 @@ const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
 const TOOGLE_IS_DISABLED = 'TOOGLE_IS_DISABLED'
 
+type InitialState = typeof initialState
 
 let initialState = {
-  users : [],
+  users : [] as Array<UserType>,
   pageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: true,
-  isDisabled: []
+  isDisabled: [] as Array<number> // array of users ids
 }
 
-export const followSuccess = (userId) => ({type: FOLLOW, userId})
-export const unfollowSuccess = (userId) => ({type: UNFOLLOW, userId}) 
-export const setUsers = (users) => ({type: SET_USERS, users})
-export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
-export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
-export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
-export const toggleIsDisabled = (isFetching, userId) => ({type: TOOGLE_IS_DISABLED, isFetching, userId})
+type followSuccessActionType = {
+  type: typeof FOLLOW
+  userId: number
+}
+export const followSuccess = (userId: number):followSuccessActionType => ({type: FOLLOW, userId})
+
+type UnfollowSuccessActionType = {
+  type: typeof UNFOLLOW
+  userId: number
+}
+export const unfollowSuccess = (userId: number): UnfollowSuccessActionType => ({type: UNFOLLOW, userId}) 
+
+type SetUsersActionType = {
+  type: typeof SET_USERS
+  users: Array<UserType>
+}
+export const setUsers = (users: Array<UserType>): SetUsersActionType => ({type: SET_USERS, users})
+
+type SetCurrentPageActionType = {
+  type: typeof SET_CURRENT_PAGE
+  currentPage: number
+}
+export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => ({type: SET_CURRENT_PAGE, currentPage})
+
+type ToggleIsFetchingActionType = {
+  type: typeof TOGGLE_IS_FETCHING
+  isFetching: boolean
+}
+export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => ({type: TOGGLE_IS_FETCHING, isFetching})
+
+type SetTotalUsersCountActionType = {
+  type: typeof SET_TOTAL_USERS_COUNT
+  totalUsersCount: number
+}
+export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountActionType => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
+
+type ToggleIsDisabledActionType = {
+  type: typeof TOOGLE_IS_DISABLED
+  isFetching: boolean
+  userId: number
+}
+export const toggleIsDisabled = (isFetching: boolean, userId: number): ToggleIsDisabledActionType => ({type: TOOGLE_IS_DISABLED, isFetching, userId})
 
 
-export const requestUsers = (page, pageSize) => {
+export const requestUsers = (page: number, pageSize: number) => {
 
-  return async (dispatch) => {
+  return async (dispatch: any) => {
     dispatch(toggleIsFetching(true))
     dispatch(setCurrentPage(page))
 
@@ -43,7 +80,7 @@ export const requestUsers = (page, pageSize) => {
   
 }
 
-const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
+const followUnfollowFlow = async (dispatch: any, userId: number, apiMethod: any, actionCreator: any) => {
   dispatch(toggleIsDisabled(true, userId))
     let res = await apiMethod(userId)
     if (res.data.resultCode === 0) {
@@ -52,31 +89,26 @@ const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) =>
     dispatch(toggleIsDisabled(false, userId))
 }
 
-export const follow = (userId) => {
-  return async (dispatch) => {
+export const follow = (userId: number) => {
+  return async (dispatch: any) => {
     followUnfollowFlow(dispatch, userId, usersAPI.follow.bind(usersAPI), followSuccess)
   }
 }
 
-export const unfollow = (userId) => {
-  return async (dispatch) => {
+export const unfollow = (userId: number) => {
+  return async (dispatch: any) => {
     followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess)
   }
 }
 
-const usersReducer = (state = initialState, action) => {
+const usersReducer = (state = initialState, action: any): InitialState => {
   switch(action.type) {
     case FOLLOW:
       return {
         ...state,
         users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
-        // users: state.users.map(user => {
-        //   if(user.id === action.userId) {
-        //     return {...user, followed: true}
-        //   }
-        //   return user
-        // })
       }
+
     case UNFOLLOW:
       return {
         ...state,
@@ -120,11 +152,9 @@ const usersReducer = (state = initialState, action) => {
       }
     }
 
-
     default: 
       return state
   }
 }
-
 
 export default usersReducer
