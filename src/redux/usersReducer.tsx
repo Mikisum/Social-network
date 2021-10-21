@@ -8,7 +8,7 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
-const TOOGLE_IS_DISABLED = 'TOOGLE_IS_DISABLED'
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
 
 type InitialState = typeof initialState
 
@@ -18,7 +18,7 @@ let initialState = {
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: true,
-  isDisabled: [] as Array<number> // array of users ids
+  followingInProgress: [] as Array<number> // array of users ids
 }
 
 type followSuccessActionType = {
@@ -57,13 +57,12 @@ type SetTotalUsersCountActionType = {
 }
 export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountActionType => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
 
-type ToggleIsDisabledActionType = {
-  type: typeof TOOGLE_IS_DISABLED
+type toogleFollowingProgressActionType = {
+  type: typeof TOGGLE_IS_FOLLOWING_PROGRESS
   isFetching: boolean
   userId: number
 }
-export const toggleIsDisabled = (isFetching: boolean, userId: number): ToggleIsDisabledActionType => ({type: TOOGLE_IS_DISABLED, isFetching, userId})
-
+export const toogleFollowingProgress = (isFetching: boolean, userId: number): toogleFollowingProgressActionType => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId})
 
 export const requestUsers = (page: number, pageSize: number) => {
 
@@ -81,12 +80,12 @@ export const requestUsers = (page: number, pageSize: number) => {
 }
 
 const followUnfollowFlow = async (dispatch: any, userId: number, apiMethod: any, actionCreator: any) => {
-  dispatch(toggleIsDisabled(true, userId))
+  dispatch(toogleFollowingProgress(true, userId))
     let res = await apiMethod(userId)
     if (res.data.resultCode === 0) {
       dispatch(actionCreator(userId))
     }
-    dispatch(toggleIsDisabled(false, userId))
+    dispatch(toogleFollowingProgress(false, userId))
 }
 
 export const follow = (userId: number) => {
@@ -143,12 +142,12 @@ const usersReducer = (state = initialState, action: any): InitialState => {
       }
     }
 
-    case TOOGLE_IS_DISABLED: {
+    case TOGGLE_IS_FOLLOWING_PROGRESS: {
       return {
         ...state,
-        isDisabled: action.isFetching 
-          ? [...state.isDisabled, action.userId] 
-          :state.isDisabled.filter(id => id !== action.userId)
+        followingInProgress: action.isFetching 
+          ? [...state.followingInProgress, action.userId] 
+          :state.followingInProgress.filter(id => id !== action.userId)
       }
     }
 

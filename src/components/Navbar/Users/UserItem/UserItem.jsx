@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './UserItem.module.css'
 import avatar from './../../../../assets/avatar.png'
-const UserItem = ({userId, name, photos, followed, follow, unfollow, isDisabled, status}) => {
+const UserItem = ({userId, name, photos, followed, follow, unfollow, followingInProgress, status}) => {
 
   return (
     <li className={classes.user}>
@@ -19,13 +19,13 @@ const UserItem = ({userId, name, photos, followed, follow, unfollow, isDisabled,
         {
           followed ? 
             <button 
-              disabled={isDisabled.some(id => id === userId)}
+              disabled={followingInProgress.some(id => id === userId)}
               onClick={() => unfollow(userId)}
               className={classes.btnUnfollow}>
                 Unfollow
             </button>
           : <button 
-              disabled={isDisabled.some(id => id === userId)}
+              disabled={followingInProgress.some(id => id === userId)}
               onClick={() => follow(userId)} 
               className={classes.btnFollow}>
                 Follow

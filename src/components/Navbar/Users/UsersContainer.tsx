@@ -1,25 +1,49 @@
-import React from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-import { follow, setCurrentPage, unfollow, toggleIsDisabled, requestUsers} from '../../../redux/usersReducer'
+import { follow, unfollow, requestUsers} from '../../../redux/usersReducer'
 import Users from './Users'
 import Preloader from '../../common/preloader/preloader'
 import { compose } from 'redux'
 import { getCurrentPage, getIsDisabled, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../../redux/users-selectors'
+import { UserType } from '../../types/types'
+import { AppStateType } from '../../../redux/redux-store'
 
-class UsersContainer extends React.Component {
+type MapStatePropsType = {
+  currentPage: number
+  pageSize: number
+  isFetching: boolean
+  totalUsersCount: number
+  users: Array<UserType>
+  followingInProgress: Array<number>
+}
+
+type MapDispatchPropsType = {
+  follow: (userId: number) => void
+  unfollow: (userId: number) => void
+  getUsers: (currentPage: number, pageSize: number) => void
+}
+
+type OwnPropsType = {
+  pageTitle: string
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+
+class UsersContainer extends Component<PropsType> {
 
   componentDidMount() {
     const { currentPage, pageSize } = this.props
     this.props.getUsers(currentPage, pageSize)
   }
 
-  onPageChanged = (pageNumber) => {
+  onPageChanged = (pageNumber: number) => {
     const { pageSize } = this.props
     this.props.getUsers(pageNumber, pageSize)
   } 
 
   render() {
     return <>
+    <h2>{this.props.pageTitle}</h2>
       {this.props.isFetching ? <Preloader/> : null}
       <Users 
         totalUsersCount={this.props.totalUsersCount} 
@@ -29,24 +53,25 @@ class UsersContainer extends React.Component {
         users={this.props.users}
         follow={this.props.follow}
         unfollow={this.props.unfollow}
-        toggleIsDisabled={this.props.toggleIsDisabled}
-        isDisabled={this.props.isDisabled}
+        followingInProgress={this.props.followingInProgress}
       />
       </>
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
     totalUsersCount: getTotalUsersCount(state),
     currentPage: getCurrentPage(state),
     isFetching: getIsFetching(state),
-    isDisabled: getIsDisabled(state)
+    followingInProgress: getIsDisabled(state)
   }
 }
 
 export default compose(
-  connect(mapStateToProps, {follow, unfollow, setCurrentPage, toggleIsDisabled, getUsers: requestUsers})
+  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
+    mapStateToProps, {follow, unfollow, getUsers: requestUsers}
+  )
 )(UsersContainer)
