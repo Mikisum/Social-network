@@ -8,6 +8,12 @@ class FriendsContainer extends React.Component {
   componentDidMount() {
     this.props.requestFriends(true)
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.friends !== prevProps.friends){
+      this.props.requestFriends(true)
+    }
+  }
   render() {
     return <Friends {...this.props}/>
   }
