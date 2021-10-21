@@ -1,5 +1,5 @@
 import { usersAPI } from "../components/API/api"
-import { UserType } from "../components/types/types"
+import { UserType } from "../types/types"
 import { updateObjectInArray } from "../components/utils/object-helpers"
 
 const FOLLOW = 'FOLLOW'

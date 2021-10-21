@@ -1,8 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
 import classes from './Friends.module.css'
 import avatar from '../../assets/avatar.png'
+import { UserType } from "../../types/types";
 
-const Friends = (props) => {
+type PropsType = {
+  friends: Array<UserType>
+}
+
+const Friends = (props: PropsType) => {
 
   return (
     <div className={classes.friends}>

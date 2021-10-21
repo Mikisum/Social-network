@@ -1,5 +1,5 @@
 import { usersAPI } from "../components/API/api"
-import { UserType } from "../components/types/types"
+import { UserType } from "../types/types"
 
 const SET_FRIENDS = 'SET_FRIENDS'
 
@@ -9,9 +9,9 @@ let initialState = {
   friends: [] as Array<UserType>
   }
 
-export const requestFriends = (isFriend: boolean) => {
+export const requestFriends = () => {
   return async(dispatch: any) => {
-    const data = await usersAPI.getFriends(isFriend)
+    const data = await usersAPI.getFriends()
     dispatch(setFriends(data.items))
   }
 }  

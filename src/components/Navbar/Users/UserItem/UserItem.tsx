@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './UserItem.module.css'
 import avatar from './../../../../assets/avatar.png'
-const UserItem = ({userId, name, photos, followed, follow, unfollow, followingInProgress, status}) => {
+import { PhotosType } from '../../../../types/types';
+
+type PropsType = {
+  userId: number 
+  name: string
+  photos: PhotosType 
+  followed: boolean 
+  follow: (userId: number) => void
+  unfollow: (userId: number) => void
+  followingInProgress: Array<number>
+  status: string
+}
+const UserItem: FC<PropsType> = ({userId, name, photos, followed, follow, unfollow, followingInProgress, status}) => {
 
   return (
     <li className={classes.user}>

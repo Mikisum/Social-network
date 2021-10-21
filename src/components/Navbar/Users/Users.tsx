@@ -1,7 +1,7 @@
 import Paginator from '../../common/Paginator/Paginator'
 import UserItem from './UserItem/UserItem'
 import classes from './Users.module.css'
-import { UserType } from '../../types/types'
+import { UserType } from '../../../types/types'
 import { FC } from 'react'
 
 type PropsType = {
