@@ -14,6 +14,8 @@ let initialState = {
 
 export type InitialStateType = typeof initialState
 
+type ActionsType = SetAuthUserDataActionType | GetCaptchaUrlSuccessActionType
+
 const authReducer = (state = initialState , action: any): InitialStateType => {
   
   switch(action.type) {

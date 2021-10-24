@@ -1,5 +1,8 @@
+import { Dispatch } from "react"
+import { ThunkAction } from "redux-thunk"
 import { usersAPI } from "../components/API/api"
 import { UserType } from "../types/types"
+import { AppStateType } from "./redux-store"
 
 const SET_FRIENDS = 'SET_FRIENDS'
 
@@ -9,8 +12,12 @@ let initialState = {
   friends: [] as Array<UserType>
   }
 
-export const requestFriends = () => {
-  return async(dispatch: any) => {
+type ActionsType = SetFriendsActionType
+type DispatchType = Dispatch<ActionsType>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+
+export const requestFriends = (): ThunkType => {
+  return async(dispatch) => {
     const data = await usersAPI.getFriends()
     dispatch(setFriends(data.items))
   }
@@ -22,7 +29,7 @@ type SetFriendsActionType = {
 }
 export const setFriends = (friends: Array<UserType>): SetFriendsActionType => ({type: SET_FRIENDS, friends})
 
-export const sideBarReducer = (state = initialState, action: any): InitialState => {
+export const sideBarReducer = (state = initialState, action: ActionsType): InitialState => {
   switch (action.type) {
     case SET_FRIENDS: {
       return {

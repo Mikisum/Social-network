@@ -51,7 +51,9 @@ let initialState = {
 
 export type InitialStateType = typeof initialState
 
-const messagesReducer = (state = initialState, action: any): InitialStateType => {
+type ActionsType = SendMessageCreatorActionType
+
+const messagesReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
   switch(action.type) {
     
@@ -66,12 +68,12 @@ const messagesReducer = (state = initialState, action: any): InitialStateType =>
   }  
 }
 
-type sendMessageCreatorActionType = {
+type SendMessageCreatorActionType = {
   type: typeof SEND_MESSAGE,
   newMessage: string
 }
 
-export const sendMessageCreator = (newMessage: string): sendMessageCreatorActionType => ({
+export const sendMessageCreator = (newMessage: string): SendMessageCreatorActionType => ({
   type: SEND_MESSAGE,
   newMessage
 })
