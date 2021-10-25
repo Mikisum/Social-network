@@ -60,7 +60,7 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
 
 type GetCaptchaUrlSuccessActionType = {
   type: typeof GET_CAPTCHA_URL_SUCCESS
-  payload: { captchaUrl: string }
+  payload: { captchaUrl: string}
 }
 
 export const getCaptchaUrlSuccess = (captchaUrl: string):GetCaptchaUrlSuccessActionType => ({
@@ -68,7 +68,7 @@ export const getCaptchaUrlSuccess = (captchaUrl: string):GetCaptchaUrlSuccessAct
   payload: {captchaUrl}
 })
 
-export const login = (email: string, password: string, rememberMe: boolean, captcha: null) => async (dispatch: any) => {
+export const login = (email: string, password: string, rememberMe: boolean, captcha: null | string) => async (dispatch: any) => {
   let loginData = await authAPI.login(email, password, rememberMe, captcha)
     
   if (loginData.resultCode === ResultCodes.Success) {
