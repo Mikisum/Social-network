@@ -1,5 +1,5 @@
 import { stopSubmit } from "redux-form"
-import { authAPI, securityAPI } from "../components/API/api"
+import { authAPI, ResultCodes, ResultCodesForCaptcha, securityAPI } from "../components/API/api"
 
 const SET_USER_DATA = 'UPDATE-SET_USER_DATA-POST-TEXT'
 const GET_CAPTCHA_URL_SUCCESS = 'samurai-network/auth/GET_CAPTCHA_URL_SUCCESS'
@@ -32,10 +32,10 @@ const authReducer = (state = initialState , action: any): InitialStateType => {
 }
 
 export const getAuthUserData = () => async (dispatch: any) => {
-  let res = await authAPI.me()
+  let meData = await authAPI.me()
     
-  if (res.data.resultCode === 0) {
-    let {id, login, email} = res.data.data
+  if (meData.resultCode === ResultCodes.Success) {
+    let {id, login, email} = meData.data
     dispatch(setAuthUserData(id, email, login, true))
   }
 }
@@ -69,15 +69,15 @@ export const getCaptchaUrlSuccess = (captchaUrl: string):GetCaptchaUrlSuccessAct
 })
 
 export const login = (email: string, password: string, rememberMe: boolean, captcha: null) => async (dispatch: any) => {
-  let res = await authAPI.login(email, password, rememberMe, captcha)
+  let loginData = await authAPI.login(email, password, rememberMe, captcha)
     
-  if (res.data.resultCode === 0) {
+  if (loginData.resultCode === ResultCodes.Success) {
     dispatch(getAuthUserData())
   } else {
-    if(res.data.resultCode === 10) {
+    if(loginData.resultCode === ResultCodesForCaptcha.CaptchaIsRequired) {
       dispatch(getCaptchaUrl())
     }
-    let messsage = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error'
+    let messsage = loginData.messages.length > 0 ? loginData.messages[0] : 'Some error'
     dispatch(stopSubmit('login', {_error: messsage}))
   }
 }
@@ -91,7 +91,7 @@ export const getCaptchaUrl = () => async (dispatch: any) => {
 export const logout = () => async (dispatch: any) => {
   let res = await authAPI.logout()
     
-  if (res.data.resultCode === 0) {
+  if (res.data.resultCode === ResultCodes.Success) {
     dispatch(setAuthUserData(null, null, null, false))
   }
 }

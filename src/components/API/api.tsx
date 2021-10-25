@@ -1,4 +1,5 @@
-import * as axios from "axios"
+import axios, { AxiosResponse } from "axios"
+import { ProfileType } from "../../types/types"
 
 const instance = axios.create({
   withCredentials: true,
@@ -17,29 +18,29 @@ export const usersAPI = {
     return instance.get(`users?friend=true&count=${count}`) 
       .then(res => res.data)
   },
-  follow(userId){
+  follow(userId: number){
     return instance.post(`follow/${userId}`) 
   },
-  unfollow(userId){
+  unfollow(userId: number){
     return instance.delete(`follow/${userId}`) 
   },
-  getUsersProfile(userId){
+  getUsersProfile(userId: number){
     console.log('Obsolete method.Please profileAPI object')
     return profileAPI.getUsersProfile(userId)
   }
 }
 
 export const profileAPI = {
-  getUsersProfile(userId){
+  getUsersProfile(userId: number){
     return instance.get(`profile/${userId}`)
   },
-  getUsersStatus(userId){
+  getUsersStatus(userId: number){
     return instance.get(`profile/status/` +userId)
   },
-  updateUsersStatus(status){
+  updateUsersStatus(status: string){
     return instance.put(`profile/status`, { status: status })
   },
-  savePhoto(photoFile){
+  savePhoto(photoFile: any){
     const formData = new FormData()
     formData.append('image', photoFile)
     return instance.put(`profile/photo`, formData, {
@@ -48,17 +49,45 @@ export const profileAPI = {
       }
      })
   },
-  saveProfile(profile){
+  saveProfile(profile: ProfileType){
     return instance.put(`profile`, profile)
   }
 }
 
+export enum ResultCodes {
+  Success = 0,
+  Error = 1,
+}
+
+export enum ResultCodesForCaptcha {
+  CaptchaIsRequired = 10
+}
+
+type MeResponseType = {
+  data: {
+    id: number
+    email: string
+    login: string
+  }
+  resultCode: ResultCodes
+  messages: Array<string>
+}
+
+type LoginResponseType = {
+  resultCode: ResultCodes | ResultCodesForCaptcha
+    messages: Array<string>
+    data: {
+      userId: number
+    }
+}
+
 export const authAPI = {
   me(){
-    return instance.get(`auth/me`)
+    return instance.get<MeResponseType>(`auth/me`).then(res => res.data)
   },
-  login(email, password, rememberMe = false, captcha = null) {
-    return instance.post(`auth/login`, { email, password, rememberMe, captcha })
+  login(email: string, password: string, rememberMe = false, captcha: null | string = null ) {
+    return instance.post<LoginResponseType>(`auth/login`, { email, password, rememberMe, captcha })
+    .then(res=> res.data)
   },
   logout() {
     return instance.delete(`auth/login`)
@@ -70,3 +99,4 @@ export const securityAPI = {
     return instance.get(`security/get-captcha-url`)
   }
 }
+
