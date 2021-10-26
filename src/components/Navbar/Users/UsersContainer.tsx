@@ -4,7 +4,7 @@ import { follow, unfollow, requestUsers} from '../../../redux/usersReducer'
 import Users from './Users'
 import Preloader from '../../common/preloader/preloader'
 import { compose } from 'redux'
-import { getCurrentPage, getIsDisabled, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../../redux/users-selectors'
+import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../../redux/users-selectors'
 import { UserType } from '../../../types/types'
 import { AppStateType } from '../../../redux/redux-store'
 
@@ -66,7 +66,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     totalUsersCount: getTotalUsersCount(state),
     currentPage: getCurrentPage(state),
     isFetching: getIsFetching(state),
-    followingInProgress: getIsDisabled(state)
+    followingInProgress: getFollowingInProgress(state)
   }
 }
 

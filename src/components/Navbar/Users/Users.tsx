@@ -25,11 +25,11 @@ const Users: FC<PropsType> = ( {currentPage, totalUsersCount, pageSize, onPageCh
 
   let usersList = () => {
     return (
-      users.map(user => <UserItem 
-      photos={user.photos}
-      key={user.id} userId={user.id} name={user.name}
-      status={user.status} followed={user.followed}
-      follow={props.follow} unfollow={props.unfollow}
+      users.map(u => <UserItem 
+      user={u}
+      key={u.id}
+      follow={props.follow}
+      unfollow={props.unfollow}
       followingInProgress={props.followingInProgress}
       />)
     )

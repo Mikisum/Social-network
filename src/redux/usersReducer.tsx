@@ -1,9 +1,9 @@
-import { usersAPI } from "../components/API/api"
 import { UserType } from "../types/types"
 import { updateObjectInArray } from "../components/utils/object-helpers"
 import { AppStateType, InferActionsTypes } from "./redux-store"
 import { Dispatch } from "react"
 import { ThunkAction } from "redux-thunk"
+import { usersAPI } from "../components/API/users-api"
 
 type InitialStateType = typeof initialState
 
@@ -91,7 +91,7 @@ export const requestUsers = (page: number,
                             pageSize: number): ThunkType  => {
 
   return async (dispatch, getstate) => {
-    dispatch(actions.toggleIsFetching(true))
+    // dispatch(actions.toggleIsFetching(true))
     dispatch(actions.setCurrentPage(page))
 
     const data = await usersAPI.getUsers(page, pageSize)
@@ -120,6 +120,7 @@ export const follow = (userId: number): ThunkType=> {
 
 export const unfollow = (userId: number): ThunkType => {
   return async (dispatch) => {
+
     _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess)
   }
 }
