@@ -1,6 +1,7 @@
 import { stopSubmit } from "redux-form"
 import { ThunkAction } from "redux-thunk"
-import { profileAPI, usersAPI } from "../components/API/api"
+import { profileAPI } from "../components/API/api"
+import { usersAPI } from "../components/API/users-api"
 import { PhotosType, PostType, ProfileType } from "../types/types"
 import { AppStateType } from "./redux-store"
 
@@ -117,7 +118,7 @@ type SavePhotoSuccessActionType = {
 export const savePhotoSuccess = (photos: PhotosType):SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos})
 
 export const getUsersProfile = (userId: number): ThunkType => async (dispatch) => {
-  const res = await usersAPI.getUsersProfile(userId)
+  const res = await profileAPI.getUsersProfile(userId)
  
   dispatch(setUserProfile(res.data))
 }

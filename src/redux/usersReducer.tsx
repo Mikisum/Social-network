@@ -1,9 +1,9 @@
-import { usersAPI } from "../components/API/api"
 import { UserType } from "../types/types"
 import { updateObjectInArray } from "../components/utils/object-helpers"
 import { AppStateType, InferActionsTypes } from "./redux-store"
 import { Dispatch } from "react"
 import { ThunkAction } from "redux-thunk"
+import { usersAPI } from "../components/API/users-api"
 
 type InitialStateType = typeof initialState
 
@@ -106,7 +106,7 @@ export const requestUsers = (page: number,
 const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator: (userId: number) =>ActionsTypes) => {
   dispatch(actions.toogleFollowingProgress(true, userId))
     let res = await apiMethod(userId)
-    if (res.data.resultCode === 0) {
+    if (res.resultCode === 0) {
       dispatch(actionCreator(userId))
     }
     dispatch(actions.toogleFollowingProgress(false, userId))

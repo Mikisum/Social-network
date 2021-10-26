@@ -1,33 +1,35 @@
 import axios, { AxiosResponse } from "axios"
-import { ProfileType } from "../../types/types"
+import { ProfileType, UserType } from "../../types/types"
 
-const instance = axios.create({
+const apikey2 = '6e5bc1c7-0c2b-432f-bef7-736bb3e69d6d'
+const apikey1 = "f6626ee3-48fb-4ebf-8359-9e3b7c7c3d6f"
+
+export const instance = axios.create({
   withCredentials: true,
   baseURL : 'https://social-network.samuraijs.com/api/1.0/',
   headers: {
-    "API-KEY": "f6626ee3-48fb-4ebf-8359-9e3b7c7c3d6f"
+    "API-KEY": apikey2
   }
 })
 
-export const usersAPI = {
-  getUsers(currentPage = 1, pageSize = 10){
-    return instance.get(`users?page=${currentPage}&count=${pageSize}`) 
-      .then(res => res.data)
-  },
-  getFriends(count = 100){
-    return instance.get(`users?friend=true&count=${count}`) 
-      .then(res => res.data)
-  },
-  follow(userId: number){
-    return instance.post(`follow/${userId}`) 
-  },
-  unfollow(userId: number){
-    return instance.delete(`follow/${userId}`) 
-  },
-  getUsersProfile(userId: number){
-    console.log('Obsolete method.Please profileAPI object')
-    return profileAPI.getUsersProfile(userId)
-  }
+export enum ResultCodesEnum {
+  Success = 0,
+  Error = 1
+}
+
+export enum ResultCodeForCapcthaEnum {
+  CaptchaIsRequired = 10
+}
+
+export type GetItemsType = {
+  items: Array<UserType>
+  totalCount: number
+  error: string | null
+}
+export type APIResponseType<D = {}, RC = ResultCodesEnum> = {
+  data: D
+  messages: Array<string>
+  resultCode: RC
 }
 
 export const profileAPI = {

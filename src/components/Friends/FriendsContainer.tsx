@@ -18,11 +18,11 @@ class FriendsContainer extends Component<MapStatePropsType & MapDispatchPropsTyp
     this.props.requestFriends()
   }
 
-  componentDidUpdate(prevProps: MapStatePropsType) {
-    if (this.props.friends !== prevProps.friends){
-      this.props.requestFriends()
-    }
-  }
+  // componentDidUpdate(prevProps: MapStatePropsType) {
+  //   if (this.props.friends !== prevProps.friends){
+  //     this.props.requestFriends()
+  //   }
+  // }
   render() {
     return <Friends {...this.props}/>
   }
