@@ -1,5 +1,7 @@
 import { stopSubmit } from "redux-form"
-import { authAPI, ResultCodes, ResultCodesForCaptcha, securityAPI } from "../components/API/api"
+import { ResultCodeForCapcthaEnum, ResultCodesEnum } from "../components/API/api"
+import { authAPI } from "../components/API/auth-api"
+import { securityAPI } from "../components/API/security-api"
 
 const SET_USER_DATA = 'UPDATE-SET_USER_DATA-POST-TEXT'
 const GET_CAPTCHA_URL_SUCCESS = 'samurai-network/auth/GET_CAPTCHA_URL_SUCCESS'
@@ -34,7 +36,7 @@ const authReducer = (state = initialState , action: any): InitialStateType => {
 export const getAuthUserData = () => async (dispatch: any) => {
   let meData = await authAPI.me()
     
-  if (meData.resultCode === ResultCodes.Success) {
+  if (meData.resultCode === ResultCodesEnum.Success) {
     let {id, login, email} = meData.data
     dispatch(setAuthUserData(id, email, login, true))
   }
@@ -71,10 +73,10 @@ export const getCaptchaUrlSuccess = (captchaUrl: string):GetCaptchaUrlSuccessAct
 export const login = (email: string, password: string, rememberMe: boolean, captcha: null | string) => async (dispatch: any) => {
   let loginData = await authAPI.login(email, password, rememberMe, captcha)
     
-  if (loginData.resultCode === ResultCodes.Success) {
+  if (loginData.resultCode === ResultCodesEnum.Success) {
     dispatch(getAuthUserData())
   } else {
-    if(loginData.resultCode === ResultCodesForCaptcha.CaptchaIsRequired) {
+    if(loginData.resultCode === ResultCodeForCapcthaEnum.CaptchaIsRequired) {
       dispatch(getCaptchaUrl())
     }
     let messsage = loginData.messages.length > 0 ? loginData.messages[0] : 'Some error'
@@ -83,15 +85,15 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 }
 
 export const getCaptchaUrl = () => async (dispatch: any) => {
-  let res = await securityAPI.getCaptchaUrl()
-  const captchaUrl = res.data.url
+  let data = await securityAPI.getCaptchaUrl()
+  const captchaUrl = data.url
   dispatch(getCaptchaUrlSuccess(captchaUrl))
 }
 
 export const logout = () => async (dispatch: any) => {
-  let res = await authAPI.logout()
+  let data = await authAPI.logout()
     
-  if (res.data.resultCode === ResultCodes.Success) {
+  if (data.data.resultCode === ResultCodesEnum.Success) {
     dispatch(setAuthUserData(null, null, null, false))
   }
 }
