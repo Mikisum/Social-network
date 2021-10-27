@@ -1,10 +1,10 @@
-import { sendMessageCreator } from '../../../redux/messagesReducer'
 import Dialogs from './Dialogs'
 import { connect } from 'react-redux'
 import { withAuthRedirect } from '../../hoc/WithAuthRedirect'
 import { compose } from 'redux'
 import { DialogType, MessageType } from '../../../types/types'
 import { AppStateType } from '../../../redux/redux-store'
+import { actions } from '../../../redux/messagesReducer'
 
 type MapStatePropsType = {
   messages: Array<MessageType>
@@ -25,7 +25,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 const mapDispatchToProps = (dispatch: any): MapDispatchPropsType => {
   return{
     onSendMessage: (newMessage: string) => {
-      dispatch(sendMessageCreator(newMessage))
+      dispatch(actions.sendMessageCreator(newMessage))
     }
   }
 }

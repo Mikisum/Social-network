@@ -1,11 +1,8 @@
 import { UserType } from "../types/types"
 import { updateObjectInArray } from "../components/utils/object-helpers"
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { BaseThunkType, InferActionsTypes } from "./redux-store"
 import { Dispatch } from "react"
-import { ThunkAction } from "redux-thunk"
 import { usersAPI } from "../components/API/users-api"
-
-type InitialStateType = typeof initialState
 
 let initialState = {
   users : [] as Array<UserType>,
@@ -72,8 +69,6 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
   }
 }
 
-type ActionsTypes = InferActionsTypes<typeof actions>
-
 export const actions = {
   followSuccess: (userId: number) => ({type: 'FOLLOW', userId} as const),
   unfollowSuccess: (userId: number) => ({type: 'UNFOLLOW', userId} as const),
@@ -83,9 +78,6 @@ export const actions = {
   setTotalUsersCount: (totalUsersCount: number) => ({type: 'SET_TOTAL_USERS_COUNT', totalUsersCount} as const),
   toogleFollowingProgress: (isFetching: boolean, userId: number) => ({type: 'TOGGLE_IS_FOLLOWING_PROGRESS', isFetching, userId} as const)
 }
-
-type DispatchType = Dispatch<ActionsTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const requestUsers = (page: number, 
                             pageSize: number): ThunkType  => {
@@ -100,10 +92,9 @@ export const requestUsers = (page: number,
     dispatch(actions.setUsers(data.items))
     dispatch(actions.setTotalUsersCount(data.totalCount))
   }
-  
 }
 
-const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator: (userId: number) =>ActionsTypes) => {
+const _followUnfollowFlow = async (dispatch: Dispatch<ActionsTypes>, userId: number, apiMethod: any, actionCreator: (userId: number) =>ActionsTypes) => {
   dispatch(actions.toogleFollowingProgress(true, userId))
     let res = await apiMethod(userId)
     if (res.resultCode === 0) {
@@ -125,3 +116,7 @@ export const unfollow = (userId: number): ThunkType => {
 }
 
 export default usersReducer
+
+type InitialStateType = typeof initialState
+type ThunkType = BaseThunkType<ActionsTypes>
+type ActionsTypes = InferActionsTypes<typeof actions>
