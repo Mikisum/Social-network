@@ -1,7 +1,9 @@
+import { get } from 'https';
 import { Component } from 'react'
 import { connect } from 'react-redux';
 import { AppStateType } from '../../redux/redux-store';
 import { requestFriends } from '../../redux/sideBarReducer';
+import { getFollowingInProgress, getFriends } from '../../redux/users-selectors';
 import { UserType } from '../../types/types';
 import Friends from "./Friends";
 

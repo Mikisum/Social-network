@@ -5,9 +5,9 @@ export const usersAPI = {
     return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`) 
       .then(res => res.data)
   },
-  getFriends(count = 100){
-    return instance.get(`users?friend=true&count=${count}`) 
-      .then(res => res.data)
+  getFriends(){
+    return instance.get(`users?friend=true&count=100`) 
+      .then(res => res.data.items)
   },
   follow(userId: number){
     return instance.post<APIResponseType>(`follow/${userId}`).then(res => res.data) 

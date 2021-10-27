@@ -8,16 +8,18 @@ type PropsType = {
 }
 
 const Friends = (props: PropsType) => {
-
+const { friends } = props
   return (
     <div className={classes.friends}>
       <h3>Friends</h3>
       <ul className={classes.list}>
-        {props.friends.map(friend => 
-          <li key={friend.id}>
-            <img className={classes.avatar} src={friend.photos.small || avatar}/>
-            {friend.name}
-          </li>)}
+        {(friends.length !== 0) ?
+          friends.map(friend => 
+            <li key={friend.id}>
+              <img className={classes.avatar} src={friend.photos.small || avatar}/>
+              {friend.name}
+            </li>) : <p>you haven't friends</p>
+          }
       </ul>
     </div>
   )
