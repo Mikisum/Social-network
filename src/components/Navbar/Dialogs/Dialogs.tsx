@@ -1,12 +1,9 @@
-import { Redirect } from 'react-router-dom'
 import DialogItem from './DialogItem/DialogItem'
 import classes from './Dialogs.module.css'
 import Message from './Message/Message'
 import AddMessageForm from './AddMessageForm/AddMessageForm'
-import { DialogType, MessageType } from '../../../types/types'
 import { InitialStateType } from '../../../redux/messagesReducer'
 import { FC } from 'react'
-
 
 type PropsType = {
   messagesPage: InitialStateType
