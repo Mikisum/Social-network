@@ -5,15 +5,7 @@ import { compose } from 'redux'
 import { DialogType, MessageType } from '../../../types/types'
 import { AppStateType } from '../../../redux/redux-store'
 import { actions } from '../../../redux/messagesReducer'
-
-// type MapStatePropsType = {
-//   messages: Array<MessageType>
-//   dialogs: Array<DialogType>
-// }
-
-// type MapDispatchPropsType = {
-//   onSendMessage: (newMessage: string) => void
-// }
+import { ComponentType } from 'react'
 
 const mapStateToProps = (state: AppStateType)=> {
   return {
@@ -21,15 +13,7 @@ const mapStateToProps = (state: AppStateType)=> {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return{
-//     onSendMessage: (newMessage: string) => {
-//       dispatch(actions.sendMessage(newMessage))
-//     }
-//   }
-// }
-
-export default compose(
+export default compose<ComponentType>(
   connect(mapStateToProps, {...actions}),
   withAuthRedirect
 )(Dialogs)

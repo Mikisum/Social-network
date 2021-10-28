@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, ComponentType, FC } from 'react';
 import { BrowserRouter, Route, withRouter, Switch } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import './App.css';
@@ -13,17 +13,23 @@ import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer'
 import Preloader from './components/common/preloader/preloader';
-import store from './redux/redux-store'
+import store, { AppStateType } from './redux/redux-store'
 import Friends from './components/Friends/Friends';
 import FriendsContainer from './components/Friends/FriendsContainer';
 
 const DialogsContainer = React.lazy(() => import('./components/Navbar/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 
-class App extends React.Component {
-  catchAllUnhandledErrors = (reason, PromiseRejectionEvent) => {
+type MapStatePropsType = ReturnType<typeof mapStateToProps>
+
+type MapDispatchPropsType = {
+  initializeApp: () => void
+}
+
+
+class App extends Component<MapStatePropsType & MapDispatchPropsType> {
+  catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
     alert(PromiseRejectionEvent)
-    console.error(PromiseRejectionEvent)
   }
 
   componentDidMount () {
@@ -65,15 +71,15 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized
 })
 
-const AppContainer = compose(
+const AppContainer = compose<ComponentType>(
   withRouter,
   connect(mapStateToProps, {initializeApp}))(App)
 
-const SocialApp = (props) => {
+const SocialApp: FC = () => {
   return (
     <BrowserRouter>
       <Provider store={store}>
