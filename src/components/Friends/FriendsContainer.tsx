@@ -6,6 +6,7 @@ import { requestFriends } from '../../redux/sideBarReducer';
 import { getFollowingInProgress, getFriends } from '../../redux/users-selectors';
 import { UserType } from '../../types/types';
 import Friends from "./Friends";
+import { getFriends } from './friends-selectors';
 
 type MapStatePropsType = {
   friends: Array<UserType>

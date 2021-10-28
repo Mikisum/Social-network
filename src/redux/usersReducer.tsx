@@ -83,7 +83,7 @@ export const requestUsers = (page: number,
                             pageSize: number): ThunkType  => {
 
   return async (dispatch, getstate) => {
-    dispatch(actions.toggleIsFetching(true))
+    // dispatch(actions.toggleIsFetching(true))
     dispatch(actions.setCurrentPage(page))
 
     const data = await usersAPI.getUsers(page, pageSize)
@@ -110,6 +110,7 @@ export const follow = (userId: number): ThunkType=> {
 
 export const unfollow = (userId: number): ThunkType => {
   return async (dispatch) => {
+
     _followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), actions.unfollowSuccess)
   }
 }

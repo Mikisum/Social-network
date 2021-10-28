@@ -2,8 +2,8 @@ import { createSelector } from "reselect"
 import { AppStateType } from "./redux-store"
 import usersReducer from "./usersReducer"
 
-export const getUsers = (state: AppStateType) => {
-  return state.usersPage.users
+const getUsersSelector = (state: AppStateType) => {
+  return state.usersPage.users;
 }
 
 export const getFriends = createSelector(getUsers, 
