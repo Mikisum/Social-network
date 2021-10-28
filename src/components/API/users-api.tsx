@@ -7,7 +7,7 @@ export const usersAPI = {
   },
   getFriends(){
     return instance.get(`users?friend=true&count=100`) 
-      .then(res => res.data.items)
+      .then(res => res.data)
   },
   follow(userId: number){
     return instance.post<APIResponseType>(`follow/${userId}`).then(res => res.data) 

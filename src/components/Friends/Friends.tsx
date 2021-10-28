@@ -5,13 +5,14 @@ import { UserType } from "../../types/types";
 
 type PropsType = {
   friends: Array<UserType>
+  totalCount: number
 }
 
 const Friends = (props: PropsType) => {
-const { friends } = props
+const { friends, totalCount } = props
   return (
     <div className={classes.friends}>
-      <h3>Friends</h3>
+      <h3>Friends: {totalCount}</h3>
       <ul className={classes.list}>
         {(friends.length !== 0) ?
           friends.map(friend => 
