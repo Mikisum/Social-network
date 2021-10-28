@@ -4,26 +4,30 @@ import classes from './Dialogs.module.css'
 import Message from './Message/Message'
 import AddMessageForm from './AddMessageForm/AddMessageForm'
 import { DialogType, MessageType } from '../../../types/types'
+import { InitialStateType } from '../../../redux/messagesReducer'
+import { FC } from 'react'
 
 
 type PropsType = {
-  dialogs: Array<DialogType>
-  messages: Array<MessageType>
-  onSendMessage: (newMessageBody: string) => void
-  isAuth: boolean
+  messagesPage: InitialStateType
+  sendMessage: (messageText: string) => void
 }
 
-const Dialogs = (props: PropsType) => {
+export type NewMessageFormValuesType = {
+  newMessageBody: string
+}
 
-  let dialogsElements = props.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
-  let messagesElements = props.messages.map(message => <Message key={message.id} message={message.message} />)
+const Dialogs: FC<PropsType> = (props) => {
+  let state = props.messagesPage
+  let dialogsElements = state.dialogs.map(dialog => <DialogItem  key={dialog.id} name={dialog.name} id={dialog.id} />)
+  let messagesElements = state.messages.map(message => <Message key={message.id} message={message.message} />)
   
-  const addMessage = (values: any) => {
-    props.onSendMessage(values.newMessageBody)
+  let addMessage = (values:NewMessageFormValuesType) => {
+   
+    props.sendMessage(values.newMessageBody)
+    debugger
     values.newMessageBody = ''
   }
-
-  if (!props.isAuth) return <Redirect to='/login' />
 
   return (
     <div className={classes.dialogs}>

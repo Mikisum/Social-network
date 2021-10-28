@@ -49,7 +49,7 @@ let initialState = {
 }
 
 export const actions = {
-  sendMessageCreator:(newMessage: string) => ({ type: 'SN/messagesPage/SEND_MESSAGE', newMessage } as const)
+  sendMessage:(newMessageBody: string) => ({ type: 'SN/messagesPage/SEND_MESSAGE', newMessageBody } as const)
 }
 
 const messagesReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -59,7 +59,7 @@ const messagesReducer = (state = initialState, action: ActionsType): InitialStat
     case 'SN/messagesPage/SEND_MESSAGE':
       return {
         ...state,
-        messages: [...state.messages, {id: state.messages.length + 1, message: action.newMessage}]
+        messages: [...state.messages, {id: state.messages.length + 1, message: action.newMessageBody}]
       }
     
     default: 

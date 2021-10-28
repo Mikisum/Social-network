@@ -6,31 +6,30 @@ import { DialogType, MessageType } from '../../../types/types'
 import { AppStateType } from '../../../redux/redux-store'
 import { actions } from '../../../redux/messagesReducer'
 
-type MapStatePropsType = {
-  messages: Array<MessageType>
-  dialogs: Array<DialogType>
-}
+// type MapStatePropsType = {
+//   messages: Array<MessageType>
+//   dialogs: Array<DialogType>
+// }
 
-type MapDispatchPropsType = {
-  onSendMessage: (newMessage: string) => void
-}
+// type MapDispatchPropsType = {
+//   onSendMessage: (newMessage: string) => void
+// }
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+const mapStateToProps = (state: AppStateType)=> {
   return {
-    messages: state.messagesPage.messages,
-    dialogs: state.messagesPage.dialogs,
+    messagesPage: state.messagesPage,
   }
 }
 
-const mapDispatchToProps = (dispatch: any): MapDispatchPropsType => {
-  return{
-    onSendMessage: (newMessage: string) => {
-      dispatch(actions.sendMessageCreator(newMessage))
-    }
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return{
+//     onSendMessage: (newMessage: string) => {
+//       dispatch(actions.sendMessage(newMessage))
+//     }
+//   }
+// }
 
 export default compose(
-  connect<MapStatePropsType, MapDispatchPropsType, {}, AppStateType>(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, {...actions}),
   withAuthRedirect
 )(Dialogs)
