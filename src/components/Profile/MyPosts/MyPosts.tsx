@@ -5,12 +5,14 @@ import classes  from './MyPosts.module.css'
 import Post from './Post/Post'
 import AddPostForm from './AddPostForm/AddPostForm'
 
-type PropsType = {
+export type MapStatePropsType = {
   posts: Array<PostType>
+}
+export type MapDispatchPropsType = {
   addPost: (newPostText: string) => void
 }
 
-const MyPosts: FC<PropsType> = props => {
+const MyPosts: FC<MapStatePropsType & MapDispatchPropsType> = props => {
     let postsElements = props.posts.map(post =><Post key={post.message} message={post.message} count={post.likesCount}/>)
 
     let onAddPost = (values: AddPostFormValuesType) => {
