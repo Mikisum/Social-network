@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import { DialogType } from '../../../../types/types'
 import classes from './DialogItem.module.css'
 
-const DialogItem = (props: DialogType) => {
+const DialogItem: FC<DialogType> = (props) => {
 
   let path = "/dialogs/" + props.id
 

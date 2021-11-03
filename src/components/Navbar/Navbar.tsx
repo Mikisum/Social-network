@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import classes from './Navbar.module.css'
 
-const Navbar = () => {
+const Navbar:FC = () => {
   return (
     <nav className={classes.nav}>
         <h3 className={classes.name}>Shortcuts</h3>

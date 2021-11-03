@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { FC } from 'react'
 import preloader from './../../../assets/preloader.gif'
 
-const Preloader = () => {
+const Preloader: FC = () => {
   return <img src={preloader} alt='img'/>
 }
 
