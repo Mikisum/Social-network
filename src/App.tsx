@@ -8,7 +8,7 @@ import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
 import { UsersPage } from './components/Navbar/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
-import Login from './components/Login/Login';
+import { LoginPage } from './components/Login/Login';
 import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer'
@@ -54,7 +54,7 @@ class App extends Component<MapStatePropsType & MapDispatchPropsType> {
         <React.Suspense fallback={<Preloader />}>
           <Switch>
             <Redirect exact from='/' to='/profile'/>
-            <Route path='/login' render={() => <Login />} />
+            <Route path='/login' render={() => <LoginPage />} />
             <Route path='/dialogs' render={() => <DialogsContainer/>} />
             <Route path='/profile/:userId?' render={() =><ProfileContainer/>} />
             <Route path='/users' render={() => <UsersPage pageTitle='Social Network'/>} />
