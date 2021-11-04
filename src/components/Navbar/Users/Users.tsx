@@ -3,6 +3,8 @@ import UserItem from './UserItem/UserItem'
 import classes from './Users.module.css'
 import { UserType } from '../../../types/types'
 import { FC } from 'react'
+import UsersSearchForm from './UsersSearchForm'
+import { FilterType } from '../../../redux/usersReducer'
 
 type PropsType = {
   users: Array<UserType>
@@ -11,6 +13,7 @@ type PropsType = {
   pageSize: number
   followingInProgress: Array<number>
   onPageChanged: (pageNumber: number) => void 
+  onFilterChanged: (filter: FilterType) => void
   follow: (userId: number) => void
   unfollow: (userId: number) => void
 }
@@ -43,12 +46,15 @@ const Users: FC<PropsType> = ( {currentPage, totalUsersCount, pageSize, onPageCh
       <Paginator currentPage = {currentPage}
                   onPageChanged = {onPageChanged}
                   totalItemsCount = {totalUsersCount}
-                  pageSize = {pageSize}/>
+                  pageSize = {pageSize}
+      />
+      <UsersSearchForm onFilterChanged={props.onFilterChanged}/>
       <ul className={classes.usersList}>
         {usersList()}</ul>
       <button className={classes.btnShow}>Show more</button>
     </div>
   )
 }
+
 
 export default Users
