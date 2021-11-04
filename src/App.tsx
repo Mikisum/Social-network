@@ -6,7 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import News from './components/Navbar/News/News';
 import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
-import UsersContainer from './components/Navbar/Users/UsersContainer';
+import { UsersPage } from './components/Navbar/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import { connect, Provider } from 'react-redux';
@@ -57,7 +57,7 @@ class App extends Component<MapStatePropsType & MapDispatchPropsType> {
             <Route path='/login' render={() => <Login />} />
             <Route path='/dialogs' render={() => <DialogsContainer/>} />
             <Route path='/profile/:userId?' render={() =><ProfileContainer/>} />
-            <Route path='/users' render={() => <UsersContainer pageTitle='Social Network'/>} />
+            <Route path='/users' render={() => <UsersPage pageTitle='Social Network'/>} />
             <Route path='/news' render={News} />
             <Route path='/music' render={Music} />
             <Route path='/settings' render={Settings} />
