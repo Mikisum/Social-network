@@ -80,7 +80,7 @@ const ProfileData: FC<ProfileDataPropsType> = ({profile, isOwner, goToEditMode})
       </div>
       <div>
         <b>Contacts</b>: {Object.keys(profile.contacts).map(key => {
-          return <Contact contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]} />
+          return <Contact contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]} key={key} />
         })}
       </div>
     </div>
