@@ -16,6 +16,7 @@ import Preloader from './components/common/preloader/preloader';
 import store, { AppStateType } from './redux/redux-store'
 import Friends from './components/Friends/Friends';
 import FriendsContainer from './components/Friends/FriendsContainer';
+import { QueryParamProvider } from 'use-query-params';
 
 const DialogsContainer = React.lazy(() => import('./components/Navbar/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
@@ -83,7 +84,9 @@ const SocialApp: FC = () => {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <AppContainer/>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <AppContainer/>
+        </QueryParamProvider>
       </Provider>
     </BrowserRouter>
 )}  
