@@ -20,6 +20,7 @@ import { QueryParamProvider } from 'use-query-params';
 
 const DialogsContainer = React.lazy(() => import('./components/Navbar/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'))
 
 type MapStatePropsType = ReturnType<typeof mapStateToProps>
 
@@ -59,6 +60,7 @@ class App extends Component<MapStatePropsType & MapDispatchPropsType> {
             <Route path='/dialogs' render={() => <DialogsContainer/>} />
             <Route path='/profile/:userId?' render={() =><ProfileContainer/>} />
             <Route path='/users' render={() => <UsersPage pageTitle='Social Network'/>} />
+            <Route path='/chat' render={() => <ChatPage/>} />
             <Route path='/news' render={News} />
             <Route path='/music' render={Music} />
             <Route path='/settings' render={Settings} />
