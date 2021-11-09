@@ -1,7 +1,7 @@
-import { Component, ComponentType } from 'react'
-import { connect } from 'react-redux'
+import { Component, ComponentType, useEffect } from 'react'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { getUsersProfile, getUsersStatus, updateUsersStatus, savePhoto, saveProfile } from '../../redux/profileReducer'
-import { withRouter, match } from 'react-router-dom'
+import { withRouter, match, useParams,useHistory } from 'react-router-dom'
 import { compose } from 'redux'
 import Profile from './Profile'
 import { ProfileType } from '../../types/types'
@@ -23,7 +23,26 @@ type MapDispatchPropsType = {
 type PathParamsType = {
   userId: string
 }
+const Hook = () => {
+  const authorizedUserId = useSelector((state:AppStateType) => state.auth.userId)
+  let { userId } = useParams<PathParamsType>()
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const status = useSelector((state:AppStateType) => state.profilePage.status)
+  useEffect(() => {
+    if(!userId) {
+      history.push('/login')
+    }
+    dispatch(getUsersProfile(+userId))
+    dispatch(getUsersStatus(+userId))
+  },[userId])
 
+  return(
+    <div>
+      <h2>hello {userId}</h2>
+      <h2>{status}</h2></div>
+  )
+}
 type PropsType = MapStatePropsType & MapDispatchPropsType & PathParamsType
 
 class ProfileInfoContainer extends Component<PropsType>{
@@ -39,17 +58,21 @@ class ProfileInfoContainer extends Component<PropsType>{
       }
     }
     this.props.getUsersProfile(userId)
+    this.props.history.push(`/profile/${userId}`)
     this.props.getUsersStatus(userId)
   }
 
     render (){
       return (
+        <div>
         <Profile {...this.props}
-                  isOwner={!this.props.match.params.userId}
+                  isOwner={+this.props.userId !== this.props.authorizedUserId}
                   profile={this.props.profile} 
                   status={this.props.status} 
                   updateUsersStatus={this.props.updateUsersStatus}
                   savePhoto={this.props.savePhoto}/>
+        <Hook/>          
+        </div>
       )
     }
 }
