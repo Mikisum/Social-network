@@ -44,6 +44,8 @@ export const getAuthUserData = (): ThunkType => async (dispatch) => {
   if (meData.resultCode === ResultCodesEnum.Success) {
     let {id, login, email} = meData.data
     dispatch(actions.setAuthUserData(id, email, login, true))
+    let data = {'userId': `${id}`, 'login': `${login}`, 'email': `${email}`}
+    localStorage.setItem('data', JSON.stringify(data))
   }
 }
 
@@ -72,6 +74,8 @@ export const logout = (): ThunkType => async (dispatch: any) => {
     
   if (data.data.resultCode === ResultCodesEnum.Success) {
     dispatch(actions.setAuthUserData(null, null, null, false))
+    localStorage.removeItem('data')
+    console.log(localStorage)
   }
 }
 

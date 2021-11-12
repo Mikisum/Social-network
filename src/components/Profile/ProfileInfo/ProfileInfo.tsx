@@ -5,17 +5,18 @@ import ProfileStatusWithHooks from './PtofileStatus/ProfileStatusWithHooks'
 import avatar from './../../../assets/avatar.png'
 import ProfileDataForm from './ProfileDataForm/ProfileDataForm'
 import { ContactsType, ProfileType } from '../../../types/types'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppStateType } from '../../../redux/redux-store'
+import { savePhoto, saveProfile } from '../../../redux/profileReducer'
 
 type PropsType = {
-  profile: ProfileType | null
-  status: string
   isOwner: boolean
-  saveProfile: (profile: ProfileType) => Promise<any>
-  savePhoto:(file: File) => void
-  updateUsersStatus: (status: string) => void
 }
 
-const ProfileInfo: FC<PropsType> = ({ profile, status, updateUsersStatus, isOwner, savePhoto, saveProfile }) => {
+const ProfileInfo: FC<PropsType> = ({ isOwner }) => {
+
+  const profile = useSelector((state: AppStateType) => state.profilePage.profile)
+  const dispatch = useDispatch()
 
   let [editMode, setEditMode] = useState(false)
 
@@ -25,16 +26,13 @@ const ProfileInfo: FC<PropsType> = ({ profile, status, updateUsersStatus, isOwne
 
   const mainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
     if(e.target.files?.length) {
-      savePhoto(e.target.files[0])
+      dispatch(savePhoto(e.target.files[0]))
     }
   }
 
   const onSubmit = (formData: ProfileType) => {
-    saveProfile(formData).then(
-      () => {
-        setEditMode(false)
-      }
-    )
+    dispatch(saveProfile(formData))
+    setEditMode(false)
   }
 
     return (
@@ -49,7 +47,7 @@ const ProfileInfo: FC<PropsType> = ({ profile, status, updateUsersStatus, isOwne
               isOwner={isOwner} 
               goToEditMode={() => {setEditMode(true)}}
             />}  
-        <ProfileStatusWithHooks status={status} updateUsersStatus={updateUsersStatus}/>
+        <ProfileStatusWithHooks />
       </div>
     )
 }

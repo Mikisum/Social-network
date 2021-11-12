@@ -45,6 +45,8 @@ const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({form: 
 
 export const LoginPage: FC = (props) => {
 
+  const authorizedUserId = useSelector((state:AppStateType) => state.auth.userId)
+
   const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
   const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
   const dispatch = useDispatch()
@@ -54,7 +56,7 @@ export const LoginPage: FC = (props) => {
   }
 
   if (isAuth) {
-    return <Redirect to={'/profile'}/>
+    return <Redirect to={'/profile/'}/>
   }
 
   return (

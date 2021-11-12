@@ -10,7 +10,7 @@ const Navbar:FC = () => {
     <nav className={classes.nav}>
         <h3 className={classes.name}>Shortcuts</h3>
         <div className={classes.item}>
-          <NavLink to={`/profile/${userId}`} activeClassName={classes.activeLink}>Profile</NavLink>
+          <NavLink to={`/profile/`} activeClassName={classes.activeLink}>Profile</NavLink>
         </div>
         <div className={classes.item}>
           <NavLink to="/dialogs" activeClassName={classes.activeLink}>Messages</NavLink>
