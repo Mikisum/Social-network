@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { PostType } from '../../../../types/types';
+import { PostType } from '../../../../../../types/types';
 import classes  from './Post.module.css'
 
 type PropsType = {

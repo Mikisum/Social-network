@@ -1,7 +1,7 @@
 import React from "react";
 import { create } from "react-test-renderer";
 import ProfileStatus from "./ProfileStatus";
-import ProfileStatusWithHooks from "./ProfileStatusWithHooks.jsx";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks.js";
 
 
 describe("ProfileStatus component", () => {

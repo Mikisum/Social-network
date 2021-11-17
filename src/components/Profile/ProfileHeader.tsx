@@ -1,9 +1,10 @@
 import { Avatar, Row } from "antd"
 import { ChangeEvent, FC, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { savePhoto } from "../../../redux/profileReducer"
-import avatar from './../../../assets/avatar.png'
-import { AppStateType } from "../../../redux/redux-store"
+import { savePhoto } from "../../redux/profileReducer"
+import avatar from '../../assets/avatar.png'
+import { AppStateType } from "../../redux/redux-store"
+import ProfileStatusWithHooks from "./ProfileContent/PtofileStatus/ProfileStatusWithHooks"
 
 type PropsType = {
   isOwner: boolean
@@ -26,7 +27,7 @@ export const ProfileHeader: FC<PropsType> = ({isOwner}) => {
       <Avatar src={profile?.photos.large || avatar}
               size={256}/>
       {isOwner && <input type='file' onChange={mainPhotoSelected}/>}
-      
+      <ProfileStatusWithHooks/>
     </Row>
     )
 }

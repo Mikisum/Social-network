@@ -25,7 +25,7 @@ const { SubMenu } = Menu;
 const { Content, Footer, Sider } = Layout;
 
 const DialogsContainer = React.lazy(() => import('./components/Navbar/Dialogs/DialogsContainer'));
-const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const Profile = React.lazy(() => import('./components/Profile/Profile'))
 const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'))
 
 const App: FC = () => {
@@ -79,7 +79,7 @@ const App: FC = () => {
              <Redirect exact from='/' to='/profile'/>
              <Route path='/login' render={() => <LoginPage />} />
              <Route path='/dialogs' render={() => <DialogsContainer/>} />
-             <Route path='/profile/:userId?' render={() =><ProfileContainer/>} />
+             <Route path='/profile/:userId?' render={() =><Profile/>} />
              <Route path='/users' render={() => <UsersPage pageTitle='Social Network'/>} />
              <Route path='/chat' render={() => <ChatPage/>} />
              <Route path='/news' render={News} />

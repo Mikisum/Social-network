@@ -18,7 +18,7 @@ let initialState = {
 ] as Array<PostType>,
 profile: null as ProfileType | null,
 status: '',
-editMode: false
+editMode: false,
 }
 
 const profileReducer = (state = initialState , action: ActionsType): InitialStateType => {
@@ -77,7 +77,7 @@ const profileReducer = (state = initialState , action: ActionsType): InitialStat
   }
 }
 
-export const actions = {
+export const actionsProfile = {
   addPost: (newPostText: string) => ({ type: 'SN/PROFILE/ADD_POST', newPostText } as const),
   deletePost: (postId: number) => ({type: 'SN/PROFILE/DELETE_POST', postId} as const),
   setUserProfile: (profile: ProfileType) => ({type: 'SN/PROFILE/SET_USER_PROFILE', profile: profile} as const),
@@ -88,19 +88,19 @@ export const actions = {
 
 export const getUsersProfile = (userId: number): ThunkType => async (dispatch) => {
   const data = await profileAPI.getUsersProfile(userId)
-  dispatch(actions.setUserProfile(data))
+  dispatch(actionsProfile.setUserProfile(data))
 }
 
 export const getUsersStatus = (userId : number): ThunkType => async (dispatch) => {
   const res = await profileAPI.getUsersStatus(userId)
-  dispatch(actions.setUsersStatus(res))
+  dispatch(actionsProfile.setUsersStatus(res))
 }
 
 export const updateUsersStatus = (status: string): ThunkType => async (dispatch) => {
   try{
     const res = await profileAPI.updateUsersStatus(status)
     if(res.resultCode === 0) {
-      dispatch(actions.setUsersStatus(status))
+      dispatch(actionsProfile.setUsersStatus(status))
     }
   } catch(error) {
     alert('some error')
@@ -111,7 +111,7 @@ export const savePhoto = (file: File): ThunkType => async (dispatch) => {
   const res = await profileAPI.savePhoto(file)
 
   if(res.resultCode === 0) {
-    dispatch(actions.savePhotoSuccess(res.data.photos))
+    dispatch(actionsProfile.savePhotoSuccess(res.data.photos))
   }
 }
 
@@ -131,7 +131,7 @@ export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch,
 }
 
 export type InitialStateType = typeof initialState
-type ActionsType = InferActionsTypes<typeof actions>
+type ActionsType = InferActionsTypes<typeof actionsProfile>
 type ThunkType = BaseThunkType<ActionsType | FormAction>
 
 export default profileReducer

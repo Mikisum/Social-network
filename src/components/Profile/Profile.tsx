@@ -1,19 +1,73 @@
-import classes  from './Profile.module.css'
-import ProfileInfo from './ProfileInfo/ProfileInfo'
-import MyPostsContainer from './MyPosts/MyPostsContainer'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppStateType } from '../../redux/redux-store'
+import { useHistory, useParams } from 'react-router'
+import { actionsProfile, getUsersProfile, getUsersStatus, saveProfile } from '../../redux/profileReducer'
+import { actions } from '../../redux/auth-reducer'
+import Preloader from '../common/preloader/preloader'
+import { ProfileType } from '../../types/types'
+import { ProfileHeader } from './ProfileHeader'
+import { Row } from 'antd'
+import { ProfileData } from './ProfileContent/ProfileData/ProfileData'
+import ProfileDataFormRedux from './ProfileContent/ProfileData/ProfileDataForm'
 
-type PropsType = {
-  isOwner: boolean
+type PathParamsType = {
+  userId: string
 }
 
-const Profile: FC<PropsType> = (props) => {
- 
+type PropsType = {}
+
+const Profile: FC<PropsType> = () => {
+  const authorizedUserId = useSelector((state:AppStateType) => state.auth.userId)
+  const [isOwner, setIsOwner] = useState(false)
+  let { userId } = useParams<PathParamsType>()
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    
+    if(!userId) {
+      if(localStorage.data){
+        setIsOwner(true)
+        let { userId, email, login } = JSON.parse(localStorage.data)
+
+        dispatch(actions.setAuthUserData(+userId, email, login, true))
+        dispatch(getUsersProfile(+userId))
+        dispatch(getUsersStatus(+userId))
+        return
+      } else {
+        history.push('/login')
+      }
+    }
+    dispatch(getUsersProfile(+userId))
+    dispatch(getUsersStatus(+userId))
+  },[localStorage,userId, isOwner])
+  const profile = useSelector((state: AppStateType) => state.profilePage.profile)
+  const editMode = useSelector((state: AppStateType) => state.profilePage.editMode)
+
+
+  if (!profile) {
+    return <Preloader/>
+  }
+
+  const onSubmit = (formData: ProfileType) => {
+    dispatch(saveProfile(formData))
+    dispatch(actionsProfile.setEditMode(false))
+  }
+
     return (
-      <div className={classes.profile}>
-        <ProfileInfo isOwner={props.isOwner}/>
-        <MyPostsContainer/>
-      </div>
+      <>
+      <ProfileHeader isOwner={isOwner}/>
+      <Row>
+        {editMode
+        
+          ?<ProfileDataFormRedux profile={profile} onSubmit={onSubmit} initialValues={profile}/> 
+          : <ProfileData 
+              isOwner={isOwner}
+              profile={profile} 
+            />}  
+      </Row>
+      </>
     )
 }
 

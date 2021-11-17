@@ -32,7 +32,7 @@ const ProfileDataForm:FC<InjectedFormProps<ProfileType, PropsType> & PropsType> 
       </div>
       <div>
         <b>Contacts</b>: {Object.keys(profile.contacts).map(key => {
-          return <div key={key} className={classes.contacts}>
+          return <div key={key}>
             <b>{key}: {createField('Full Name', 'contacts.' + key, [], Input)}</b>
           </div>
         })}
