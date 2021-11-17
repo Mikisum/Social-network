@@ -1,3 +1,5 @@
+
+
 .header {
   grid-area: h;
   background-color: #E0C5EC;
@@ -19,3 +21,7 @@
 .loginBlock a{
   color: white;
 }
+
+/* .menu{
+  background-color: @blue-10;
+} */

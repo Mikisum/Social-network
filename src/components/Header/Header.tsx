@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom'
 import { logout } from '../../redux/auth-reducer'
 import { AppStateType } from '../../redux/redux-store'
 import classes from './Header.module.css'
-import { Row, Col, Divider, Menu } from 'antd';
+import { Row, Col, Divider, Menu } from 'antd'
 import {UserOutlined, HomeOutlined} from '@ant-design/icons'
+import { blue } from '@ant-design/colors'
 
 export const Header: FC= () => {
 
@@ -37,11 +38,11 @@ export const Header: FC= () => {
               alt={login || ''} style={{backgroundColor: '#87d068'}} icon={<UserOutlined/>}/>
           </Col>
           <Col span={2}>
-            <Button onClick={logoutCallback}>Log out</Button>
+            <Button type='primary' onClick={logoutCallback}>Log out</Button>
           </Col>
         </>
       : <Col>
-          <Button>
+          <Button type='primary'>
             <Link to={'/login'}>Login</Link>
           </Button>
         </Col>}

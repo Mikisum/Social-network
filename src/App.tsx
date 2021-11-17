@@ -1,7 +1,7 @@
 import React, { Component, ComponentType, FC, useEffect } from 'react';
 import { BrowserRouter, Route, withRouter, Switch, Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import './App.css';
+// import './App.less';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/Navbar/News/News';
 import Music from './components/Navbar/Music/Music';
@@ -17,10 +17,9 @@ import Friends from './components/Friends/Friends';
 import FriendsContainer from './components/Friends/FriendsContainer';
 import { QueryParamProvider } from 'use-query-params';
 import {Header} from './components/Header/Header';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, HomeOutlined,
   MessageOutlined, TeamOutlined, WechatOutlined  } from '@ant-design/icons';
-import 'antd/dist/antd.css';
 
 const { SubMenu } = Menu;
 const { Content, Footer, Sider } = Layout;

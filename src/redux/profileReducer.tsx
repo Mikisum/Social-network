@@ -17,7 +17,8 @@ let initialState = {
   }
 ] as Array<PostType>,
 profile: null as ProfileType | null,
-status: ''
+status: '',
+editMode: false
 }
 
 const profileReducer = (state = initialState , action: ActionsType): InitialStateType => {
@@ -64,6 +65,12 @@ const profileReducer = (state = initialState , action: ActionsType): InitialStat
       } as ProfileType
     }
   }
+  case 'SN/PROFILE/SET_EDIT_MODE': {
+    return {
+      ...state,
+      editMode: action.editMode
+    }
+  }
   
       default:
         return state
@@ -75,7 +82,8 @@ export const actions = {
   deletePost: (postId: number) => ({type: 'SN/PROFILE/DELETE_POST', postId} as const),
   setUserProfile: (profile: ProfileType) => ({type: 'SN/PROFILE/SET_USER_PROFILE', profile: profile} as const),
   setUsersStatus: (status: string) => ({type: 'SN/PROFILE/SET_USERS_STATUS', status} as const),
-  savePhotoSuccess: (photos: PhotosType)=> ({type: 'SN/PROFILE/SAVE_PHOTO_SUCCESS', photos} as const)
+  savePhotoSuccess: (photos: PhotosType)=> ({type: 'SN/PROFILE/SAVE_PHOTO_SUCCESS', photos} as const),
+  setEditMode: (editMode: boolean) => ({type: 'SN/PROFILE/SET_EDIT_MODE', editMode} as const)
 }
 
 export const getUsersProfile = (userId: number): ThunkType => async (dispatch) => {

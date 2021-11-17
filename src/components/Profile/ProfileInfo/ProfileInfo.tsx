@@ -7,7 +7,9 @@ import ProfileDataForm from './ProfileDataForm/ProfileDataForm'
 import { ContactsType, ProfileType } from '../../../types/types'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppStateType } from '../../../redux/redux-store'
-import { savePhoto, saveProfile } from '../../../redux/profileReducer'
+import { actions, savePhoto, saveProfile } from '../../../redux/profileReducer'
+import { Avatar, Row, Card, Col } from 'antd'
+import { ProfileHeader } from './ProfileHeader'
 
 type PropsType = {
   isOwner: boolean
@@ -16,52 +18,69 @@ type PropsType = {
 const ProfileInfo: FC<PropsType> = ({ isOwner }) => {
 
   const profile = useSelector((state: AppStateType) => state.profilePage.profile)
+  const editMode = useSelector((state: AppStateType) => state.profilePage.editMode)
   const dispatch = useDispatch()
-
-  let [editMode, setEditMode] = useState(false)
 
   if (!profile) {
     return <Preloader/>
   }
 
-  const mainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
-    if(e.target.files?.length) {
-      dispatch(savePhoto(e.target.files[0]))
-    }
-  }
-
   const onSubmit = (formData: ProfileType) => {
     dispatch(saveProfile(formData))
-    setEditMode(false)
+    dispatch(actions.setEditMode(false))
   }
 
     return (
-      <div className={classes.profileInfo}>
-        <img className={classes.avatar} src={profile.photos.large || avatar}/>
-        {isOwner && <input type='file' onChange={mainPhotoSelected}/>}
-
-        {editMode 
+      <>
+      <ProfileHeader isOwner={isOwner}/>
+      <Row>
+        {editMode
+        
           ?<ProfileDataForm profile={profile} onSubmit={onSubmit} initialValues={profile}/> 
           : <ProfileData 
+              isOwner={isOwner}
               profile={profile} 
-              isOwner={isOwner} 
-              goToEditMode={() => {setEditMode(true)}}
             />}  
         <ProfileStatusWithHooks />
-      </div>
+      </Row>
+      </>
     )
 }
 
 type ProfileDataPropsType = {
-  profile: ProfileType
+  profile: ProfileType,
   isOwner: boolean
-  goToEditMode: () => void
 }
 
-const ProfileData: FC<ProfileDataPropsType> = ({profile, isOwner, goToEditMode}) => {
+const ProfileData: FC<ProfileDataPropsType> = ({profile, isOwner}) => {
+  const tabList = [
+    {
+      key: 'about',
+      tab: 'about',
+    },
+    {
+      key: 'post',
+      tab: 'post',
+    },
+  ];
+  const contentList = {
+    about: <p>content1</p>,
+    post: <p>content2</p>,
+  };
+
+  const dispatch = useDispatch()
+  const goToEditMode = () => {
+    dispatch(actions.setEditMode(true))
+  }
+
   return (
-    <div>
-      {isOwner && <div><button onClick={goToEditMode}>edit</button></div>}
+    <Card
+      tabList={tabList}>
+      <Row>
+        <Col span={20}><h3>Profile info</h3></Col>
+        <Col>{isOwner && <div><button onClick={goToEditMode}>edit</button></div>}</Col>
+      </Row>
+      
       <div>
         <b>Full name</b>: {profile.fullName}
       </div>
@@ -81,7 +100,7 @@ const ProfileData: FC<ProfileDataPropsType> = ({profile, isOwner, goToEditMode})
           return <Contact contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]} key={key} />
         })}
       </div>
-    </div>
+    </Card>
   )
 }
 
