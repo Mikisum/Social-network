@@ -1,10 +1,15 @@
-import { Avatar, Row } from "antd"
+import { Avatar, Col, Row } from "antd"
 import { ChangeEvent, FC, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { savePhoto } from "../../redux/profileReducer"
 import avatar from '../../assets/avatar.png'
 import { AppStateType } from "../../redux/redux-store"
-import ProfileStatusWithHooks from "./ProfileContent/PtofileStatus/ProfileStatusWithHooks"
+import classes from './ProfileHeader.module.css'
+import { ProfileStatus } from "./ProfileContent/PtofileStatus/ProfileStatus"
+import { Typography } from 'antd';
+import { CameraTwoTone } from '@ant-design/icons';
+
+const { Title } = Typography;
 
 type PropsType = {
   isOwner: boolean
@@ -23,11 +28,18 @@ export const ProfileHeader: FC<PropsType> = ({isOwner}) => {
 
 
   return (
-    <Row>
-      <Avatar src={profile?.photos.large || avatar}
-              size={256}/>
-      {isOwner && <input type='file' onChange={mainPhotoSelected}/>}
-      <ProfileStatusWithHooks/>
+    <Row className={classes.header} align="bottom">
+      <Col span={4} className={classes.avatarBox}>
+        <Avatar src={profile?.photos.small || avatar}
+                  size={128}
+                  className={classes.avatar}><CameraTwoTone /></Avatar>
+                  <CameraTwoTone  className={classes.camera}/>
+      </Col>
+      <Col>
+        <Title  level={2} style={{color: '#fff'}}>{profile?.fullName}</Title>
+        <ProfileStatus/>
+        {isOwner && <input type='file' onChange={mainPhotoSelected}/>}
+      </Col>
     </Row>
     )
 }

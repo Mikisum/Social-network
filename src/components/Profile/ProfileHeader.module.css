@@ -1,0 +1,24 @@
+.header {
+  background-image: url('https://png.pngtree.com/background/20210711/original/pngtree-3d-purple-smoke-background-picture-image_1162422.jpg');
+  background-size: 100% 80%;
+  background-repeat: no-repeat;
+}
+
+.avatar{
+  /* top: 20% ; */
+  /* margin-left: 20px;/ */
+  /* margin-bottom: 10px; */
+  position: absolute;
+  right:0;
+  bottom:0;
+}
+
+.avatarBox{
+  position: relative;
+}
+
+.camera{
+  position: absolute;
+  bottom: 10px; 
+  right:0
+}

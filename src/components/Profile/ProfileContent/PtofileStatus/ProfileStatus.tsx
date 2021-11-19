@@ -1,71 +1,39 @@
-import { ChangeEvent, Component } from 'react'
+import React, {FC, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateUsersStatus } from '../../../../redux/profileReducer'
+import { AppStateType } from '../../../../redux/redux-store'
+import { Typography } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
-type PropsType = {
-  status: string
-  updateUsersStatus: (newStatus: string) => void
-}
+const { Paragraph } = Typography;
 
-type StateType = {
-  editMode: boolean
-  status: string
-}
+export const ProfileStatus: FC<PropsType> = () => {
 
-class ProfileStatus extends Component<PropsType, StateType> {
+  const dispatch = useDispatch()
 
-  state = {
-    editMode: false,
-    status: this.props.status
+  const stateStatus = useSelector((state: AppStateType) => state.profilePage.status)
+
+  const [status, setStatus] = useState(stateStatus);
+  const updateStatus = (editVal: string) => {
+    setStatus(editVal)
+    dispatch(updateUsersStatus(editVal))
   }
 
-  activateEditMode = () => {
-    this.setState({
-      editMode: true
-    })
-  }
+  return (
+    <>
+      <Paragraph
+        editable={{
+          icon: <EditOutlined style={{color: '#fff'}}/>,
+          onChange: updateStatus,
+          maxLength: 50,
+          autoSize: { maxRows: 5, minRows: 1 },
+        }}
+        style={{color: '#fff'}}
+      >
+        {status}
+      </Paragraph>
+    </>
+  );
+};
 
-  deactivateEditMode = () => {
-    this.setState({
-      editMode: false
-    })
-    this.props.updateUsersStatus(this.state.status)
-  }
-
-  onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      status: e.currentTarget.value
-    })
-  }
-
-  componentDidUpdate = (prevProps: PropsType, prevstate: StateType) => {
-    if (prevProps.status !== this.props.status)
-    this.setState({
-      status: this.props.status
-    })
-  }
-
-  render(){
-    return (
-      <div>
-        {
-          !this.state.editMode &&
-            <div>
-              <span onClick={this.activateEditMode}>{this.props.status || '---'}</span>
-            </div>
-        }
-        {
-          this.state.editMode &&
-            <div>
-              <input 
-                value={this.state.status}
-                onBlur={this.deactivateEditMode}
-                onChange={this.onStatusChange}
-                autoFocus
-              />
-            </div>
-        } 
-      </div>
-    )
-  }
-}
-
-export default ProfileStatus
+type PropsType = {}

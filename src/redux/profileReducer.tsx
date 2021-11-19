@@ -97,6 +97,7 @@ export const getUsersStatus = (userId : number): ThunkType => async (dispatch) =
 }
 
 export const updateUsersStatus = (status: string): ThunkType => async (dispatch) => {
+  
   try{
     const res = await profileAPI.updateUsersStatus(status)
     if(res.resultCode === 0) {

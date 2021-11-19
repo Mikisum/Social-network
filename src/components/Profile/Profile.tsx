@@ -7,7 +7,7 @@ import { actions } from '../../redux/auth-reducer'
 import Preloader from '../common/preloader/preloader'
 import { ProfileType } from '../../types/types'
 import { ProfileHeader } from './ProfileHeader'
-import { Row } from 'antd'
+import { Layout, Row } from 'antd'
 import { ProfileData } from './ProfileContent/ProfileData/ProfileData'
 import ProfileDataFormRedux from './ProfileContent/ProfileData/ProfileDataForm'
 
@@ -18,7 +18,7 @@ type PathParamsType = {
 type PropsType = {}
 
 const Profile: FC<PropsType> = () => {
-  const authorizedUserId = useSelector((state:AppStateType) => state.auth.userId)
+  
   const [isOwner, setIsOwner] = useState(false)
   let { userId } = useParams<PathParamsType>()
   const history = useHistory()
@@ -56,18 +56,18 @@ const Profile: FC<PropsType> = () => {
   }
 
     return (
-      <>
-      <ProfileHeader isOwner={isOwner}/>
-      <Row>
-        {editMode
-        
-          ?<ProfileDataFormRedux profile={profile} onSubmit={onSubmit} initialValues={profile}/> 
-          : <ProfileData 
-              isOwner={isOwner}
-              profile={profile} 
-            />}  
-      </Row>
-      </>
+      <Layout>
+        <ProfileHeader isOwner={isOwner}/>
+        <Row>
+          {editMode
+          
+            ?<ProfileDataFormRedux profile={profile} onSubmit={onSubmit} initialValues={profile}/> 
+            : <ProfileData 
+                isOwner={isOwner}
+                profile={profile} 
+              />}  
+        </Row>
+      </Layout>
     )
 }
 

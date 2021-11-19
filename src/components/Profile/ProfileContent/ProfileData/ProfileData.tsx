@@ -29,10 +29,10 @@ export const ProfileData: FC<ProfileDataPropsType> = ({ isOwner}) => {
   const dispatch = useDispatch()
   
 
-  const [activeTabKey1, setActiveTabKey1] = useState('about');
+  const [activeTabKey, setActiveTabKey] = useState('about');
   
-  const onTab1Change = (key:any) => {
-    setActiveTabKey1(key);
+  const onTabChange = (key:any) => {
+    setActiveTabKey(key);
   };
 
   const contentList = {
@@ -45,12 +45,12 @@ export const ProfileData: FC<ProfileDataPropsType> = ({ isOwner}) => {
     <Card
       style={{ width: '100%' }}
       tabList={tabList}
-      activeTabKey={activeTabKey1}
+      activeTabKey={activeTabKey}
       onTabChange={key => {
-        onTab1Change(key);
+        onTabChange(key);
       }}
     >
-      {(contentList as any)[activeTabKey1]}
+      {(contentList as any)[activeTabKey]}
       
     </Card>
   )
