@@ -3,10 +3,11 @@ import { updateObjectInArray } from "../components/utils/object-helpers"
 import { BaseThunkType, InferActionsTypes } from "./redux-store"
 import { Dispatch } from "react"
 import { usersAPI } from "../components/API/users-api"
+import { debug } from "console"
 
 let initialState = {
   users : [] as Array<UserType>,
-  pageSize: 10,
+  currentPageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: true,
@@ -75,6 +76,13 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
       }
     }
 
+    case "SN/USERS/SET_PAGE_SIZE": {
+      return {
+        ...state,
+        currentPageSize: action.payload
+      }
+    }
+
     default: 
       return state
   }
@@ -88,7 +96,8 @@ export const actions = {
   toggleIsFetching: (isFetching: boolean) => ({type: 'SN/USERS/TOGGLE_IS_FETCHING', isFetching} as const),
   setTotalUsersCount: (totalUsersCount: number) => ({type: 'SN/USERS/SET_TOTAL_USERS_COUNT', totalUsersCount} as const),
   toogleFollowingProgress: (isFetching: boolean, userId: number) => ({type: 'SN/USERS/TOGGLE_IS_FOLLOWING_PROGRESS', isFetching, userId} as const),
-  setFilter: (filter: FilterType) => ({type: 'SN/USERS/SET_FILTER', payload: filter} as const)
+  setFilter: (filter: FilterType) => ({type: 'SN/USERS/SET_FILTER', payload: filter} as const),
+  setPageSize: (currentPageSize: number) => ({type: 'SN/USERS/SET_PAGE_SIZE', payload: currentPageSize} as const)
 }
 
 export const requestUsers = (page: number, 
@@ -96,7 +105,9 @@ export const requestUsers = (page: number,
 
   return async (dispatch) => {
     dispatch(actions.toggleIsFetching(true))
+    dispatch(actions.setPageSize(pageSize))
     dispatch(actions.setCurrentPage(page))
+    
     dispatch(actions.setFilter(filter))
 
     const data = await usersAPI.getUsers(page, pageSize, filter.term, filter.friend)
