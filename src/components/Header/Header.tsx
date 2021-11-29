@@ -7,7 +7,7 @@ import { AppStateType } from '../../redux/redux-store'
 import classes from './Header.module.css'
 import { Row, Col, Divider, Menu } from 'antd'
 import {UserOutlined, HomeOutlined} from '@ant-design/icons'
-import { blue } from '@ant-design/colors'
+import { Redirect, useHistory } from 'react-router';
 
 export const Header: FC= () => {
 
@@ -17,9 +17,11 @@ export const Header: FC= () => {
   const login = useSelector((state: AppStateType) => state.auth.login)
   const dispatch = useDispatch()
   const {Header} = Layout
+  const history = useHistory()
 
   const logoutCallback = () => {
     dispatch(logout())
+    // history.push('/login')
   }
   return (
     <Header className='header'>
@@ -38,7 +40,8 @@ export const Header: FC= () => {
               alt={login || ''} style={{backgroundColor: '#87d068'}} icon={<UserOutlined/>}/>
           </Col>
           <Col span={2}>
-            <Button type='primary' onClick={logoutCallback}>Log out</Button>
+            <Button type='primary' onClick={logoutCallback}>
+              Log out</Button>
           </Col>
         </>
       : <Col>

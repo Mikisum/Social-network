@@ -40,7 +40,7 @@ export const ProfileData: FC<ProfileDataPropsType> = ({ isOwner}) => {
     post: <MyPostsContainer/>,
   };
 
-
+  
   return (
     <Card
       style={{ width: '100%' }}

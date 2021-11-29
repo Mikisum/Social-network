@@ -1,11 +1,10 @@
-import React, { FC } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FC } from 'react'
+import {  useDispatch, useSelector } from 'react-redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import { createField, Input } from '../common/FormsControls/FormsControls'
 import { required } from '../utils/validators/validators'
 import { login } from '../../redux/auth-reducer'
 import { Redirect } from 'react-router'
-import classes from '../common/FormsControls/FormsControls.module.css'
 import { AppStateType } from '../../redux/redux-store'
 
 type LoginFormOwnProps = {
@@ -31,9 +30,7 @@ const LoginForm: FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & 
       { captchaUrl && <img src={captchaUrl}/> }
       { captchaUrl && createField<LoginFormValuesTypeKeys>('Symbols from image', 'captcha', [required], Input, {}) }
 
-      {error && <div className={classes.formSummaryError}>
-        {error}
-      </div>}
+      {error && <div>{error}</div>}
       <div>
         <button>Login</button>
       </div>
@@ -43,9 +40,7 @@ const LoginForm: FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & 
 
 const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({form: 'login'})(LoginForm)
 
-export const LoginPage: FC = (props) => {
-
-  const authorizedUserId = useSelector((state:AppStateType) => state.auth.userId)
+export const LoginPage: FC = () => {
 
   const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
   const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)

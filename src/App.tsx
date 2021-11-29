@@ -1,4 +1,4 @@
-import React, { Component, ComponentType, FC, useEffect } from 'react';
+import React, { ComponentType, FC, useEffect } from 'react';
 import { BrowserRouter, Route, withRouter, Switch, Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 // import './App.less';
@@ -7,19 +7,17 @@ import News from './components/Navbar/News/News';
 import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
 import { UsersPage } from './components/Navbar/Users/UsersContainer';
-import { LoginPage } from './components/Login/Login';
 import { connect, Provider, useDispatch, useSelector } from 'react-redux';
 import { compose } from 'redux';
 import { initializeApp } from './redux/app-reducer'
 import Preloader from './components/common/preloader/preloader';
 import store, { AppStateType } from './redux/redux-store'
-import Friends from './components/Friends/Friends';
-import FriendsContainer from './components/Friends/FriendsContainer';
 import { QueryParamProvider } from 'use-query-params';
 import {Header} from './components/Header/Header';
-import { Layout, Menu, Breadcrumb, Button } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined, HomeOutlined,
+import { Layout, Menu, Breadcrumb } from 'antd';
+import { UserOutlined,
   MessageOutlined, TeamOutlined, WechatOutlined  } from '@ant-design/icons';
+import { LoginPage } from './components/Login/LoginPage';
 
 const { SubMenu } = Menu;
 const { Content, Footer, Sider } = Layout;
