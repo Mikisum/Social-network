@@ -1,55 +1,58 @@
-import { Avatar, Button, Layout } from 'antd'
-import React, { FC } from 'react'
+import { Avatar, Button, Space } from 'antd'
+import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../../redux/auth-reducer'
 import { AppStateType } from '../../redux/redux-store'
-import classes from './Header.module.css'
-import { Row, Col, Divider, Menu } from 'antd'
+import { Row, Col, Menu } from 'antd'
 import {UserOutlined, HomeOutlined} from '@ant-design/icons'
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 
 export const Header: FC= () => {
 
-  const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
   const profile = useSelector((state: AppStateType) => state.profilePage.profile)
+  const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
 
   const login = useSelector((state: AppStateType) => state.auth.login)
   const dispatch = useDispatch()
-  const {Header} = Layout
+  const data = localStorage.getItem('data')
   const history = useHistory()
+  const userId = useSelector((state: AppStateType) => state.auth.userId)
 
   const logoutCallback = () => {
     dispatch(logout())
-    // history.push('/login')
   }
+  
   return (
-    <Header className='header'>
-      <Row>
-      <Col span={21}>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-            <Menu.Item key="1"><Link to="/profile"><HomeOutlined /></Link></Menu.Item>
-            <Menu.Item key="2"><Link to="/users">Developers</Link></Menu.Item>
-        </Menu>
-      </Col>
+      <Row 
+        justify='space-between' 
+        wrap={false} 
+        style={{background:'rgb(0, 0, 0, 0.8)', paddingRight: '15px'}}
+        align='middle'>
+        
+        <Col>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+              <Menu.Item key="1"><Link to="/profile"><HomeOutlined /></Link></Menu.Item>
+              <Menu.Item key="2"><Link to="/users">Developers</Link></Menu.Item>
+          </Menu>
+        </Col>
 
-      {isAuth 
-      ? <><Col span={1}> 
+      {userId 
+      ? <Col>
+          <Space>
             <Avatar 
               src={profile?.photos.small}
               alt={login || ''} style={{backgroundColor: '#87d068'}} icon={<UserOutlined/>}/>
-          </Col>
-          <Col span={2}>
+
             <Button type='primary' onClick={logoutCallback}>
               Log out</Button>
-          </Col>
-        </>
+          </Space>
+        </Col>
       : <Col>
           <Button type='primary'>
             <Link to={'/login'}>Login</Link>
           </Button>
         </Col>}
       </Row>
-    </Header>
   )
 }

@@ -5,6 +5,9 @@ import { authAPI } from "../components/API/auth-api"
 import { securityAPI } from "../components/API/security-api"
 import { BaseThunkType, InferActionsTypes } from "./redux-store"
 // import { useForm, ErrorMessage } from "react-hook-form";
+const getLocalStorage = () => {
+  if (localStorage.getItem('data')) return  +JSON.parse(localStorage.data).userId
+}
 
 let initialState = {
   userId: null as number | null,
@@ -15,6 +18,8 @@ let initialState = {
   error:'',
   isFetching: false,
 }
+
+
 
 const authReducer = (state = initialState , action: ActionsType): InitialStateType => {
   
@@ -44,11 +49,17 @@ export const actions = {
 }
 
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
+  if(localStorage.data) {
+   
+    let {userId, email, login, isAuth} = JSON.parse(localStorage.data)
+    dispatch(actions.setAuthUserData(userId, email, login, isAuth))
+    return
+  }
   let meData = await authAPI.me()
     
   if (meData.resultCode === ResultCodesEnum.Success) {
     let {id, login, email} = meData.data
-    let data = {'userId': `${id}`, 'login': `${login}`, 'email': `${email}`}
+    let data = {'userId': `${id}`, 'email': `${email}`, 'login': `${login}`, 'isAuth': true}
     localStorage.setItem('data', JSON.stringify(data))
     dispatch(actions.setAuthUserData(id, email, login, true))
     

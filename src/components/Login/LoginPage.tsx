@@ -1,4 +1,4 @@
-import { Form, Input, Button, Checkbox, Row, Col, message, Result } from 'antd'
+import { Form, Input, Button, Checkbox, Row, Col, message, Layout } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/auth-reducer'
 import { AppStateType } from '../../redux/redux-store';
@@ -31,93 +31,109 @@ export const LoginPage = () => {
     });
   };
 
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 8 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 16 },
+    },
+  };
+
   if (isAuth) {
     return <Redirect to={'/profile/'}/>
   }
 
   return (
-    <Form
-      name="useForm"
-      form={form}
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 10 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
- 
-    >
-      <Form.Item
-        label="Email"
-        name="email"
-        validateTrigger="onBlur"
-        rules={[
-          { 
-            required: true, message: 'Please input your email!' 
-          },
-          {
-            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-            message: 'Invalid email address',
-          },
-        ]}
+    <Layout style={{paddingTop: '100px'}}> 
+
+      <Form
+        {...formItemLayout}
+        name="useForm"
+        form={form}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 10 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+  
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />}/>
-      </Form.Item>
+        <Form.Item
+          label="Email"
+          name="email"
+          validateTrigger="onBlur"
+          rules={[
+            { 
+              required: true, message: 'Please input your email!' 
+            },
+            {
+              pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+              message: 'Invalid email address',
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined className="site-form-item-icon" />}/>
+        </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        validateTrigger="onBlur"
-        rules={[
-          { 
-            min:5,
-            max: 10
-          } 
-        ]}
-      >
-        <Input.Password  prefix={<LockOutlined className="site-form-item-icon" />}/>
-      </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          validateTrigger="onBlur"
+          rules={[
+            { 
+              min:5,
+              max: 10
+            } 
+          ]}
+        >
+          <Input.Password  prefix={<LockOutlined className="site-form-item-icon" />}/>
+        </Form.Item>
+        
+        
+        { captchaUrl && error &&
+          <Form.Item label="Captcha" extra="We must make sure that your are a human.">
+            <Row justify="center"><img src={captchaUrl}/></Row>
+            <Row >
+              <Col span={12}>
+                <Form.Item
+                  name="captcha"
+                  noStyle
+                  rules={[{ required: true, message: 'Please input the captcha you got!' }]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Button>Get captcha</Button>
+              </Col>
+            </Row>
+        </Form.Item>
+        }
       
-      
-      { captchaUrl && error &&
-        <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-          <Row justify="center"><img src={captchaUrl}/></Row>
-          <Row >
-            <Col span={12}>
-              <Form.Item
-                name="captcha"
-                noStyle
-                rules={[{ required: true, message: 'Please input the captcha you got!' }]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Button>Get captcha</Button>
-            </Col>
-          </Row>
-      </Form.Item>
-      }
-    
-      {error && message.error(error)
-      }
+        {error && message.error(error)
+        }
 
 
-      <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
+        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit" loading={isFetching}>
-          Submit
-        </Button>
-        <Button htmlType="button" onClick={() => form.resetFields()}>
-          Reset
-        </Button>
-        <Button type="link" htmlType="button" onClick={onFill}>
-          Fill form
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit" loading={isFetching}>
+            Submit
+          </Button>
+          <Button htmlType="button" onClick={() => form.resetFields()}>
+            Reset
+          </Button>
+          <Button type="link" htmlType="button" onClick={onFill}>
+            Fill form
+          </Button>
+        </Form.Item>
+      </Form>
+
+      </Layout>
   );
 };

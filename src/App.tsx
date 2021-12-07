@@ -1,8 +1,6 @@
-import React, { ComponentType, FC, useEffect } from 'react';
+import React, { ComponentType, FC, useEffect, useState } from 'react';
 import { BrowserRouter, Route, withRouter, Switch, Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-// import './App.less';
-import Navbar from './components/Navbar/Navbar';
 import News from './components/Navbar/News/News';
 import Music from './components/Navbar/Music/Music';
 import Settings from './components/Navbar/Settings/Settings';
@@ -16,13 +14,13 @@ import { QueryParamProvider } from 'use-query-params';
 import {Header} from './components/Header/Header';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined,
-  MessageOutlined, TeamOutlined, WechatOutlined  } from '@ant-design/icons';
+  MessageOutlined, TeamOutlined, WechatOutlined} from '@ant-design/icons';
 import { LoginPage } from './components/Login/LoginPage';
 
 const { SubMenu } = Menu;
 const { Content, Footer, Sider } = Layout;
 
-const DialogsContainer = React.lazy(() => import('./components/Navbar/Dialogs/DialogsContainer'));
+const Dialogs = React.lazy(() => import('./components/Navbar/Dialogs/Dialogs'));
 const Profile = React.lazy(() => import('./components/Profile/Profile'))
 const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'))
 
@@ -32,30 +30,30 @@ const App: FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => { 
-    if(initialized){
-      
+    if(!initialized){
       dispatch(initializeApp())
     }
   },[initialized])
 
-    if (initialized) {
+  const [collapsed, setCollapsed] = useState(false)
+
+    if (!initialized) {
       return <Preloader/>
     }
 
     return (
-      <Layout>
-      <Header/>
-      <Content style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <Layout className="site-layout-background" style={{ padding: '24px 0' }}>
-          <Sider className="site-layout-background" width={200}>
+      <Layout style={{minHeight:'100vh'}}>
+        <Header/>
+        <Layout>
+          <Sider 
+            breakpoint='sm'
+            collapsible
+            collapsed={collapsed}
+            onCollapse={() => setCollapsed(!collapsed)}
+            theme='light'
+          >
             <Menu
               mode="inline"
-              style={{ height: '100%' }}
             >
               <Menu.Item key='1' icon={<UserOutlined/>}> 
                 <Link to={`/profile/`}>Profile</Link>
@@ -71,25 +69,32 @@ const App: FC = () => {
               </Menu.Item>
             </Menu>
           </Sider>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>
-          <React.Suspense fallback={<Preloader />}>
-           <Switch>
-             <Redirect exact from='/' to='/profile'/>
-             <Route path='/login' render={() => <LoginPage />} />
-             <Route path='/dialogs' render={() => <DialogsContainer/>} />
-             <Route path='/profile/:userId?' render={() =><Profile/>} />
-             <Route path='/users' render={() => <UsersPage pageTitle='Social Network'/>} />
-             <Route path='/chat' render={() => <ChatPage/>} />
-             <Route path='/news' render={News} />
-             <Route path='/music' render={Music} />
-             <Route path='/settings' render={Settings} />
-             <Route path='*' render={() => <div>404 NOT FOUND</div>} />
-           </Switch>
-         </React.Suspense>
+
+        <Layout className="site-layout">
+          
+          <Content style={{ margin: '15px 15px', overflow: 'initial' }}>
+      
+        
+            <React.Suspense fallback={<Preloader />}>
+              <Switch>  
+                {/* <Redirect exact from='/' to='/profile'/> */}
+                <Route path='/login' render={() => <LoginPage />} />
+                <Route path='/dialogs' render={() => <Dialogs/>} />
+                <Route path='/profile/:userId?' render={() =><Profile/>} />
+                <Route path='/users' render={() => <UsersPage pageTitle='Social Network'/>} />
+                <Route path='/chat' render={() => <ChatPage/>} />
+                <Route path='/news' render={News} />
+                <Route path='/music' render={Music} />
+                <Route path='/settings' render={Settings} />
+                <Route path='*' render={() => <div>404 NOT FOUND</div>} />
+              </Switch>
+            </React.Suspense>
           </Content>
+        
+
+        <Footer style={{ textAlign: 'center'}}>Social Network @2021 by Viktoryia Kiyanka</Footer>
         </Layout>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Social Network @2021 by Viktoryia Kiyanka</Footer>
+        </Layout>
     </Layout>
     )
 }

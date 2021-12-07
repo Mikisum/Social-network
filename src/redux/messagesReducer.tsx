@@ -50,8 +50,7 @@ let initialState = {
 
 export const actions = {
   sendMessage:(newMessageBody: string) => ({ type: 'SN/messagesPage/SEND_MESSAGE', newMessageBody } as const)
-}
-
+};
 const messagesReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
   switch(action.type) {

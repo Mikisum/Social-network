@@ -1,20 +1,53 @@
 .header {
-  background-image: url('https://png.pngtree.com/background/20210711/original/pngtree-3d-purple-smoke-background-picture-image_1162422.jpg');
-  background-size: 100% 80%;
+  background-image: url('https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F467582876%2FEveryone-s-at-home-----stargazing-%2F960x0.jpg%3FcropX1%3D372%26cropX2%3D2458%26cropY1%3D455%26cropY2%3D1629');
   background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .avatar{
-  margin-left: 20px;
-  margin-bottom: 10px; 
+  border: 5px solid #fff;
 }
 
-/* .avatarBox{
+.avatarBox {
   position: relative;
-} */
+  min-height: 250px;
+}
+
+.ava{
+  position: absolute;
+  top: 10em;
+}
+
+.imageUpload{
+  position: absolute;
+  top: 7em;
+  left: 9em;
+  z-index: 2;
+  border-radius: 50%;
+  background-color: #CCCCCC;
+  padding: 0.5em;
+}
+
+.camera{
+  width: 1.5em; 
+  height: 1.5em;
+}
+
+.imageUpload>input {
+  display: none;
+}
+
+.name {
+  padding-left: 15em;
+}
 
 
-.title {
-  padding-top: 10%;
-  color: #fff !important;
+
+@media (max-width: 768px) { 
+  .title {
+    margin-top: 2em;
+  }
+  .name {
+    padding-left: 0;
+  }
 }

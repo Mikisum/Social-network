@@ -7,7 +7,7 @@ import { EditOutlined } from '@ant-design/icons';
 
 const { Paragraph } = Typography;
 
-export const ProfileStatus: FC<PropsType> = () => {
+export const ProfileStatus: FC<PropsType> = ({isOwner}) => {
 
   const dispatch = useDispatch()
 
@@ -20,20 +20,20 @@ export const ProfileStatus: FC<PropsType> = () => {
   }
 
   return (
-    <>
+ 
       <Paragraph
-        editable={{
-          icon: <EditOutlined style={{color: '#fff'}}/>,
+        
+        editable={isOwner && {
+          icon: <EditOutlined   />,
           onChange: updateStatus,
           maxLength: 50,
           autoSize: { maxRows: 5, minRows: 1 },
         }}
-        style={{color: '#fff'}}
       >
-        {status}
+        {status || stateStatus}
       </Paragraph>
-    </>
+    
   );
 };
 
-type PropsType = {}
+type PropsType = {isOwner: boolean}

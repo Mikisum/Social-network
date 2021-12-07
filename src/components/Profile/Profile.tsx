@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppStateType } from '../../redux/redux-store'
 import { useHistory, useParams } from 'react-router'
@@ -23,15 +23,16 @@ const Profile: FC<PropsType> = () => {
   const dispatch = useDispatch()
   const profile = useSelector((state: AppStateType) => state.profilePage.profile)
   const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
+  const [isOwner, setIsOwner] = useState(false)
 
   useEffect(() => { 
     
     if(!userId) {
-      
+    
       if(isAuth){
 
         let { userId } = JSON.parse(localStorage.data)
-
+        setIsOwner(true)
         dispatch(getUsersProfile(+userId))
         dispatch(getUsersStatus(+userId))
       } else {
@@ -41,8 +42,9 @@ const Profile: FC<PropsType> = () => {
     }
     dispatch(getUsersProfile(+userId))
     dispatch(getUsersStatus(+userId))
+  
     
-  },[userId,  isAuth])
+  },[userId, isAuth])
 
   const editMode = useSelector((state: AppStateType) => state.profilePage.editMode)
 
@@ -56,14 +58,14 @@ const Profile: FC<PropsType> = () => {
   }
 
     return (
-      <Layout>
-        <ProfileHeader isOwner={isAuth}/>
+      <Layout style={{borderRadius: '8px'}}>
+        <ProfileHeader isOwner={isOwner}/>
         <Row>
           {editMode
           
             ?<ProfileDataFormRedux profile={profile} onSubmit={onSubmit} initialValues={profile}/> 
             : <ProfileData 
-                isOwner={isAuth}
+                isOwner={isOwner}
                 profile={profile} 
               />}  
         </Row>
