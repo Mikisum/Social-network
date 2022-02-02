@@ -1,55 +1,29 @@
 import classes from './Users.module.css'
-import { UserType } from '../../../types/types'
 import { FC, useEffect } from 'react'
 import UsersSearchForm from './UsersSearchForm'
-import { FilterType, follow, requestUsers, unfollow } from '../../../redux/usersReducer'
+import { FilterType, requestUsers } from '../../../redux/usersReducer'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCurrentPage, getFollowingInProgress, getPageSize, getTotalUsersCount, getUserFilter, getUsers } from '../../../redux/users-selectors'
+import { getCurrentPage, getPageSize, getUserFilter } from '../../../redux/users-selectors'
 import { useHistory } from 'react-router'
 import * as queryString from "querystring"  
-import { List, Avatar, Button, Typography } from 'antd'
-import avatar from './../../../assets/avatar.png'
+import { Typography } from 'antd'
+import { UsersList } from './UsersList'
 
-const { Title, Text, Link }= Typography;
+const { Title }= Typography;
 
 type PropsType = {}
 type QueryParamsType = { term?: string; page?: string; friend?: string; size?: string }
 
-function itemRender(current: number, type: string, originalElement:object) {
-  if (type === 'prev') {
-    return <a>Previous</a>;
-  }
-  if (type === 'next') {
-    return <a>Next</a>;
-  }
-  return originalElement;
-}
-
 export const Users: FC<PropsType> = (props) => {
 
-  const users = useSelector(getUsers)
-  const totalUsersCount = useSelector(getTotalUsersCount)
   const currentPage = useSelector(getCurrentPage)
   const currentPageSize = useSelector(getPageSize)
   const filter = useSelector(getUserFilter)
   const dispatch = useDispatch()
   const history = useHistory()
-  const followingInProgress = useSelector(getFollowingInProgress)
-
-  const onPageChanged = (pageNumber: number, pageSize: number | undefined) => {
-    if (pageSize !== undefined)
-      dispatch(requestUsers(pageNumber, pageSize, filter))
-  }
 
   const onFilterChanged = (filter: FilterType) => {
     dispatch(requestUsers(1, 10, filter))
-  }
-
-  const onFollow = (userId: number) => {
-    dispatch(follow(userId))
-  }
-  const onUnfollow = (userId: number) => {
-    dispatch(unfollow(userId))
   }
 
   useEffect(() => {
@@ -99,37 +73,7 @@ useEffect(() => {
     <div className={classes.users}>
       <Title level={3} >Users</Title>
       <UsersSearchForm onFilterChanged={onFilterChanged}/>
-      <List
-        className="demo-loadmore-list"
-        itemLayout="horizontal"
-        dataSource={users}
-        pagination={{
-          current:currentPage,
-          itemRender,
-          pageSize: currentPageSize,
-          total: totalUsersCount,
-          onChange: onPageChanged
-        }}
-          renderItem={(item: UserType) =>(
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Link href={`/profile/${item.id}`}><Avatar src={item.photos.large || avatar} /></Link>}
-                title={<Link href={`/profile/${item.id}`}>{item.name}</Link>}
-              />
-              {item.followed
-                ?<Button 
-                disabled={followingInProgress.some(id => id === item.id)}
-                  onClick={() => onUnfollow(item.id)}>Unfollow</Button>
-                :<Button 
-                  disabled={followingInProgress.some(id => id === item.id)}
-                  type="primary"
-                  onClick={() => onFollow(item.id)}>Follow</Button>
-              }
-              
-            </List.Item>
-          )
-        }
-      />
+      <UsersList/>
     </div>
   )
 }

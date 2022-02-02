@@ -16,6 +16,8 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined,
   MessageOutlined, TeamOutlined, WechatOutlined} from '@ant-design/icons';
 import { LoginPage } from './components/Login/LoginPage';
+import Friends from './components/Friends/Friends';
+import FriendsContainer from './components/Friends/FriendsContainer';
 
 const { SubMenu } = Menu;
 const { Content, Footer, Sider } = Layout;
@@ -68,8 +70,8 @@ const App: FC = () => {
                 <Link to="/chat">Chat</Link>
               </Menu.Item>
             </Menu>
+            
           </Sider>
-
         <Layout className="site-layout">
           
           <Content style={{ margin: '15px 15px', overflow: 'initial' }}>
@@ -77,7 +79,7 @@ const App: FC = () => {
         
             <React.Suspense fallback={<Preloader />}>
               <Switch>  
-                {/* <Redirect exact from='/' to='/profile'/> */}
+                <Redirect exact from='/' to='/profile'/>
                 <Route path='/login' render={() => <LoginPage />} />
                 <Route path='/dialogs' render={() => <Dialogs/>} />
                 <Route path='/profile/:userId?' render={() =><Profile/>} />
