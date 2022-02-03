@@ -16,7 +16,6 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined,
   MessageOutlined, TeamOutlined, WechatOutlined} from '@ant-design/icons';
 import { LoginPage } from './components/Login/LoginPage';
-import Friends from './components/Friends/Friends';
 import FriendsContainer from './components/Friends/FriendsContainer';
 
 const { SubMenu } = Menu;
@@ -47,31 +46,16 @@ const App: FC = () => {
       <Layout style={{minHeight:'100vh'}}>
         <Header/>
         <Layout>
-          <Sider 
+          {/* <Sider 
             breakpoint='sm'
             collapsible
             collapsed={collapsed}
             onCollapse={() => setCollapsed(!collapsed)}
             theme='light'
-          >
-            <Menu
-              mode="inline"
-            >
-              <Menu.Item key='1' icon={<UserOutlined/>}> 
-                <Link to={`/profile/`}>Profile</Link>
-              </Menu.Item>
-              <Menu.Item key='2' icon={<MessageOutlined />}>
-                <Link to="/dialogs">Messages</Link>
-              </Menu.Item>
-              <Menu.Item key='3' icon={<TeamOutlined />}>          
-                <Link to="/users">Users</Link>
-              </Menu.Item>
-              <Menu.Item key='4' icon={<WechatOutlined />}>          
-                <Link to="/chat">Chat</Link>
-              </Menu.Item>
-            </Menu>
+          > */}
             
-          </Sider>
+            
+          {/* </Sider> */}
         <Layout className="site-layout">
           
           <Content style={{ margin: '15px 15px', overflow: 'initial' }}>

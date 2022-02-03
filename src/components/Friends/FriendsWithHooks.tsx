@@ -1,21 +1,20 @@
 import React, { FC, useEffect } from "react";
 import classes from './Friends.module.css'
 import avatar from '../../assets/avatar.png'
-import { UserType } from "../../types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { AppStateType } from "../../redux/redux-store";
 import { requestFriends } from "../../redux/sideBarReducer";
+import { Avatar, List, Typography } from "antd";
+import Text from "antd/lib/typography/Text";
+import Title from "antd/lib/typography/Title";
+const { Link }= Typography;
 
 type PropsType = {}
 
-
-
-
-const Friends: FC<PropsType> = () => {
+export const Friends: FC<PropsType> = () => {
 
   const friends = useSelector((state: AppStateType) => state.sideBar.friends)
   const totalCount = useSelector((state:AppStateType) => state.sideBar.totalCount)
-  const followingInProgress = useSelector((state:AppStateType) => state.usersPage.followingInProgress)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -23,19 +22,25 @@ const Friends: FC<PropsType> = () => {
   },[])
 
   return (
-    <div className={classes.friends}>
-      <h3>Friends: {totalCount}</h3>
-      <ul className={classes.list}>
-        {(friends.length !== 0) ?
-          friends.map(friend => 
-            <li key={friend.id}>
-              <img className={classes.avatar} src={friend.photos.small || avatar}/>
-              {friend.name}
-            </li>) : <p>you haven't friends</p>
-          }
-      </ul>
-    </div>
+    
+    <List
+    className={classes.list}
+    itemLayout="horizontal"
+      header={<Text strong>Friends {totalCount}</Text>}
+      dataSource={friends}
+      renderItem={item => (
+        <List.Item
+          key={item.id}
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={item.photos.small || avatar} />}
+            title={<Link href={`/profile/${item.id}`}>{item.name}</Link>}
+          />
+        </List.Item>
+      )}
+    />
   )
 }
+
 
 export default Friends

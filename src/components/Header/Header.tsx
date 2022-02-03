@@ -1,12 +1,15 @@
-import { Avatar, Button, Space } from 'antd'
+import { Avatar, Button, Space, Typography } from 'antd'
 import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { logout } from '../../redux/auth-reducer'
 import { AppStateType } from '../../redux/redux-store'
 import { Row, Col, Menu } from 'antd'
-import {UserOutlined, HomeOutlined} from '@ant-design/icons'
+import {UserOutlined, HomeOutlined, MessageOutlined, TeamOutlined, WechatOutlined} from '@ant-design/icons'
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+
 
 export const Header: FC= () => {
 
@@ -28,13 +31,26 @@ export const Header: FC= () => {
         justify='space-between' 
         wrap={false} 
         style={{background:'rgb(0, 0, 0, 0.8)', paddingRight: '15px'}}
-        align='middle'>
-        
+        align='middle'
+      >
+        <Link to="/profile" style={{padding: '5px 15px'}}>
+          <FontAwesomeIcon icon={['fab', 'themeisle']} color="MediumOrchid" size="3x"/>
+        </Link>
         <Col>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-              <Menu.Item key="1"><Link to="/profile"><HomeOutlined /></Link></Menu.Item>
-              <Menu.Item key="2"><Link to="/users">Developers</Link></Menu.Item>
-          </Menu>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+          <Menu.Item key='1' icon={<UserOutlined/>}> 
+            <Link to={`/profile/`}>Profile</Link>
+          </Menu.Item>
+          <Menu.Item key='2' icon={<MessageOutlined />}>
+            <Link to="/dialogs">Messages</Link>
+          </Menu.Item>
+          <Menu.Item key='3' icon={<TeamOutlined />}>          
+            <Link to="/users">Users</Link>
+          </Menu.Item>
+          <Menu.Item key='4' icon={<WechatOutlined />}>          
+            <Link to="/chat">Chat</Link>
+          </Menu.Item>
+        </Menu>
         </Col>
 
       {userId 

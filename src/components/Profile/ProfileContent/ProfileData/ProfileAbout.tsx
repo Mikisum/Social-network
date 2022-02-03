@@ -1,10 +1,10 @@
-import { Col, Row, Typography } from "antd"
+import { Card } from "antd"
 import { FC } from "react"
 import { useDispatch } from "react-redux"
 import { actionsProfile } from "../../../../redux/profileReducer"
-import { ContactsType, ProfileType } from "../../../../types/types"
+import { ProfileType } from "../../../../types/types"
 import {EditOutlined} from '@ant-design/icons';
-const { Text, Title } = Typography;
+import Meta from "antd/lib/card/Meta"
 
 type ProfileAboutPropsType = {
   profile: ProfileType,
@@ -19,50 +19,20 @@ export const ProfileAbout: FC<ProfileAboutPropsType> = ({isOwner, profile}) => {
   }
 
   return(
-     <>  
-        <Row>
-          <Col span={12}><Title level={4}>Profile info</Title></Col>
-          {isOwner && 
-          <Col><EditOutlined onClick={goToEditMode}/></Col>}
-        </Row>
-        <Row>
-          <Col span={4}><Text strong>Full name: </Text></Col>
-          <Col> {profile.fullName}</Col>
-        </Row>
-        <Row>
-          <Col span={4}><Text strong>Looking for a job: </Text></Col>
-          <Col> {profile.lookingForAJob ? 'yes' : 'no'}</Col>
-        </Row>
-        <Row>
-          <Col span={4}><Text strong>My professional skills:  </Text></Col>
-          <Col> {profile.lookingForAJobDescription}</Col>
-        </Row>
-        <Row>
-          <Col span={4}><Text strong>About me: </Text></Col>
-          <Col>{profile.aboutMe}</Col>
-        </Row>
-        <Row>
-          <Col span={4} ><Text strong>Contacts: </Text></Col>
-          <Col>
-            {Object.keys(profile.contacts).map(key => {
-              return <Contact contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]} key={key} />
-            })}
-          </Col>
-        </Row>  
+    <>
+    <Card title='Looking for a job' extra={isOwner && <EditOutlined onClick={goToEditMode}/>}>
+      {profile.lookingForAJob? 'Yes' : 'No'}
+    </Card>
+    <Card title='About' extra={isOwner && <EditOutlined onClick={goToEditMode}/>}>
+      <Meta
+        description={profile.aboutMe}
+      />
+    </Card>
+    <Card title='My Professional skills' extra={isOwner && <EditOutlined onClick={goToEditMode}/>}>
+      <Meta
+        description={profile.lookingForAJobDescription}
+      />
+    </Card>
     </>   
   )
-}
-
-type ContactsPropsType = {
-  contactTitle: string
-  contactValue:string
-}
-
-const Contact: FC<ContactsPropsType> = ({contactTitle, contactValue}) => {
-  return (
-    <>
-    {contactValue && <Text>{contactTitle}: {contactValue} </Text> }
-    </>
-  )
- 
 }

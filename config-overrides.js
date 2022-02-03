@@ -13,9 +13,9 @@ module.exports = override(
         '@normal-color': '#d9d9d9',
         '@white': '#fff',
         '@black': '#000',
-        '@primary-color': '#7546C9', // custom
+        '@primary-color': '#8A2BE2', // custom
         '@border-radius-base': '8px', // custom
-
+        '@icon-color': '#8A2BE2',
         '@text-color':'fade(@black, 85%)',
         '@text-color-secondary': 'fade(@black, 45%)',
         '@text-color-inverse': '@white',

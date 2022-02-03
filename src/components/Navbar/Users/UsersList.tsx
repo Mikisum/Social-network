@@ -56,7 +56,7 @@ export const UsersList: FC<PropsType> = () => {
 				onChange: onPageChanged
 			}}
 				renderItem={(item: UserType) =>(
-					<List.Item>
+					<List.Item key={item.id}>
 						<List.Item.Meta
 							avatar={<Link href={`/profile/${item.id}`}><Avatar src={item.photos.large || avatar} /></Link>}
 							title={<Link href={`/profile/${item.id}`}>{item.name}</Link>}
@@ -75,3 +75,33 @@ export const UsersList: FC<PropsType> = () => {
 		/>
 	)
 }
+
+// users cards
+
+{/* <List
+         grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 4,
+          lg: 4,
+          xl: 6,
+          xxl: 3,
+        }}
+        header={totalCount}
+        dataSource={friends}
+        renderItem={item => (
+          <List.Item>
+            <Card
+              hoverable
+              extra={<Link href={`/profile/${item.id}`}>View profile</Link>}
+             >
+              <Meta
+                avatar={<Avatar src={item.photos.small || avatar} />}
+                title={item.name}
+              />
+            </Card>
+          </List.Item>
+        )}
+      /> */}
+

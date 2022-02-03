@@ -69,7 +69,8 @@ export const ProfileData: FC<ProfileDataPropsType> = ({ isOwner}) => {
   
   return (
     <>
-    <Col>
+    <Col xs={{ span: 24, order: 2 }} md={{ span: 6, order: 1 }} >
+      
       <Card title="Contacts" extra={<a href="#">More</a>}>
         {Object.keys(profile!.contacts).map(key => {
           return <Contact contactTitle={key} contactValue={profile!.contacts[key as keyof ContactsType]} key={key} />
@@ -78,7 +79,8 @@ export const ProfileData: FC<ProfileDataPropsType> = ({ isOwner}) => {
       <Friends/>
     </Col>  
 
-    <Col>  
+    <Col xs={{ span: 24, order: 1 }} md={{ span: 18,  order: 2 }}>  
+        
       <Card
         style={{ width: '100%' }}
         tabList={tabList}
