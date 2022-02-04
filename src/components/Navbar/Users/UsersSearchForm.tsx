@@ -1,9 +1,9 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { FC } from 'react';
-import { FilterType } from '../../../redux/usersReducer';
+import { Field, Form, Formik } from 'formik'
+import { FC } from 'react'
+import { FilterType } from '../../../redux/usersReducer'
 
 const usersSearchFormValidate = (values: any) => {
-  const errors = {};
+  const errors = {}
   return errors
 }
 
@@ -17,7 +17,6 @@ type FormType = {
 }
 
 const UsersSearchForm: FC<PropsType> = (props) => {
-
   const submit = (values: FormType, { setSubmitting }: { setSubmitting: (isSubmiting: boolean) => void }) => {
     const filter: FilterType = {
       term: values.term,
@@ -29,25 +28,21 @@ const UsersSearchForm: FC<PropsType> = (props) => {
 
   return (
     <div>
-      <Formik
-       initialValues={{ term: '', friend: 'null' }}
-       validate={usersSearchFormValidate}
-       onSubmit={submit}
-     >
-       {({ isSubmitting }) => (
-         <Form>
-           <Field type="text" name="term" />
-           <Field name="friend" as="select">
-            <option value="null">All</option>
-            <option value="true">Only followed</option>
-            <option value="false">Only unfollowed</option>
-          </Field>
-           <button type="submit" disabled={isSubmitting}>
-             Find
-           </button>
-         </Form>
-       )}
-     </Formik>
+      <Formik initialValues={{ term: '', friend: 'null' }} validate={usersSearchFormValidate} onSubmit={submit}>
+        {({ isSubmitting }) => (
+          <Form>
+            <Field type='text' name='term' />
+            <Field name='friend' as='select'>
+              <option value='null'>All</option>
+              <option value='true'>Only followed</option>
+              <option value='false'>Only unfollowed</option>
+            </Field>
+            <button type='submit' disabled={isSubmitting}>
+              Find
+            </button>
+          </Form>
+        )}
+      </Formik>
     </div>
   )
 }

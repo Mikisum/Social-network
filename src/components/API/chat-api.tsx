@@ -12,7 +12,7 @@ const closeHandler = () => {
 }
 const messageHandler = (e: MessageEvent) => {
   const newMessages = JSON.parse(e.data)
-  subcribers['messages-received'].forEach(s => s(newMessages))
+  subcribers['messages-received'].forEach((s) => s(newMessages))
 }
 const openHandler = () => {
   notifySubscribersAboutStatus('ready')
@@ -28,7 +28,7 @@ const cleanUp = () => {
   ws?.removeEventListener('error', errorHandler)
 }
 const notifySubscribersAboutStatus = (status: StatusType) => {
-  subcribers['status-changed'].forEach(s => s(status))
+  subcribers['status-changed'].forEach((s) => s(status))
 }
 
 function createChannel() {
@@ -42,31 +42,30 @@ function createChannel() {
   ws.addEventListener('error', errorHandler)
 }
 
-
 export const chatAPI = {
   start() {
-      createChannel()
+    createChannel()
   },
   stop() {
-      subcribers['messages-received'] = []
-      subcribers['status-changed'] = []
-      cleanUp()
-      ws?.close()
+    subcribers['messages-received'] = []
+    subcribers['status-changed'] = []
+    cleanUp()
+    ws?.close()
   },
   subscribe(eventName: EventsNamesType, callback: MessagesReceivedSubscriberType | StatusChangedSubscriberType) {
+    // @ts-ignore
+    subcribers[eventName].push(callback)
+    return () => {
       // @ts-ignore
-      subcribers[eventName].push(callback)
-      return () => {
-          // @ts-ignore
-          subcribers[eventName] = subcribers[eventName].filter(s => s !== callback)
-      }
+      subcribers[eventName] = subcribers[eventName].filter((s) => s !== callback)
+    }
   },
   unsubscribe(eventName: EventsNamesType, callback: MessagesReceivedSubscriberType | StatusChangedSubscriberType) {
-      // @ts-ignore
-      subcribers[eventName] = subcribers[eventName].filter(s => s !== callback)
+    // @ts-ignore
+    subcribers[eventName] = subcribers[eventName].filter((s) => s !== callback)
   },
   sendMessage(message: string) {
-      ws?.send(message)
+    ws?.send(message)
   }
 }
 

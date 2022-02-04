@@ -1,14 +1,14 @@
-import axios from "axios"
-import { UserType } from "../../types/types"
+import axios from 'axios'
+import { UserType } from '../../types/types'
 
-const apikey2 = '6e5bc1c7-0c2b-432f-bef7-736bb3e69d6d'//mikisum@mail.ru 25636342563634
-const apikey1 = "f6626ee3-48fb-4ebf-8359-9e3b7c7c3d6f"//for frontend.viki@gmail.com/134679VIKI
+//const apikey2 = '6e5bc1c7-0c2b-432f-bef7-736bb3e69d6d' mikisum@mail.ru 25636342563634
+const apikey1 = 'f6626ee3-48fb-4ebf-8359-9e3b7c7c3d6f' //for frontend.viki@gmail.com/134679VIKI
 
 export const instance = axios.create({
   withCredentials: true,
-  baseURL : 'https://social-network.samuraijs.com/api/1.0/',
+  baseURL: 'https://social-network.samuraijs.com/api/1.0/',
   headers: {
-    "API-KEY": apikey1
+    'API-KEY': apikey1
   }
 })
 
@@ -31,5 +31,3 @@ export type APIResponseType<D = {}, RC = ResultCodesEnum> = {
   messages: Array<string>
   resultCode: RC
 }
-
-

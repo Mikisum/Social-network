@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import {  useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { createField, Input } from '../common/FormsControls/FormsControls'
 import { required } from '../utils/validators/validators'
@@ -20,15 +20,19 @@ type LoginFormValuesType = {
 
 type LoginFormValuesTypeKeys = keyof LoginFormValuesType
 
-const LoginForm: FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & LoginFormOwnProps> = ({handleSubmit, error, captchaUrl}) => {
+const LoginForm: FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & LoginFormOwnProps> = ({
+  handleSubmit,
+  error,
+  captchaUrl
+}) => {
   return (
     <form onSubmit={handleSubmit}>
       {createField<LoginFormValuesTypeKeys>('Email', 'email', [required], Input)}
-      {createField<LoginFormValuesTypeKeys>('Password', 'password', [required], Input, {type: 'password'})}
-      {createField<LoginFormValuesTypeKeys>(undefined, "rememberMe", [], Input, {type: "checkbox"}, "remember me")}
-     
-      { captchaUrl && <img src={captchaUrl}/> }
-      { captchaUrl && createField<LoginFormValuesTypeKeys>('Symbols from image', 'captcha', [required], Input, {}) }
+      {createField<LoginFormValuesTypeKeys>('Password', 'password', [required], Input, { type: 'password' })}
+      {createField<LoginFormValuesTypeKeys>(undefined, 'rememberMe', [], Input, { type: 'checkbox' }, 'remember me')}
+
+      {captchaUrl && <img src={captchaUrl} />}
+      {captchaUrl && createField<LoginFormValuesTypeKeys>('Symbols from image', 'captcha', [required], Input, {})}
 
       {error && <div>{error}</div>}
       <div>
@@ -38,10 +42,9 @@ const LoginForm: FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & 
   )
 }
 
-const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({ form: 'login' })(LoginForm)
 
 export const LoginPage: FC = () => {
-
   const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
   const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
   const dispatch = useDispatch()
@@ -51,13 +54,13 @@ export const LoginPage: FC = () => {
   }
 
   if (isAuth) {
-    return <Redirect to={'/profile/'}/>
+    return <Redirect to={'/profile/'} />
   }
 
   return (
     <div>
       <h1>Login</h1>
-      <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl}/>
+      <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl} />
     </div>
   )
 }

@@ -5,17 +5,16 @@ import { FilterType, requestUsers } from '../../../redux/usersReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCurrentPage, getPageSize, getUserFilter } from '../../../redux/users-selectors'
 import { useHistory } from 'react-router'
-import * as queryString from "querystring"  
+import * as queryString from 'querystring'
 import { Typography } from 'antd'
 import { UsersList } from './UsersList'
 
-const { Title }= Typography;
+const { Title } = Typography
 
 type PropsType = {}
 type QueryParamsType = { term?: string; page?: string; friend?: string; size?: string }
 
 export const Users: FC<PropsType> = (props) => {
-
   const currentPage = useSelector(getCurrentPage)
   const currentPageSize = useSelector(getPageSize)
   const filter = useSelector(getUserFilter)
@@ -36,44 +35,43 @@ export const Users: FC<PropsType> = (props) => {
     if (!!parsed.page) actualPage = Number(parsed.page)
     if (!!parsed.size) actualPageSize = Number(parsed.size)
 
-    if (!!parsed.term) actualFilter = {...actualFilter, term: parsed.term as string}
+    if (!!parsed.term) actualFilter = { ...actualFilter, term: parsed.term as string }
 
-    switch(parsed.friend) {
-        case "null":
-            actualFilter = {...actualFilter, friend: null}
-            break;
-        case "true":
-            actualFilter = {...actualFilter, friend: true}
-            break;
-        case "false":
-            actualFilter = {...actualFilter, friend: false}
-            break;
+    switch (parsed.friend) {
+      case 'null':
+        actualFilter = { ...actualFilter, friend: null }
+        break
+      case 'true':
+        actualFilter = { ...actualFilter, friend: true }
+        break
+      case 'false':
+        actualFilter = { ...actualFilter, friend: false }
+        break
     }
 
     dispatch(requestUsers(actualPage, actualPageSize, actualFilter))
-}, [])
+  }, [])
 
-useEffect(() => {
+  useEffect(() => {
     const query: QueryParamsType = {}
 
     if (!!filter.term) query.term = filter.term
     if (filter.friend !== null) query.friend = String(filter.friend)
     if (currentPage !== 1) query.page = String(currentPage)
-    
+
     if (currentPageSize !== 10) query.size = String(currentPageSize)
 
     history.push({
-        pathname: '/users',
-        search: queryString.stringify(query)
+      pathname: '/users',
+      search: queryString.stringify(query)
     })
-}, [filter, currentPage, currentPageSize])
+  }, [filter, currentPage, currentPageSize])
 
-  
   return (
     <div className={classes.users}>
-      <Title level={3} >Users</Title>
-      <UsersSearchForm onFilterChanged={onFilterChanged}/>
-      <UsersList/>
+      <Title level={3}>Users</Title>
+      <UsersSearchForm onFilterChanged={onFilterChanged} />
+      <UsersList />
     </div>
   )
 }

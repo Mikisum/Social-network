@@ -8,7 +8,7 @@ export type ProfileType = {
   userId: number | null
   lookingForAJob: boolean
   lookingForAJobDescription: string
-  fullName: string,
+  fullName: string
   contacts: ContactsType
   photos: PhotosType
   aboutMe: string
@@ -39,11 +39,11 @@ export type UserType = {
 }
 
 export type DialogType = {
-  id: number,
+  id: number
   name: string
 }
 
 export type MessageType = {
-  id?: number,
+  id?: number
   message: string
 }

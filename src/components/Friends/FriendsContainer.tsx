@@ -1,9 +1,9 @@
 import { Component } from 'react'
-import { connect } from 'react-redux';
-import { AppStateType } from '../../redux/redux-store';
-import { requestFriends } from '../../redux/sideBarReducer';
-import { UserType } from '../../types/types';
-import Friends from "./Friends";
+import { connect } from 'react-redux'
+import { AppStateType } from '../../redux/redux-store'
+import { requestFriends } from '../../redux/sideBarReducer'
+import { UserType } from '../../types/types'
+import Friends from './Friends'
 
 type MapStatePropsType = {
   friends: Array<UserType>
@@ -21,12 +21,12 @@ class FriendsContainer extends Component<MapStatePropsType & MapDispatchPropsTyp
   }
 
   componentDidUpdate(prevProps: MapStatePropsType) {
-    if (this.props.followingInProgress !== prevProps.followingInProgress){
+    if (this.props.followingInProgress !== prevProps.followingInProgress) {
       this.props.requestFriends()
     }
   }
   render() {
-    return <Friends {...this.props}/>
+    return <Friends {...this.props} />
   }
 }
 
@@ -38,4 +38,4 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-export default connect(mapStateToProps, {requestFriends})(FriendsContainer)
+export default connect(mapStateToProps, { requestFriends })(FriendsContainer)
