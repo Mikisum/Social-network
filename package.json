@@ -47,7 +47,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "lint": "eslint 'src/*'",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "lint:fix": "eslint --fix",
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "eslintConfig": {
     "extends": [

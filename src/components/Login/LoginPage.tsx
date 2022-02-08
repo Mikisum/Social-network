@@ -1,9 +1,9 @@
-import { Form, Input, Button, Checkbox, Row, Col, message, Layout } from 'antd'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Button, Checkbox, Col, Form, Input, Layout, message, Row } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router'
 import { login } from '../../redux/auth-reducer'
 import { AppStateType } from '../../redux/redux-store'
-import { Redirect } from 'react-router'
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
 
 export const LoginPage = () => {
   const [form] = Form.useForm()
@@ -42,7 +42,7 @@ export const LoginPage = () => {
   }
 
   if (isAuth) {
-    return <Redirect to={'/profile/'} />
+    return <Redirect to={`/profile/`} />
   }
 
   return (

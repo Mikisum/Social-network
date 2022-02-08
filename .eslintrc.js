@@ -19,15 +19,28 @@ module.exports = {
     node: true
   },
 
-  extends: ["prettier"],
-  plugins: ["prettier"],
-  rules: {
-    "prettier/prettier": 2 // Means error
-
-  },
-  parser: "@typescript-eslint/parser",
-  plugins: [
-    "@typescript-eslint",
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  plugins: ["prettier", "@typescript-eslint"],
+  rules: {
+
+    "@typescript-eslint/ban-types": [
+
+      "error",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        },
+
+      }
+    ]
+  },
+
+  parser: "@typescript-eslint/parser",
+
 }

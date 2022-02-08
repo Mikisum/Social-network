@@ -4,7 +4,7 @@ import { DialogType } from '../../../../types/types'
 import classes from './DialogItem.module.css'
 
 const DialogItem: FC<DialogType> = (props) => {
-  let path = '/dialogs/' + props.id
+  const path = '/dialogs/' + props.id
 
   return (
     <li className={classes.dialogItem}>

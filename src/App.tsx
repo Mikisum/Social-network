@@ -47,7 +47,7 @@ const App: FC = () => {
           <Content style={{ margin: '15px 15px', overflow: 'initial' }}>
             <React.Suspense fallback={<Preloader />}>
               <Switch>
-                <Redirect exact from='/' to='/profile' />
+                <Redirect exact from="/" to='/profile' />
                 <Route path='/login' render={() => <LoginPage />} />
                 <Route path='/dialogs' render={() => <Dialogs />} />
                 <Route path='/profile/:userId?' render={() => <Profile />} />

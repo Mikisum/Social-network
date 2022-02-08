@@ -33,13 +33,13 @@ const authReducer = (state = initialState, action: ActionsType): InitialStateTyp
 
 export const actions = {
   setAuthUserData: (userId: number | null, email: string | null, login: string | null, isAuth: boolean) =>
-    ({
-      type: 'SN/auth/SET_USER_DATA',
-      payload: { userId, email, login, isAuth }
-    } as const),
+  ({
+    type: 'SN/auth/SET_USER_DATA',
+    payload: { userId, email, login, isAuth }
+  } as const),
   getCaptchaUrlSuccess: (captchaUrl: string) => ({ type: 'SN/auth/GET_CAPTCHA_URL_SUCCESS', payload: { captchaUrl } } as const),
   getError: (error: string) => ({ type: 'SN/auth/GET_ERROR', payload: { error } as const }),
-  setIsFetching: (isFetching: boolean) => ({ type: 'SN/auth/SET_IS_FETCHING', payload: { isFetching } as const })
+  setIsFetching: (isFetching: boolean) => ({ type: 'SN/auth/SET_IS_FETCHING', payload: { isFetching } as const }),
 }
 
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
@@ -60,22 +60,22 @@ export const getAuthUserData = (): ThunkType => async (dispatch) => {
 
 export const login =
   (email: string, password: string, rememberMe: boolean, captcha: null | string): ThunkType =>
-  async (dispatch) => {
-    dispatch(actions.setIsFetching(true))
-    const loginData = await authAPI.login(email, password, rememberMe, captcha)
-    dispatch(actions.setIsFetching(false))
+    async (dispatch) => {
+      dispatch(actions.setIsFetching(true))
+      const loginData = await authAPI.login(email, password, rememberMe, captcha)
+      dispatch(actions.setIsFetching(false))
 
-    if (loginData.resultCode === ResultCodesEnum.Success) {
-      dispatch(getAuthUserData())
-    } else {
-      if (loginData.resultCode === ResultCodeForCapcthaEnum.CaptchaIsRequired) {
-        dispatch(getCaptchaUrl())
+      if (loginData.resultCode === ResultCodesEnum.Success) {
+        dispatch(getAuthUserData())
+      } else {
+        if (loginData.resultCode === ResultCodeForCapcthaEnum.CaptchaIsRequired) {
+          dispatch(getCaptchaUrl())
+        }
+        const messsage = loginData.messages.length > 0 ? loginData.messages[0] : 'Some error'
+        dispatch(stopSubmit('login', { _error: messsage }))
+        dispatch(actions.getError(messsage))
       }
-      const messsage = loginData.messages.length > 0 ? loginData.messages[0] : 'Some error'
-      dispatch(stopSubmit('login', { _error: messsage }))
-      dispatch(actions.getError(messsage))
     }
-  }
 
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
   const data = await securityAPI.getCaptchaUrl()

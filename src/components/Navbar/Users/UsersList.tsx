@@ -1,4 +1,5 @@
-import { Avatar, Button, List, Typography } from 'antd'
+import { Avatar, Button, Card, List, Typography } from 'antd'
+import Meta from 'antd/lib/card/Meta'
 import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -10,14 +11,13 @@ import {
   getUsers
 } from '../../../redux/users-selectors'
 import { follow, requestUsers, unfollow } from '../../../redux/usersReducer'
-import { UserType } from '../../../types/types'
 import avatar from './../../../assets/avatar.png'
 
 const { Link } = Typography
 
 type PropsType = {}
 
-function itemRender(current: number, type: string, originalElement: object) {
+function itemRender(current: number, type: string, originalElement: any) {
   if (type === 'prev') {
     return <a>Previous</a>
   }
@@ -49,9 +49,16 @@ export const UsersList: FC<PropsType> = () => {
 
   return (
     <List
-      className='demo-loadmore-list'
-      itemLayout='horizontal'
-      dataSource={users}
+      grid={{
+        gutter: 16,
+        xs: 1,
+        sm: 2,
+        md: 4,
+        lg: 4,
+        xl: 6,
+        xxl: 3
+      }}
+      header={totalUsersCount}
       pagination={{
         current: currentPage,
         itemRender,
@@ -59,28 +66,61 @@ export const UsersList: FC<PropsType> = () => {
         total: totalUsersCount,
         onChange: onPageChanged
       }}
-      renderItem={(item: UserType) => (
-        <List.Item key={item.id}>
-          <List.Item.Meta
-            avatar={
-              <Link href={`/profile/${item.id}`}>
-                <Avatar src={item.photos.large || avatar} />
-              </Link>
-            }
-            title={<Link href={`/profile/${item.id}`}>{item.name}</Link>}
-          />
-          {item.followed ? (
-            <Button disabled={followingInProgress.some((id) => id === item.id)} onClick={() => onUnfollow(item.id)}>
-              Unfollow
-            </Button>
-          ) : (
-            <Button disabled={followingInProgress.some((id) => id === item.id)} type='primary' onClick={() => onFollow(item.id)}>
-              Follow
-            </Button>
-          )}
+      dataSource={users}
+      renderItem={(item) => (
+        <List.Item>
+          <Card
+            hoverable
+            extra={<Link href={`/profile/${item.id}`}>View profile</Link>}>
+            <Meta avatar={<Avatar src={item.photos.small || avatar} />} title={item.name}
+              description={item.followed ? (
+                <Button disabled={followingInProgress.some((id) => id === item.id)} onClick={() => onUnfollow(item.id)}>
+                  Unfollow
+                </Button>
+              ) : (
+                <Button disabled={followingInProgress.some((id) => id === item.id)} type='primary' onClick={() => onFollow(item.id)}>
+                  Follow
+                </Button>
+              )
+              }
+            />
+          </Card>
         </List.Item>
       )}
     />
+    // <List
+    //   className='demo-loadmore-list'
+    //   itemLayout='horizontal'
+    //   dataSource={users}
+    //   pagination={{
+    //     current: currentPage,
+    //     itemRender,
+    //     pageSize: currentPageSize,
+    //     total: totalUsersCount,
+    //     onChange: onPageChanged
+    //   }}
+    //   renderItem={(item: UserType) => (
+    //     <List.Item key={item.id}>
+    //       <List.Item.Meta
+    //         avatar={
+    //           <Link href={`/profile/${item.id}`}>
+    //             <Avatar src={item.photos.large || avatar} />
+    //           </Link>
+    //         }
+    //         title={<Link href={`/profile/${item.id}`}>{item.name}</Link>}
+    //       />
+    //       {item.followed ? (
+    //         <Button disabled={followingInProgress.some((id) => id === item.id)} onClick={() => onUnfollow(item.id)}>
+    //           Unfollow
+    //         </Button>
+    //       ) : (
+    //         <Button disabled={followingInProgress.some((id) => id === item.id)} type='primary' onClick={() => onFollow(item.id)}>
+    //           Follow
+    //         </Button>
+    //       )}
+    //     </List.Item>
+    //   )}
+    // />
   )
 }
 

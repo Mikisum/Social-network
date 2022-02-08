@@ -1,26 +1,34 @@
 import { MessageOutlined, TeamOutlined, UserOutlined, WechatOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, Button, Col, Menu, Row, Space } from 'antd'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { logout } from '../../redux/auth-reducer'
+import { getAuthUserId, getIsAuth, getLogin } from '../../redux/auth-selector'
+import { getAuthUserProfile } from '../../redux/profileReducer'
 import { AppStateType } from '../../redux/redux-store'
 
 export const Header: FC = () => {
   const profile = useSelector((state: AppStateType) => state.profilePage.profile)
-  const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
-
-  const login = useSelector((state: AppStateType) => state.auth.login)
+  const isAuth = useSelector(getIsAuth)
+  const login = useSelector(getLogin)
+  const authProfile = useSelector((state: AppStateType) => state.profilePage.authProfile)
   const dispatch = useDispatch()
   const data = localStorage.getItem('data')
+
   const history = useHistory()
-  const userId = useSelector((state: AppStateType) => state.auth.userId)
+  const authUserId = useSelector(getAuthUserId)
 
   const logoutCallback = () => {
     dispatch(logout())
   }
+  useEffect(() => {
+
+    dispatch(getAuthUserProfile(+authUserId!))
+
+  }, [])
 
   return (
     <Row justify='space-between' wrap={false} style={{ background: 'rgb(0, 0, 0, 0.8)', paddingRight: '15px' }} align='middle'>
@@ -44,10 +52,10 @@ export const Header: FC = () => {
         </Menu>
       </Col>
 
-      {userId ? (
+      {isAuth ? (
         <Col>
           <Space>
-            <Avatar src={profile?.photos.small} alt={login || ''} style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+            <Avatar src={authProfile?.photos.small} alt={login || ''} style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
 
             <Button type='primary' onClick={logoutCallback}>
               Log out

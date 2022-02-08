@@ -17,6 +17,7 @@ const initialState = {
     }
   ] as Array<PostType>,
   profile: null as ProfileType | null,
+  authProfile: null as ProfileType | null,
   status: '',
   editMode: false
 }
@@ -55,6 +56,13 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
       }
     }
 
+    case 'SN/PROFILE/SET_AUTHUSER_PROFILE': {
+      return {
+        ...state,
+        authProfile: action.authProfile
+      }
+    }
+
     case 'SN/PROFILE/SAVE_PHOTO_SUCCESS': {
       return {
         ...state,
@@ -79,6 +87,7 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
 export const actionsProfile = {
   addPost: (newPostText: string) => ({ type: 'SN/PROFILE/ADD_POST', newPostText } as const),
   deletePost: (postId: number) => ({ type: 'SN/PROFILE/DELETE_POST', postId } as const),
+  setAuthUserProfile: (authProfile: ProfileType) => ({ type: 'SN/PROFILE/SET_AUTHUSER_PROFILE', authProfile: authProfile } as const),
   setUserProfile: (profile: ProfileType) => ({ type: 'SN/PROFILE/SET_USER_PROFILE', profile: profile } as const),
   setUsersStatus: (status: string) => ({ type: 'SN/PROFILE/SET_USERS_STATUS', status } as const),
   savePhotoSuccess: (photos: PhotosType) => ({ type: 'SN/PROFILE/SAVE_PHOTO_SUCCESS', photos } as const),
@@ -87,57 +96,65 @@ export const actionsProfile = {
 
 export const getUsersProfile =
   (userId: number): ThunkType =>
-  async (dispatch) => {
-    const data = await profileAPI.getUsersProfile(userId)
-    dispatch(actionsProfile.setUserProfile(data))
-  }
+    async (dispatch) => {
+      const data = await profileAPI.getUsersProfile(userId)
+      dispatch(actionsProfile.setUserProfile(data))
+    }
+
+export const getAuthUserProfile =
+  (userId: number): ThunkType =>
+    async (dispatch) => {
+      const data = await profileAPI.getUsersProfile(userId)
+
+      dispatch(actionsProfile.setAuthUserProfile(data))
+    }
 
 export const getUsersStatus =
   (userId: number): ThunkType =>
-  async (dispatch) => {
-    const res = await profileAPI.getUsersStatus(userId)
-    dispatch(actionsProfile.setUsersStatus(res))
-  }
+    async (dispatch) => {
+      const res = await profileAPI.getUsersStatus(userId)
+      dispatch(actionsProfile.setUsersStatus(res))
+    }
 
 export const updateUsersStatus =
   (status: string): ThunkType =>
-  async (dispatch) => {
-    try {
-      const res = await profileAPI.updateUsersStatus(status)
-      if (res.resultCode === 0) {
-        dispatch(actionsProfile.setUsersStatus(status))
+    async (dispatch) => {
+      try {
+        const res = await profileAPI.updateUsersStatus(status)
+        if (res.resultCode === 0) {
+          dispatch(actionsProfile.setUsersStatus(status))
+        }
+      } catch (error) {
+        alert('some error')
       }
-    } catch (error) {
-      alert('some error')
     }
-  }
 
 export const savePhoto =
   (file: File): ThunkType =>
-  async (dispatch) => {
-    const res = await profileAPI.savePhoto(file)
+    async (dispatch) => {
+      const res = await profileAPI.savePhoto(file)
 
-    if (res.resultCode === 0) {
-      dispatch(actionsProfile.savePhotoSuccess(res.data.photos))
+      if (res.resultCode === 0) {
+        dispatch(actionsProfile.savePhotoSuccess(res.data.photos))
+      }
     }
-  }
 
 export const saveProfile =
   (profile: ProfileType): ThunkType =>
-  async (dispatch, getState) => {
-    const userId = getState().auth.userId
-    const res = await profileAPI.saveProfile(profile)
-    if (res.resultCode === 0) {
-      if (userId != null) {
-        dispatch(getUsersProfile(userId))
+    async (dispatch, getState) => {
+      const userId = getState().auth.userId
+      const res = await profileAPI.saveProfile(profile)
+      if (res.resultCode === 0) {
+        if (userId != null) {
+          dispatch(getUsersProfile(userId))
+        } else {
+          throw new Error("userId can't be null")
+        }
       } else {
-        throw new Error("userId can't be null")
+        dispatch(stopSubmit('edit-profile', { _error: res.messages[0] }))
+        return Promise.reject(res.messages[0])
       }
-    } else {
-      dispatch(stopSubmit('edit-profile', { _error: res.messages[0] }))
-      return Promise.reject(res.messages[0])
     }
-  }
 
 export type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof actionsProfile>

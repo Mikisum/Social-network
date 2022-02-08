@@ -53,14 +53,17 @@ export const chatAPI = {
     ws?.close()
   },
   subscribe(eventName: EventsNamesType, callback: MessagesReceivedSubscriberType | StatusChangedSubscriberType) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     subcribers[eventName].push(callback)
     return () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       subcribers[eventName] = subcribers[eventName].filter((s) => s !== callback)
     }
   },
   unsubscribe(eventName: EventsNamesType, callback: MessagesReceivedSubscriberType | StatusChangedSubscriberType) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     subcribers[eventName] = subcribers[eventName].filter((s) => s !== callback)
   },

@@ -1,13 +1,13 @@
-import classes from './Users.module.css'
-import { FC, useEffect } from 'react'
-import UsersSearchForm from './UsersSearchForm'
-import { FilterType, requestUsers } from '../../../redux/usersReducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCurrentPage, getPageSize, getUserFilter } from '../../../redux/users-selectors'
-import { useHistory } from 'react-router'
-import * as queryString from 'querystring'
 import { Typography } from 'antd'
+import * as queryString from 'querystring'
+import { FC, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
+import { getCurrentPage, getPageSize, getUserFilter } from '../../../redux/users-selectors'
+import { FilterType, requestUsers } from '../../../redux/usersReducer'
+import classes from './Users.module.css'
 import { UsersList } from './UsersList'
+import UsersSearchForm from './UsersSearchForm'
 
 const { Title } = Typography
 
@@ -32,10 +32,10 @@ export const Users: FC<PropsType> = (props) => {
     let actualFilter = filter
     let actualPageSize = currentPageSize
 
-    if (!!parsed.page) actualPage = Number(parsed.page)
-    if (!!parsed.size) actualPageSize = Number(parsed.size)
+    if (parsed.page) actualPage = Number(parsed.page)
+    if (parsed.size) actualPageSize = Number(parsed.size)
 
-    if (!!parsed.term) actualFilter = { ...actualFilter, term: parsed.term as string }
+    if (parsed.term) actualFilter = { ...actualFilter, term: parsed.term as string }
 
     switch (parsed.friend) {
       case 'null':
@@ -55,7 +55,7 @@ export const Users: FC<PropsType> = (props) => {
   useEffect(() => {
     const query: QueryParamsType = {}
 
-    if (!!filter.term) query.term = filter.term
+    if (filter.term) query.term = filter.term
     if (filter.friend !== null) query.friend = String(filter.friend)
     if (currentPage !== 1) query.page = String(currentPage)
 
